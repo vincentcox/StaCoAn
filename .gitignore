@@ -5,6 +5,7 @@ looty.js
 upx.exe
 upx.1
 css_generator.py
+exif_reader.py
 dist/
 build/
 .idea/
