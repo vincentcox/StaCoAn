@@ -9,6 +9,7 @@ dist/
 build/
 .idea/
 __pycache__/
+icon.png
 report/*
 !report/html/
 !report/html/*
