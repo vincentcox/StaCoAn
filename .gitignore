@@ -1,0 +1,24 @@
+# Custom files for this project #
+#################################
+looty.js
+*.apk
+upx.exe
+upx.1
+css_generator.py
+dist/
+build/
+.idea/
+__pycache__/
+report/*
+!report/html/
+!report/html/*
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
