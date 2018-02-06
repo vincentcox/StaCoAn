@@ -1,0 +1,70 @@
+<head><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><script type="text/javascript" src="html/lootbox.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script><script type="text/javascript" src="html/sql.js"></script><script type="text/javascript" src="http://kripken.github.io/sql.js/GUI/codemirror/lib/codemirror.js"></script><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"><link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.0.1/js.cookie.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"><link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons"><link rel="stylesheet" type="text/css" href="html/report.css"><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+        <body><ul id="slide-out" class="side-nav" style="transform: translateX(-100%);">
+                             <h5>Settings</h5>
+                             <div class="divider"></div>
+                            <div class="switch" id="matchless_files">
+                             Remove matchless files:
+                                <label>
+                                  Off
+                                  <input type="checkbox">
+                                  <span class="lever"></span>
+                                  On
+                                </label>
+                            </div>
+                            <script>
+                            $(function() {
+                                if (localStorage.getItem('matchless_files') === "true"){
+                                removeUnimportantFiles();
+                                $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                                }
+                            });
+
+                            $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                                var status = $(this).prop('checked');
+                                if (status==true){
+                                    removeUnimportantFiles();
+                                    localStorage.setItem('matchless_files', true); 
+                                }else{
+                                     Materialize.toast('Refresh page to take effect.', 4000);
+                                     localStorage.setItem('matchless_files', false); 
+                                }
+                                 console.log(status);
+                            });
+                            </script> 
+                  </ul>
+        
+        
+        
+                            <nav>
+                                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                                  <a href="report.html" class="brand-logo center"><img style="height:100%" src="html/logo.png"></a>
+                                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                                        <li><a href="wordlist_overview.html">Wordlist Findings</a></li>
+                                        <li><a href="treeview.html">Treeview</a></li>
+                                        <li><a href="lootbox.html">Lootbox</a></li>
+            
+                             
+                  <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                    // Initialize collapse button
+                  $("#button-collapse").sideNav();
+                  // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                  //$('.collapsible').collapsible();
+                });
+
+                        </script>
+
+                            
+                                  </ul>
+                                </div>
+                            </nav>
+                            this is lootbox<div id="lootbox"><div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Desktop\filesearch\app\jadx_source_code\Constants.java" target="_blank">C:\Users\Vincent Cox\Desktop\filesearch\app\jadx_source_code\Constants.java</a></div><div class="row l2"><div class="card"><div class="card-content"><div class="valign-wrapper"><i class="material-icons medium grade-91">report</i><h5>public static String CRASH_IDENTIFIER</h5></div><pre data-src="C:\Users\Vincent Cox\Desktop\filesearch\app\jadx_source_code\Constants.java" class="code line-numbers language-css code-toolbar" data-start="26" data-line="28" style="counter-reset: linenumber 25;"><code class=" language-css">public static final String BASE_URL = <span class="token string">"https://sdk.hockeyapp.net/"</span><span class="token punctuation">;</span>
+private static final String BUNDLE_BUILD_NUMBER = <span class="token string">"buildNumber"</span><span class="token punctuation">;</span>
+public static String CRASH_IDENTIFIER = null<span class="token punctuation">;</span>
+public static String DEVICE_IDENTIFIER = null<span class="token punctuation">;</span>
+public static final String FILES_DIRECTORY_NAME = <span class="token string">"HockeyApp"</span><span class="token punctuation">;</span>
+public static String FILES_PATH = null<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code><div class="toolbar"></div><div aria-hidden="true" data-range="28" class=" line-highlight" style="top: 44px; height: 22px;"></div></pre></div></div></div></div><script data-manual="" type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/report.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script>
+<div class="drag-target" data-sidenav="slide-out" style="left: 0px; touch-action: pan-y; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div><div class="hiddendiv common"></div></body>
