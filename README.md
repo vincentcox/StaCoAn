@@ -1,5 +1,5 @@
-![StaCoAn](https://raw.githubusercontent.com/vincentcox/StaCoAn/resources/header_stacoan-01.png)
-# StaCoAn ![Issues badge](https://img.shields.io/github/issues/vincentcox/StaCoAn.svg) ![License badge](https://img.shields.io/github/license/vincentcox/StaCoAn.svg) ![status](	https://img.shields.io/badge/status-alpha-red.svg)
+![StaCoAn header](https://github.com/vincentcox/StaCoAn/blob/resources/header_stacoan-01.png?raw=true)
+# StaCoAn ![Issues badge](https://img.shields.io/github/issues/vincentcox/StaCoAn.svg) ![License badge](https://img.shields.io/github/license/vincentcox/StaCoAn.svg) ![status](https://img.shields.io/badge/status-alpha-red.svg)
 
 StaCoAn is a __crossplatform__ tool which aids developers, bugbounty hunters and ethical hackers performing [static code analysis](https://en.wikipedia.org/wiki/Static_program_analysis) on mobile applications\*.
 
@@ -14,7 +14,9 @@ This tool was created with a big focus on usability and graphical guidance in th
 
 For the impatient ones, grab the download on the [releases page](https://github.com/vincentcox/StaCoAn/releases).
 
-<p style ="font-size: 0.6em">_ \*: note that currently only apk files are supported, but ipa files will follow very shortly. _ </p>
+<p style="font-size: 0.6em"> 
+\*: note that currently only apk files are supported, but ipa files will follow very shortly.
+</p>
 
 ## Features
 The concept is that you drag and drop your mobile application file (an .apk or .ipa file) on the StaCoAn application and it will generate a visual and portable report for you. You can tweak the settings and wordlists to get a customized experience.
@@ -42,7 +44,7 @@ Any source file will be processed. This contains '.java', '.js', '.html', '.xml'
 
 Database-files are also searched for keywords. The database also has a table viewer.
 
-![database](https://raw.githubusercontent.com/vincentcox/StaCoAn/resources/screenshot_database.png)
+![database](https://github.com/vincentcox/StaCoAn/blob/resources/screenshot_database.png?raw=true)
 
 ### Responsive Design
 The reports are made to fit on all screens.
@@ -104,15 +106,29 @@ The following items have a high priority and will be implemented soon:
 * Make DB matches loot-able
 
 ## Authors & Contributors
-
-
-| <center>Vincent Cox</center> |
-|------------ |
-| <center>Project Creator</center> |
-|<img src="https://vincentcox.com/wp-content/uploads/IMG_3852-copy.jpg" alt="Drawing" style="width: 200px;"/> |
-| <div style="text-align:center;"><a href="https://www.linkedin.com/in/ivincentcox/"><img src="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-social-linkedin.svg" alt="Linkedin" style="width: 40px;"/></a><a href="https://twitter.com/vincentcox_be"><img src="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-social-twitter.svg" alt="Twitter" style="width: 40px;"/></a><a href="https://vincentcox.com"><img src="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-web.svg" alt="Website" style="width: 40px;"/></a></div> |
-
-
+<table>
+  <tr>
+    <th><center>Project Creator</center></th>
+  </tr>
+  <tr>
+    <td><p align="center"><img src="https://vincentcox.com/wp-content/uploads/IMG_3852-copy.jpg" alt="Drawing" width="200px"/></p> </td>
+  </tr>
+  <tr>
+    <td>
+      <div align="center">
+        <a href="https://www.linkedin.com/in/ivincentcox/">
+          <img src="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-social-linkedin.svg" alt="Linkedin" width="40px"/>
+        </a>
+        <a href="https://twitter.com/vincentcox_be">
+          <img src="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-social-twitter.svg" alt="Twitter" width="40px"/>
+        </a>
+        <a href="https://vincentcox.com">
+          <img src="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-web.svg" alt="Website" width="40px"/>
+        </a>
+      </div>
+    </td>
+  </tr>
+</table>
 
 ## License
 The following projects were used in this project:
