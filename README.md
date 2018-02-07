@@ -15,8 +15,10 @@ This tool was created with a big focus on usability and graphical guidance in th
 For the impatient ones, grab the download on the [releases page](https://github.com/vincentcox/StaCoAn/releases).
 
 <p style="font-size: 0.6em">
-\*: note that currently only apk files are supported, but ipa files will follow very shortly.
+*: note that currently only apk files are supported, but ipa files will follow very shortly.
 </p>
+
+An example report can be found here: [example report](https://github.com/vincentcox/StaCoAn/blob/master/example-report.zip)
 
 ## Features
 The concept is that you drag and drop your mobile application file (an .apk or .ipa file) on the StaCoAn application and it will generate a visual and portable report for you. You can tweak the settings and wordlists to get a customized experience.
@@ -142,7 +144,7 @@ The following projects were used in this project:
 
 All of these projects have their corresponding licenses. Please respect these while you are modifying and redistributing this project.
 
-<p style ="font-size: 0.6em">\*: the binary is included in this project. If the dev's from JADX are not comfortable with this, feel free to contact me about this so we can find a solution. </p>
+<p style ="font-size: 0.6em">*: the binary is included in this project. If the dev's from JADX are not comfortable with this, feel free to contact me about this so we can find a solution. </p>
 
 ## Acknowledgments
 * [brakke97](https://twitter.com/skeltavik): He learned me how to hack mobile applications. This project would never exist without him.
