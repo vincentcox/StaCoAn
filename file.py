@@ -49,10 +49,10 @@ class File:
 
     def find_matches_in_src_file(self, CODE_OFFSET, QUERY_IMPORTANCE):
         try:
-            with open(self.file_path, "r") as file:
+            with open(self.file_path, "r", encoding="utf8", errors='ignore') as file:
                 lines_in_file = file.read().splitlines()
-        except:
-            Logger.logmodule[0].log("could not open file '%s'" % self.file_path, 1)
+        except IOError as e:
+            Logger.logmodule[0].log("could not open file "+self.file_path+". Error:"+e.strerror, 2)
             return list()
         line_index = 1
         for line in lines_in_file:

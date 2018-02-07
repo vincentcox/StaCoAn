@@ -107,10 +107,12 @@ class Project:
                     os.makedirs(jadx_folder)
                 cmd = [ os.path.join(os.getcwd(), "jadx", "bin", "jadx"), '-d', jadx_folder, self.application_file ]
                 jadx_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+                output_jadx = "--------- JADX OUTPUT BELOW --------- \n "
                 for line in jadx_process.stdout:
-                    Logger.logmodule[0].log(str(line), 3)
+                    output_jadx += str(line)
+                Logger.logmodule[0].log(str(output_jadx), 3)
                 jadx_process.wait()
-                Logger.logmodule[0].log(jadx_process.returncode, 3)
+                Logger.logmodule[0].log("jadx return code: "+str(jadx_process.returncode), 3)
             # TO DO: ipa decompiling tool
             elif self.application_file.lower().endswith("ipa"):
                 Logger.logmodule[0].log(".ipa files not implemented yet.", 1)

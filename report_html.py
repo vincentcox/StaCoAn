@@ -168,7 +168,7 @@ class Report_html(Htmlpage):
                                                 self.text(line)
                                                 self.doc.nl()
                                 except:
-                                    Logger.logmodule[0].log("could not open file" + file_path, 1)
+                                    Logger.logmodule[0].log("could not open file" + file_path, 2)
 
         elif file_path in Project.projects[project.name].src_files:
             file = Project.projects[project.name].src_files[file_path]
@@ -309,7 +309,7 @@ class Report_html(Htmlpage):
                                             self.text(line)
                                             self.doc.nl()
                                 except:
-                                    Logger.logmodule[0].log("could not open file '%s'" % file_path, 1)
+                                    Logger.logmodule[0].log("could not open file '%s'" % file_path, 2)
 
 
 
@@ -537,29 +537,14 @@ class Report_html(Htmlpage):
             self.project = project
             self.current_file = file
 
-    def tree_view(self, project, FILE):
-        # This class builds the HTML page for the Treeview.
-        with self.tag('div', klass=os.path.basename(project.workfolder) + "_div"):
-            with self.tag('h1', klass=os.path.basename(project.workfolder) + "_title center-align"):
-                self.text("Project: " + os.path.basename(project.name))
-            with self.tag("div", klass="row"):
-                with self.tag("div", id="tree", klass="col s12 m12 l3"):
-                    self.text("")
-                with self.tag("div", id="codeview", klass="col s12 m12 l9"):
-                    if FILE != "":
-                        self.get_source_code_from_file(
-                            FILE,
-                            project)
-                    else:
-                        #this is the startpage of the project
-                        self.html_wordlist(project)
-            self.doc.asis("""
-                  <script>
+        def tree_js_file(project):
+            tree_js_file_content=""
+            tree_js_file_content+="""
                   $("#tree").fancytree({
-                  source: [""")
-            self.doc.asis(json.dumps(project.tree_object, indent=2, sort_keys=True)) # speed improvement of 0.5s per created file
-            #self.doc.asis(json.dumps(Report_html.Tree_builder(project, FILE).return_tree_object(), indent=2, sort_keys=True))
-            self.doc.asis("""
+                  source: ["""
+            tree_js_file_content+=json.dumps(project.tree_object, indent=2, sort_keys=True)  # speed improvement of 0.5s per created file
+            # self.doc.asis(json.dumps(Report_html.Tree_builder(project, FILE).return_tree_object(), indent=2, sort_keys=True))
+            tree_js_file_content+="""
                   ],
                   extensions: ["glyph", "persist"],
                   persist: {
@@ -619,8 +604,8 @@ class Report_html(Htmlpage):
                     $( document ).ready(function() {
                         var loot_files = JSON.parse(localStorage.getItem("loot_files"));
                     });
-  
-
+    
+    
                     $(document).dblclick(function(event) {
                     try {
                           var node = $.ui.fancytree.getNode(event),
@@ -634,7 +619,7 @@ class Report_html(Htmlpage):
                           }
                     }
                     catch(err) {
-                            
+    
                     }
                 });
                 $("#lootbox").on("click", ".close", function(){ 
@@ -646,19 +631,41 @@ class Report_html(Htmlpage):
                     console.log(i);
                     if (current_file === String(entry)) 
                     {
-                        console.log("kak");
                         if (String(i) === String(0)){
                         loot_files = loot_files.splice(i, 1);
                         i = i -1;
                         }else{
-
+    
                         }
                         localStorage.setItem("loot_files", JSON.stringify(loot_files));
                     }
-                    //shit is here
                     i += 1;  
                 });
-                 
+    
                 ;});
-                </script>
-                """)
+                
+                """
+            return tree_js_file_content
+
+
+
+
+    def tree_view(self, project, FILE):
+        # This class builds the HTML page for the Treeview.
+        with self.tag('div', klass=os.path.basename(project.workfolder) + "_div"):
+            with self.tag('h1', klass=os.path.basename(project.workfolder) + "_title center-align"):
+                self.text("Project: " + os.path.basename(project.name))
+            with self.tag("div", klass="row"):
+                with self.tag("div", id="tree", klass="col s12 m12 l3"):
+                    self.text("")
+                with self.tag("div", id="codeview", klass="col s12 m12 l9"):
+                    if FILE != "":
+                        self.get_source_code_from_file(
+                            FILE,
+                            project)
+                    else:
+                        #this is the startpage of the project
+                        self.html_wordlist(project)
+            self.doc.asis("""
+            <script src="tree_js_content.js"></script>
+            """)

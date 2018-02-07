@@ -14,7 +14,7 @@ This tool was created with a big focus on usability and graphical guidance in th
 
 For the impatient ones, grab the download on the [releases page](https://github.com/vincentcox/StaCoAn/releases).
 
-<p style="font-size: 0.6em"> 
+<p style="font-size: 0.6em">
 \*: note that currently only apk files are supported, but ipa files will follow very shortly.
 </p>
 

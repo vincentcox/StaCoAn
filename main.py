@@ -101,6 +101,12 @@ def program():
     with open(lootbox_html_report_file, 'w') as f:
         print(lootbox_html_report.gethtml(), file=f)
 
+    # Generate the treeview
+    tree_js_file_path = os.path.join(report_folder, "tree_js_content.js")
+    with open(tree_js_file_path, 'w') as f:
+        print(Report_html.Tree_builder.tree_js_file(Project.projects[project_path]), file=f)
+
+
     # Generate looty.js file, for the zip creation process at the lootbox page
     Report_html.make_loot_report_content()
 

@@ -102,11 +102,11 @@ class Htmlpage:
                   <ul id="nav-mobile" class="right hide-on-med-and-down">
 
                             """)
-        if not hasattr(self, "this_is_a_log_html_page"):
-            self.doc.asis("""
-                    <li><a href="start.html">Treeview</a></li>
-                    <li><a href="lootbox.html">Lootbox</a></li>
-            """)
+        self.doc.asis("""
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+        """)
 
         self.doc.asis("""        
                     <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
