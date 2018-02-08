@@ -18,7 +18,7 @@ For the impatient ones, grab the download on the [releases page](https://github.
 *: note that currently only apk files are supported, but ipa files will follow very shortly.
 </p>
 
-An example report can be found here: [example report](https://github.com/vincentcox/StaCoAn/blob/master/example-report.zip)
+An example report can be found here: [example report](https://github.com/vincentcox/StaCoAn/raw/master/example-report.zip)
 
 ## Features
 The concept is that you drag and drop your mobile application file (an .apk or .ipa file) on the StaCoAn application and it will generate a visual and portable report for you. You can tweak the settings and wordlists to get a customized experience.
