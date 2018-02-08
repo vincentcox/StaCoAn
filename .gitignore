@@ -2,6 +2,7 @@
 #################################
 looty.js
 *.apk
+!test-apk.apk
 upx.exe
 upx.1
 css_generator.py
