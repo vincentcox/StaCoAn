@@ -105,8 +105,9 @@ class Project:
                 print(jadx_folder)
                 if not os.path.exists(jadx_folder):
                     os.makedirs(jadx_folder)
-                cmd = [ os.path.join(os.getcwd(), "jadx", "bin", "jadx"), '-d', jadx_folder, self.application_file ]
-                jadx_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=False)
+                cmd = "\""+os.path.join(os.getcwd(), "jadx", "bin", "jadx") + '\" -d \"' +jadx_folder + "\" " + self.application_file
+                print(cmd)
+                jadx_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
                 output_jadx = "--------- JADX OUTPUT BELOW --------- \n "
                 for line in jadx_process.stdout:
                     output_jadx += str(line)
