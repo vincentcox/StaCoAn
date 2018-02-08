@@ -98,7 +98,7 @@ class Htmlpage:
         self.doc.asis("""
             <nav>
                 <div class="nav-wrapper" style="background-color: #30363A !important;">
-                  <a href="start.html" class="brand-logo center"><img style="height:100%" src="html/logo.png"></a>
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
                   <ul id="nav-mobile" class="right hide-on-med-and-down">
 
                             """)

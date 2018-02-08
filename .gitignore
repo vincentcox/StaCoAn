@@ -16,6 +16,7 @@ report/*
 !report/html/
 !report/html/*
 *.exe
+test-apk/
 
 # OS generated files #
 ######################
@@ -26,3 +27,4 @@ report/*
 .Trashes
 ehthumbs.db
 Thumbs.db
+report/html/looty.js
