@@ -51,7 +51,7 @@ class Report_html(Htmlpage):
                     jsfile += recursion_files("", item, relative_path_array) + "\n"
         return jsfile
 
-    def make_loot_report_content(self):
+    def make_loot_report_content():
         # Building the zip architecture when a user wants to download the report.
         # Keep in mind that the "lootpage" is build by content from the html5 localstorage.
         # Therefore, if you just CTRL+S the page it will work for your computer. But the moment
@@ -166,7 +166,7 @@ class Report_html(Htmlpage):
                                                 self.text(line)
                                                 self.doc.nl()
                                 except:
-                                    Logger("could not open file '%s'." % file_path, Logger.WARNING)
+                                    Logger("could not open file '%s'." % file_path, 2)
 
         elif file_path in Project.projects[project.name].src_files:
             file = Project.projects[project.name].src_files[file_path]
@@ -307,7 +307,7 @@ class Report_html(Htmlpage):
                                             self.text(line)
                                             self.doc.nl()
                                 except:
-                                    Logger("could not open file '%s'." % file_path, Logger.WARNING)
+                                    Logger("could not open file '%s'." % file_path, 2)
 
 
 

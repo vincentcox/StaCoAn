@@ -8,12 +8,13 @@ from time import localtime, strftime
 
 
 class Logger:
-    ERROR = 1
-    WARNING = 2
-    INFO = 3
     log_html_document = Htmlpage()
 
     class __Logger:
+        ERROR = 1
+        WARNING = 2
+        INFO = 3
+
         config = configparser.ConfigParser()
         config.read("config.ini")
         loglevel = config.get("ProgramConfig", 'loglevel')
@@ -39,7 +40,7 @@ class Logger:
         def timeString():
             return strftime("%H:%M:%S", localtime())
 
-        def __make_log_entry(message, color):
+        def __make_log_entry(self, message, color):
             with Logger.log_html_document.tag("div", klass="row"):
                 with Logger.log_html_document.tag("div", klass="col s10 offset-s1"):
                     with Logger.log_html_document.tag("div", klass="card"):
@@ -48,27 +49,27 @@ class Logger:
 
         @staticmethod
         def cPrint(message, level):
-            if level == Logger.ERROR:
+            if level == 1:
                 tag = "[ERROR]"
-            elif level == Logger.WARNING:
+            elif level == 2:
                 tag = "[WARNING]"
             else:
                 tag = "[INFO]"
             print("%s %s" % (tag, message))
 
-        def log(self, message, level=Logger.INFO):
-            self.cPrint(message)
-            if int(level) == Logger.ERROR and int(self.loglevel) >= Logger.ERROR:
+        def log(self, message, level=3):
+            self.cPrint(message, level)
+            if int(level) == 1 and int(self.loglevel) >= 1:
                 self.__make_log_entry(message, "red")
                 sys.exit()
-            elif int(level) == Logger.WARNING and int(self.loglevel) >= Logger.WARNING:
+            elif int(level) == 2 and int(self.loglevel) >= 2:
                 self.__make_log_entry(message, "amber")
-            elif int(level) == Logger.INFO and int(self.loglevel) >= Logger.INFO:
+            elif int(level) == 3 and int(self.loglevel) >= 3:
                 self.__make_log_entry(message, "light-blue")
 
     instance = None
 
-    def __init__(self, message, level):
+    def __init__(self, message, level=3):
         if not Logger.instance:
             Logger.instance = Logger.__Logger(message, level)
         else:
