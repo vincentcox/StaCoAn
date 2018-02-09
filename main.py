@@ -25,7 +25,7 @@ def program():
     Searchwords.searchwords_import(Searchwords())
 
     # For each project (read .ipa or .apk file), run the scripts.
-    all_project_paths = []
+    all_project_paths = list()
     if len(sys.argv) > 1:
         all_project_paths = sys.argv[1:]
     else:
@@ -42,7 +42,7 @@ def program():
         print("start generating report")
 
     # To Do: Generate the tree-view + Source code view for each SOURCE file
-    all_files = {}
+    all_files = dict()
     all_files.update(Project.projects[project_path].db_files)
     all_files.update(Project.projects[project_path].src_files)
     amount_files = len(all_files)

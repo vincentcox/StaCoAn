@@ -15,7 +15,7 @@ class Logger:
         loglevel = config.get("ProgramConfig", 'loglevel')
         logpath = os.path.join(config.get("ProgramConfig", 'report_folder'),
                                config.get("ProgramConfig", 'log_file'))
-        logmodule = []
+        logmodule = list()
 
         def dump(self):
             Logger.log_html_document.footer()

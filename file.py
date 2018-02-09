@@ -16,11 +16,11 @@ class File:
     def __init__(self, file_path):
         self.file_path = file_path
         self.name = os.path.basename(file_path).replace(".", "_")
-        self.src_matches = []
-        self.db_matches = []
+        self.src_matches = list()
+        self.db_matches = list()
         self.icon = "insert_drive_file" # Materialise Icon
         self.fa_icon = "file" # Font Awesome icon, used in the tree-view
-        self.all_matches = []
+        self.all_matches = list()
         self.unique_words = list()
         self.grouped_matches = dict() #contains an array of Match objects for each unique word
 
@@ -79,13 +79,13 @@ class File:
         self.orden_matches()
 
     def orden_matches(self):
-        grouped_matches = []
+        grouped_matches = list()
         #grouping
         for match in self.all_matches:
             if match.matchword not in self.unique_words:
                 self.unique_words.append(match.matchword)
         for word in self.unique_words:
-            self.grouped_matches[word] = []
+            self.grouped_matches[word] = list()
             for match in self.all_matches:
                 if match.matchword == word:
                     grouped_matches.append(match)

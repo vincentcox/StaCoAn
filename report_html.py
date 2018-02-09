@@ -142,7 +142,7 @@ class Report_html(Htmlpage):
                                                                 for name in names:
                                                                     with self.tag("th"):
                                                                         self.text(str(name))
-                                                        matches = {}
+                                                        matches = dict()
                                                         for match in file.db_matches:
                                                             matches[match.matchword] = match.importance
                                                         with self.tag("tbody"):
@@ -461,7 +461,7 @@ class Report_html(Htmlpage):
             return hierarchy
 
         def path_hierarchy(self, path):
-            matches = []
+            matches = list()
             for file_path, file in self.project.all_files.items():
                 if path in file_path:
                     for match in file.all_matches:
@@ -480,7 +480,7 @@ class Report_html(Htmlpage):
 
             try:
                 def dirpaths(path):
-                    dirpaths = []
+                    dirpaths = list()
                     for path_from_dir_list in os.listdir(path):
                         if path_from_dir_list.endswith(tuple(Project.allowed_file_extensions)) or os.path.isdir(os.path.join(path,path_from_dir_list)):
                             dirpaths.append(path_from_dir_list)

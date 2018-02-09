@@ -25,17 +25,17 @@ class Project:
     code_offset = config.getint("ProgramConfig", 'code_offset')
     limit_top_findings= config.getint("ProgramConfig", 'limit_top_findings')
     development = config.getint("Development", 'development')
-    allowed_file_extensions = []
+    allowed_file_extensions = list()
     allowed_file_extensions = src_filetypes + db_filetypes
-    projects = {}
-    tree_object = {}
+    projects = dict()
+    tree_object = dict()
 
     def __init__(self, application_file):
         self.name = os.path.basename(application_file).replace(".", "_")
         self.application_file = application_file
-        self.src_files = {}
-        self.db_files = {}
-        self.all_files = {}
+        self.src_files = dict()
+        self.db_files = dict()
+        self.all_files = dict()
         self.src_filetypes = self.src_filetypes
         self.query_importance = self.query_importance
         Project.projects[self.name] = self
