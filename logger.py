@@ -61,7 +61,7 @@ class Logger:
             self.cPrint(message, level)
             if int(level) == 1 and int(self.loglevel) >= 1:
                 self.__make_log_entry(message, "red")
-                sys.exit()
+                sys.exit(1)
             elif int(level) == 2 and int(self.loglevel) >= 2:
                 self.__make_log_entry(message, "amber")
             elif int(level) == 3 and int(self.loglevel) >= 3:
