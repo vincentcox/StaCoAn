@@ -110,5 +110,5 @@ def program():
     # Exit program
     sys.exit()
 
-
-program()
+if __name__ == "__main__":
+    program()
