@@ -20,7 +20,7 @@ class Report_html(Htmlpage):
     non_regex_indicator = config.get("ProgramConfig", 'non_regex_indicator')
     code_offset = config.getint("ProgramConfig", 'code_offset')
 
-    def __recursion_files(jsfile, folder, relative_path_array):
+    def __recursion_files(self, jsfile, folder, relative_path_array):
         # Recursion is used to iterate trough the files and folders.
         for item in os.listdir(folder):
             filename = item
@@ -48,10 +48,10 @@ class Report_html(Htmlpage):
                     # in the zip-file.
                     relative_path_array.append(os.path.basename(folder))
                     # For every folder we need to do all previous steps (recursion)
-                    jsfile += recursion_files("", item, relative_path_array) + "\n"
+                    jsfile += self.__recursion_files("", item, relative_path_array) + "\n"
         return jsfile
 
-    def make_loot_report_content():
+    def make_loot_report_content(self):
         # Building the zip architecture when a user wants to download the report.
         # Keep in mind that the "lootpage" is build by content from the html5 localstorage.
         # Therefore, if you just CTRL+S the page it will work for your computer. But the moment

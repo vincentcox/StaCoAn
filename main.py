@@ -98,7 +98,7 @@ def program():
 
 
     # Generate looty.js file, for the zip creation process at the lootbox page
-    Report_html.make_loot_report_content()
+    Report_html().make_loot_report_content()
 
     # Write all log-events to logfile
     Logger.dump()
