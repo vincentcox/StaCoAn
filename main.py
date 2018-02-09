@@ -25,7 +25,7 @@ def program():
     Searchwords.searchwords_import(Searchwords())
 
     # For each project (read .ipa or .apk file), run the scripts.
-    all_project_paths = []
+    all_project_paths = list()
     if len(sys.argv) > 1:
         all_project_paths = sys.argv[1:]
     else:
@@ -33,23 +33,23 @@ def program():
         Logger("No input file given", 1)
     for project_path in all_project_paths:
         Project.projects[project_path] = Project(project_path)
-        print("Decompiling app...")
+        Logger("Decompiling app...")
         Project.projects[project_path].app_prepper()
-        print("Decompiling done.")
-        print("Searching trough files")
+        Logger("Decompiling done.")
+        Logger("Searching trough files")
         Project.projects[project_path].searchcontroller()
-        print("Searching done.")
-        print("start generating report")
+        Logger("Searching done.")
+        Logger("start generating report")
 
     # To Do: Generate the tree-view + Source code view for each SOURCE file
-    all_files = {}
+    all_files = dict()
     all_files.update(Project.projects[project_path].db_files)
     all_files.update(Project.projects[project_path].src_files)
     amount_files = len(all_files)
     i = 0
     for file in all_files:
         #os.system('cls' if os.name == 'nt' else 'clear')   #  This function is making the program 5000% slower
-        print("progress: "+str(format((i/amount_files)*100, '.2f'))+"%")
+        Logger("progress: "+str(format((i/amount_files)*100, '.2f'))+"%")
         i += 1
         hash_object = hashlib.md5(file.encode('utf-8'))
         file_report_file = os.path.join(report_folder, hash_object.hexdigest()+'.html')
@@ -98,7 +98,7 @@ def program():
 
 
     # Generate looty.js file, for the zip creation process at the lootbox page
-    Report_html.make_loot_report_content()
+    Report_html().make_loot_report_content()
 
     # Write all log-events to logfile
     Logger.dump()
@@ -110,5 +110,8 @@ def program():
     # Exit program
     sys.exit()
 
-
-program()
+if __name__ == "__main__":
+    try:
+        program()
+    except Exception as e:
+        Logger("ERROR: Unknown error: %s." % str(e), 1)
