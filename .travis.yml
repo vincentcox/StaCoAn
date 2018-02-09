@@ -1,9 +1,14 @@
+sudo: required
+dist: trusty
 language: python
 python:
   - 3.6.2
+before_install:
+  - sudo apt-get -y install python3-pip python-dev
+  - python3 -V
+  - pip3 -V
 # command to install dependencies
 install:
-  - sudo apt-get install python3-pip
   - pip3 install -r requirements.txt
 # command to run tests
 script:
