@@ -149,7 +149,7 @@ All of these projects have their corresponding licenses. Please respect these wh
 ## Acknowledgments
 * [brakke97](https://twitter.com/skeltavik): He learned me how to hack mobile applications. This project would never exist without him.
 * [Aditya Gupta](https://twitter.com/adi1391): Awesome dude, really. Just keep him away from your IoT fridge or coffeemachine. Check out his [website](https://www.attify-store.com/) if you are into IoT hacking.
-* Quicko: He learned me alot, also non-hacking things.
+* [Quintenvi](https://twitter.com/quintenvi): He learned me alot, also non-hacking things.
 * [c4b3rw0lf](https://twitter.com/c4b3rw0lf): The awesome dude behind the [VulnOS series](https://www.vulnhub.com/series/vulnos,36/).
 * [MacJu89](https://twitter.com/MacJu89): infra & XSS senpai
 
