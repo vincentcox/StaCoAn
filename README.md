@@ -84,19 +84,21 @@ Install the required python packages:
 
 __Windows__
 
-`pyinstaller main.py --onefile -p jadx --icon icon.ico --name stacoan --clean`
+`pyinstaller main.py --onefile --add-data jadx:jadx -p jadx --icon icon.ico --name stacoan --clean`
 
 __mac__
 
-`coming soon`
+`pyinstaller main.py --onefile --add-data jadx:jadx -p jadx --icon icon.ico --name stacoan --clean`
 
 __Linux__
 
-`python3 -m PyInstaller main.py --onefile -p jadx --icon icon.ico --name stacoan --clean`
+`python3 -m PyInstaller main.py --onefile --add-data jadx:jadx -p jadx --icon icon.ico --name stacoan --clean`
 
 
 ## Contributing
 This entire program's value is depending on the wordlists it is using. In the end, the final result is what matters. It is easy to build a wordlist (in comparison to writing actual code), but it has the biggest impact on the end result. You can help the community the most with making wordlists.
+
+If you want an easy way to post your idea's, head over to: http://www.tricider.com/brainstorming/2pdrT7ONVrB. From there you can add ideas for entries in the wordlist. 
 
 Improving the code is also much appreciated.
 
@@ -149,8 +151,8 @@ All of these projects have their corresponding licenses. Please respect these wh
 ## Acknowledgments
 * [brakke97](https://twitter.com/skeltavik): He learned me how to hack mobile applications. This project would never exist without him.
 * [Aditya Gupta](https://twitter.com/adi1391): Awesome dude, really. Just keep him away from your IoT fridge or coffeemachine. Check out his [website](https://www.attify-store.com/) if you are into IoT hacking.
-* Quicko: He learned me alot, also non-hacking things.
+* [Quintenvi](https://twitter.com/quintenvi): He learned me alot, also non-hacking things.
 * [c4b3rw0lf](https://twitter.com/c4b3rw0lf): The awesome dude behind the [VulnOS series](https://www.vulnhub.com/series/vulnos,36/).
-* Mac: infra & XSS senpai
+* [MacJu89](https://twitter.com/MacJu89): infra & XSS senpai
 
 Many more should be listed here, but this readme file would be TL;DR which is the worst what can happen to a readme file.

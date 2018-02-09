@@ -20,7 +20,38 @@ class Report_html(Htmlpage):
     non_regex_indicator = config.get("ProgramConfig", 'non_regex_indicator')
     code_offset = config.getint("ProgramConfig", 'code_offset')
 
-    def make_loot_report_content():
+    def __recursion_files(jsfile, folder, relative_path_array):
+        # Recursion is used to iterate trough the files and folders.
+        for item in os.listdir(folder):
+            filename = item
+            item = os.path.join(folder, item)
+            # exclude the looty.js and lootbox.js
+            # if looty.js is included you end up with a 100 gig file
+            # if lootbox.js is included, you end up with double results
+            #  |-> you will get the expected results + the localstorage results.
+            #  |-> by excluding this file, you ommit the localstorage results.
+            if not filename in ["looty.js", "lootbox.js"]:
+                if os.path.isfile(item):  # if current item is not a folder
+                    itemdata = ""
+                    with open(item, 'rb') as f:
+                        itemdata = f.read()
+                    # The contens of the file needs to be encoded into base64.
+                    itemdata = str(base64.b64encode(itemdata).decode('utf-8'))
+                    # Creating a file entry in the looty.js file
+                    jsfile += os.path.basename(
+                        folder) + ".file(\"" + filename + "\", \"" + itemdata + "\", {base64: true});" + "\n"
+                else:  # if current item is a folder
+                    # Creating a folder entry in the looty.js file
+                    jsfile += "var " + filename + " = " + os.path.basename(
+                        folder) + ".folder('" + filename + "');" + "\n"
+                    # relative_path_array keeps track how deep we are in the folder-architecture
+                    # in the zip-file.
+                    relative_path_array.append(os.path.basename(folder))
+                    # For every folder we need to do all previous steps (recursion)
+                    jsfile += recursion_files("", item, relative_path_array) + "\n"
+        return jsfile
+
+    def make_loot_report_content(self):
         # Building the zip architecture when a user wants to download the report.
         # Keep in mind that the "lootpage" is build by content from the html5 localstorage.
         # Therefore, if you just CTRL+S the page it will work for your computer. But the moment
@@ -34,41 +65,8 @@ class Report_html(Htmlpage):
         jsfile += "var myHTMLDoc = document.documentElement.innerHTML;"
         jsfile += "zip.file('report.html', btoa(myHTMLDoc), {base64: true});"
 
-        # -------- file and folder entries in the zip architecture ---------
-        def recursion_files(jsfile, folder, relative_path_array):
-            # Recursion is used to iterate trough the files and folders.
-            for item in os.listdir(folder):
-                filename = item
-                item = os.path.join(folder, item)
-                # exclude the looty.js and lootbox.js
-                # if looty.js is included you end up with a 100 gig file
-                # if lootbox.js is included, you end up with double results
-                #  |-> you will get the expected results + the localstorage results.
-                #  |-> by excluding this file, you ommit the localstorage results.
-                if not filename in ["looty.js", "lootbox.js"]:
-                    if os.path.isfile(item):  # if current item is not a folder
-                        itemdata = ""
-                        with open(item, 'rb') as f:
-                            itemdata = f.read()
-                        # The contens of the file needs to be encoded into base64.
-                        itemdata = str(base64.b64encode(itemdata).decode('utf-8'))
-                        # Creating a file entry in the looty.js file
-                        jsfile += os.path.basename(
-                            folder) + ".file(\"" + filename + "\", \"" + itemdata + "\", {base64: true});" + "\n"
-                    else:  # if current item is a folder
-                        # Creating a folder entry in the looty.js file
-                        jsfile += "var " + filename + " = " + os.path.basename(
-                            folder) + ".folder('" + filename + "');" + "\n"
-                        # relative_path_array keeps track how deep we are in the folder-architecture
-                        # in the zip-file.
-                        relative_path_array.append(os.path.basename(folder))
-                        # For every folder we need to do all previous steps (recursion)
-                        jsfile += recursion_files("", item, relative_path_array) + "\n"
-            return jsfile
-
-        jsfile += recursion_files("", os.path.join(os.getcwd(), "report", "html"), ["html"])
-
-        # -------- END OF file and folder entries in the zip architecture ---------
+        # file and folder entries in the zip architecture
+        jsfile += self.__recursion_files("", os.path.join(os.getcwd(), "report", "html"), ["html"])
 
         jsfile += """
             zip.generateAsync({type:"blob"})
@@ -142,7 +140,7 @@ class Report_html(Htmlpage):
                                                                 for name in names:
                                                                     with self.tag("th"):
                                                                         self.text(str(name))
-                                                        matches = {}
+                                                        matches = dict()
                                                         for match in file.db_matches:
                                                             matches[match.matchword] = match.importance
                                                         with self.tag("tbody"):
@@ -168,7 +166,7 @@ class Report_html(Htmlpage):
                                                 self.text(line)
                                                 self.doc.nl()
                                 except:
-                                    Logger.logmodule[0].log("could not open file" + file_path, 2)
+                                    Logger("could not open file '%s'." % file_path, Logger.WARNING)
 
         elif file_path in Project.projects[project.name].src_files:
             file = Project.projects[project.name].src_files[file_path]
@@ -309,7 +307,7 @@ class Report_html(Htmlpage):
                                             self.text(line)
                                             self.doc.nl()
                                 except:
-                                    Logger.logmodule[0].log("could not open file '%s'" % file_path, 2)
+                                    Logger("could not open file '%s'." % file_path, Logger.WARNING)
 
 
 
@@ -461,7 +459,7 @@ class Report_html(Htmlpage):
             return hierarchy
 
         def path_hierarchy(self, path):
-            matches = []
+            matches = list()
             for file_path, file in self.project.all_files.items():
                 if path in file_path:
                     for match in file.all_matches:
@@ -480,7 +478,7 @@ class Report_html(Htmlpage):
 
             try:
                 def dirpaths(path):
-                    dirpaths = []
+                    dirpaths = list()
                     for path_from_dir_list in os.listdir(path):
                         if path_from_dir_list.endswith(tuple(Project.allowed_file_extensions)) or os.path.isdir(os.path.join(path,path_from_dir_list)):
                             dirpaths.append(path_from_dir_list)

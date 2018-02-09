@@ -1,5 +1,5 @@
 class Match:
-    all_global_matches = []
+    all_global_matches = list()
     def __init__(self, matchword, importance):
         self.matchword = matchword
         self.importance = importance
@@ -25,7 +25,7 @@ class MatchDatabase(Match):
 
 
 class Src_Match:
-    all_global_matches = []
+    all_global_matches = list()
 
     def __init__(self, matchword, line, lines_in_file, importance):
         self.matchword = matchword
@@ -36,7 +36,7 @@ class Src_Match:
 
 
 class Db_Match:
-    all_global_matches = []
+    all_global_matches = list()
 
     def __init__(self, matchword, line, key, value, importance):
         self.matchword = matchword
