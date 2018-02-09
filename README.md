@@ -151,6 +151,6 @@ All of these projects have their corresponding licenses. Please respect these wh
 * [Aditya Gupta](https://twitter.com/adi1391): Awesome dude, really. Just keep him away from your IoT fridge or coffeemachine. Check out his [website](https://www.attify-store.com/) if you are into IoT hacking.
 * Quicko: He learned me alot, also non-hacking things.
 * [c4b3rw0lf](https://twitter.com/c4b3rw0lf): The awesome dude behind the [VulnOS series](https://www.vulnhub.com/series/vulnos,36/).
-* Mac: infra & XSS senpai
+* [MacJu89](https://twitter.com/MacJu89): infra & XSS senpai
 
 Many more should be listed here, but this readme file would be TL;DR which is the worst what can happen to a readme file.
