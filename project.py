@@ -102,13 +102,13 @@ class Project:
             # For Android: decompile with JADX
             if self.application_file.lower().endswith("apk"):
                 jadx_folder = os.path.join(new_folder, "jadx_source_code")
-                print(jadx_folder)
+                Logger(jadx_folder)
                 if not os.path.exists(jadx_folder):
                     os.makedirs(jadx_folder)
                 if not os.access(os.path.join(os.getcwd(), "jadx", "bin", "jadx"), os.X_OK):
                     Logger( "jadx is not executable. Run \"chmod +x jadx/bin/jadx\"", Logger.ERROR)
                 cmd = "\""+os.path.join(os.getcwd(), "jadx", "bin", "jadx") + '\" -d \"' +jadx_folder + "\" " + self.application_file
-                print(cmd)
+                Logger(cmd)
                 jadx_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
                 output_jadx = "--------- JADX OUTPUT BELOW --------- \n "
                 for line in jadx_process.stdout:
