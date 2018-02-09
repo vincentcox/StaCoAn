@@ -6,6 +6,7 @@ import os
 import re
 import sqlite3
 import base64
+import codecs
 
 from html_page import Htmlpage
 from logger import Logger
@@ -158,7 +159,7 @@ class Report_html(Htmlpage):
 
                             with self.tag('pre',('data-src', os.path.basename(file_path)), ('data-line', file_lines_matches ), klass='code line-numbers'):
                                 try:
-                                    with open(file_path, "r") as file:
+                                    with codecs.open(file_path, "r", 'utf-8', errors='ignore') as file:
                                         lines_in_file = file.read().splitlines()
                                         with self.tag('code'):
                                             i = 0
@@ -299,7 +300,7 @@ class Report_html(Htmlpage):
                                     file_lines_matches = file_lines_matches + str(matchobject.line) + ","
                             with self.tag('pre',('data-src', os.path.basename(file_path)), ('data-line', file_lines_matches ), klass='code line-numbers'):
                                 try:
-                                    with open(file_path, "r") as file:
+                                    with codecs.open(file_path, "r", 'utf-8', errors='ignore') as file:
                                         lines_in_file = file.read().splitlines()
                                     with self.tag('code'):
                                         i = 0

@@ -4,6 +4,7 @@ import hashlib
 import os
 import sys
 import webbrowser
+import codecs
 
 from logger import Logger
 from project import Project
@@ -58,8 +59,10 @@ def program():
         overview_html.navigation()
         overview_html.tree_view(Project.projects[project_path], file)
         overview_html.footer()
-        with open(file_report_file, 'w') as f:
-            print(overview_html.gethtml(), file=f)
+        f = codecs.open(file_report_file, 'w', encoding='utf8')
+        f.write(overview_html.gethtml())
+        # with open(file_report_file, 'w') as f:
+        #     print(overview_html.gethtml(), file=f)
 
     # Generate the startpage
     file_report_file = os.path.join(report_folder, 'start.html')
@@ -68,8 +71,10 @@ def program():
     overview_html.navigation()
     overview_html.tree_view(Project.projects[project_path], "")
     overview_html.footer()
-    with open(file_report_file, 'w') as f:
-        print(overview_html.gethtml(), file=f)
+    f = codecs.open(file_report_file, 'w', encoding='utf8')
+    f.write(overview_html.gethtml())
+    # with open(file_report_file, 'w') as f:
+    #     print(overview_html.gethtml(), file=f)
 
     # Generate words overview html file
     words_overview_html_report_file = os.path.join(report_folder, "wordlist_overview.html")
@@ -88,13 +93,17 @@ def program():
     lootbox_html_report.navigation()
     lootbox_html_report.lootbox()
     lootbox_html_report.footer()
-    with open(lootbox_html_report_file, 'w') as f:
-        print(lootbox_html_report.gethtml(), file=f)
+    f = codecs.open(lootbox_html_report_file, 'w', encoding='utf8')
+    f.write(lootbox_html_report.gethtml())
+    # with open(lootbox_html_report_file, 'w') as f:
+    #     print(lootbox_html_report.gethtml(), file=f)
 
     # Generate the treeview
     tree_js_file_path = os.path.join(report_folder, "tree_js_content.js")
-    with open(tree_js_file_path, 'w') as f:
-        print(Report_html.Tree_builder.tree_js_file(Project.projects[project_path]), file=f)
+    f = codecs.open(tree_js_file_path, 'w', encoding='utf8')
+    f.write(Report_html.Tree_builder.tree_js_file(Project.projects[project_path]))
+    # with open(tree_js_file_path, 'w') as f:
+    #     print(Report_html.Tree_builder.tree_js_file(Project.projects[project_path]), file=f)
 
 
     # Generate looty.js file, for the zip creation process at the lootbox page
