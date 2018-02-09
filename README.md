@@ -98,6 +98,8 @@ __Linux__
 ## Contributing
 This entire program's value is depending on the wordlists it is using. In the end, the final result is what matters. It is easy to build a wordlist (in comparison to writing actual code), but it has the biggest impact on the end result. You can help the community the most with making wordlists.
 
+If you want an easy way to post your idea's, head over to: http://www.tricider.com/brainstorming/2pdrT7ONVrB. From there you can add ideas for entries in the wordlist. 
+
 Improving the code is also much appreciated.
 
 If the contribution is high enough, you will be mentioned in the `authors` section.
