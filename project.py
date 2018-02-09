@@ -86,7 +86,7 @@ class Project:
 
     def app_prepper(self):
         if not self.application_file.lower().endswith(tuple(self.apptypes)):
-            Logger("No mobile app detected, exiting! Hgnnnhh", Logger.ERROR)
+            Logger("No mobile app detected, exiting! Hgnnnhh", 1)
             sys.exit()
         if not os.path.exists(os.path.join(PATH,  ntpath.basename(self.application_file))):
             os.makedirs(os.path.join(PATH,  ntpath.basename(self.application_file)))
@@ -106,7 +106,7 @@ class Project:
                 if not os.path.exists(jadx_folder):
                     os.makedirs(jadx_folder)
                 if not os.access(os.path.join(os.getcwd(), "jadx", "bin", "jadx"), os.X_OK):
-                    Logger( "jadx is not executable. Run \"chmod +x jadx/bin/jadx\"", Logger.ERROR)
+                    Logger( "jadx is not executable. Run \"chmod +x jadx/bin/jadx\"", 1)
                 cmd = "\""+os.path.join(os.getcwd(), "jadx", "bin", "jadx") + '\" -d \"' +jadx_folder + "\" " + self.application_file
                 Logger(cmd)
                 jadx_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
@@ -118,6 +118,6 @@ class Project:
                 Logger("jadx return code: "+str(jadx_process.returncode))
             # TO DO: ipa decompiling tool
             elif self.application_file.lower().endswith("ipa"):
-                Logger(".ipa files not implemented yet.", Logger.ERROR)
+                Logger(".ipa files not implemented yet.", 1)
                 sys.exit()
 
