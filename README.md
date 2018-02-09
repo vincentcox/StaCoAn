@@ -94,6 +94,15 @@ __Linux__
 
 `python3 -m PyInstaller main.py --onefile --add-data jadx:jadx -p jadx --icon icon.ico --name stacoan --clean`
 
+### Running the Docker container
+
+`cd docker`
+
+`docker build . -t stacoan`
+
+`docker run -p 8000:8000 -v /yourappsfolder:/tmp -i -t stacoan /tmp/com.myapk.apk`
+
+Wait for it to be analysed and the open your browser in http://localhost:8000
 
 ## Contributing
 This entire program's value is depending on the wordlists it is using. In the end, the final result is what matters. It is easy to build a wordlist (in comparison to writing actual code), but it has the biggest impact on the end result. You can help the community the most with making wordlists.
