@@ -3,6 +3,7 @@ python:
   - 3.6.2
 # command to install dependencies
 install:
+  - sudo apt-get install python3-pip
   - pip3 install -r requirements.txt
 # command to run tests
 script:
