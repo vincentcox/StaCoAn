@@ -12,4 +12,5 @@ install:
   - pip3 install -r requirements.txt
 # command to run tests
 script:
+  - sudo chmod +x jadx/bin/jadx
   - python3 main.py test-apk.apk # or py.test for Python versions 3.5 and below
