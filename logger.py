@@ -1,7 +1,8 @@
-from html_page import Htmlpage
-import configparser
 import os
 import sys
+import configparser
+from html_page import Htmlpage
+from time import localtime, strftime
 
 # This class uses a singleton. http://python-3-patterns-idioms-test.readthedocs.io/en/latest/Singleton.html
 
@@ -34,12 +35,16 @@ class Logger:
             self.logmodule.append(self)
             self.log(message, level)
 
+        @staticmethod
+        def timeString():
+            return strftime("%H:%M:%S", localtime())
+
         def __make_log_entry(message, color):
             with Logger.log_html_document.tag("div", klass="row"):
                 with Logger.log_html_document.tag("div", klass="col s10 offset-s1"):
                     with Logger.log_html_document.tag("div", klass="card"):
                         with Logger.log_html_document.tag("div", klass="card-content " + color):
-                            Logger.log_html_document.text(message)
+                            Logger.log_html_document.text("%s: %s" % (self.timeString, message))
 
         @staticmethod
         def cPrint(message, level):
