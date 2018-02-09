@@ -41,9 +41,19 @@ class Logger:
                         with Logger.log_html_document.tag("div", klass="card-content " + color):
                             Logger.log_html_document.text(message)
 
+        @staticmethod
+        def cPrint(message, level):
+            if level == Logger.ERROR:
+                tag = "[ERROR]"
+            elif level == Logger.WARNING:
+                tag = "[WARNING]"
+            else:
+                tag = "[INFO]"
+            print("%s %s" % (tag, message))
+
         def log(self, message, level=Logger.INFO):
+            self.cPrint(message)
             if int(level) == Logger.ERROR and int(self.loglevel) >= Logger.ERROR:
-                print(message)
                 self.__make_log_entry(message, "red")
                 sys.exit()
             elif int(level) == Logger.WARNING and int(self.loglevel) >= Logger.WARNING:
