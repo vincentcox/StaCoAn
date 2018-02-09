@@ -97,7 +97,9 @@ __Linux__
 ### Running the Docker container
 
 `cd docker`
+
 `docker build . -t stacoan`
+
 `docker run -p 8000:8000 -v /yourappsfolder:/tmp -i -t stacoan /tmp/com.myapk.apk`
 
 Wait for it to be analysed and the open your browser in http://localhost:8000
