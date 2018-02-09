@@ -22,7 +22,7 @@ class Searchwords:
             with open(filename, "r") as file:
                 lines_in_file = file.read().splitlines()
         except IOError:
-            Logger.logmodule[0].log("could not open file " + filename, 1)
+            Logger("could not open file '%s'." % filename, 1)
             return list()
         line_index = 1
         try:
@@ -30,7 +30,7 @@ class Searchwords:
                 search_words[line.split('|||')[0]] = int(line.split('|||')[1])
                 line_index = line_index + 1
         except IOError:
-            Logger.logmodule[0].log("Format is not readable or file is missing: " + filename, 1)
+            Logger("Format is not readable or file is missing: %s." % filename, 1)
             sys.exit()
         # Sort search words.
         search_words = OrderedDict(sorted(search_words.items(), key=itemgetter(1)))

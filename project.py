@@ -25,17 +25,17 @@ class Project:
     code_offset = config.getint("ProgramConfig", 'code_offset')
     limit_top_findings= config.getint("ProgramConfig", 'limit_top_findings')
     development = config.getint("Development", 'development')
-    allowed_file_extensions = []
+    allowed_file_extensions = list()
     allowed_file_extensions = src_filetypes + db_filetypes
-    projects = {}
-    tree_object = {}
+    projects = dict()
+    tree_object = dict()
 
     def __init__(self, application_file):
         self.name = os.path.basename(application_file).replace(".", "_")
         self.application_file = application_file
-        self.src_files = {}
-        self.db_files = {}
-        self.all_files = {}
+        self.src_files = dict()
+        self.db_files = dict()
+        self.all_files = dict()
         self.src_filetypes = self.src_filetypes
         self.query_importance = self.query_importance
         Project.projects[self.name] = self
@@ -86,7 +86,7 @@ class Project:
 
     def app_prepper(self):
         if not self.application_file.lower().endswith(tuple(self.apptypes)):
-            Logger.logmodule[0]("No mobile app detected, exiting! Hgnnnhh", 1)
+            Logger("No mobile app detected, exiting! Hgnnnhh", Logger.ERROR)
             sys.exit()
         if not os.path.exists(os.path.join(PATH,  ntpath.basename(self.application_file))):
             os.makedirs(os.path.join(PATH,  ntpath.basename(self.application_file)))
@@ -102,20 +102,22 @@ class Project:
             # For Android: decompile with JADX
             if self.application_file.lower().endswith("apk"):
                 jadx_folder = os.path.join(new_folder, "jadx_source_code")
-                print(jadx_folder)
+                Logger(jadx_folder)
                 if not os.path.exists(jadx_folder):
                     os.makedirs(jadx_folder)
+                if not os.access(os.path.join(os.getcwd(), "jadx", "bin", "jadx"), os.X_OK):
+                    Logger( "jadx is not executable. Run \"chmod +x jadx/bin/jadx\"", Logger.ERROR)
                 cmd = "\""+os.path.join(os.getcwd(), "jadx", "bin", "jadx") + '\" -d \"' +jadx_folder + "\" " + self.application_file
-                print(cmd)
+                Logger(cmd)
                 jadx_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
                 output_jadx = "--------- JADX OUTPUT BELOW --------- \n "
                 for line in jadx_process.stdout:
                     output_jadx += str(line)
-                Logger.logmodule[0].log(str(output_jadx), 3)
+                Logger(str(output_jadx))
                 jadx_process.wait()
-                Logger.logmodule[0].log("jadx return code: "+str(jadx_process.returncode), 3)
+                Logger("jadx return code: "+str(jadx_process.returncode))
             # TO DO: ipa decompiling tool
             elif self.application_file.lower().endswith("ipa"):
-                Logger.logmodule[0].log(".ipa files not implemented yet.", 1)
+                Logger(".ipa files not implemented yet.", Logger.ERROR)
                 sys.exit()
 

@@ -4,6 +4,7 @@ import hashlib
 import os
 import sys
 import webbrowser
+import codecs
 
 from logger import Logger
 from project import Project
@@ -12,11 +13,9 @@ from searchwords import Searchwords
 
 
 def program():
-    # Initiate the log-module
-    Logger()
     # Script cannot be called outside script directory. It contains a lot of os.getcwd().
     if not os.path.dirname(os.path.abspath(__file__)) == os.getcwd():
-        Logger.logmodule[0].log("Script cannot be called outside directory", 1)
+        Logger("Script cannot be called outside directory", 1)
 
     # Read information from config file
     config = configparser.ConfigParser()
@@ -27,39 +26,31 @@ def program():
     Searchwords.searchwords_import(Searchwords())
 
     # For each project (read .ipa or .apk file), run the scripts.
-    # To do: make it run for each ipa, now it's in debugging mode
-    all_project_paths = []
+    all_project_paths = list()
     if len(sys.argv) > 1:
         all_project_paths = sys.argv[1:]
     else:
         # No arguments given.
-
-        if development == 1:
-            Logger.logmodule[0].log("Development active", 3)
-            all_project_paths.append(os.path.join(os.getcwd(), "app.apk"))
-        else:
-            Logger.logmodule[0].log("No input file given", 1)
-            sys.exit()
-            #all_project_paths.append(os.path.join(os.getcwd(), "diva-beta.apk"))
+        Logger("No input file given", 1)
     for project_path in all_project_paths:
         Project.projects[project_path] = Project(project_path)
-        print("Decompiling app...")
+        Logger("Decompiling app...")
         Project.projects[project_path].app_prepper()
-        print("Decompiling done.")
-        print("Searching trough files")
+        Logger("Decompiling done.")
+        Logger("Searching trough files")
         Project.projects[project_path].searchcontroller()
-        print("Searching done.")
-        print("start generating report")
+        Logger("Searching done.")
+        Logger("start generating report")
 
-    # Generate the tree-view + Source code view for each SOURCE file
-    all_files = {}
+    # To Do: Generate the tree-view + Source code view for each SOURCE file
+    all_files = dict()
     all_files.update(Project.projects[project_path].db_files)
     all_files.update(Project.projects[project_path].src_files)
     amount_files = len(all_files)
     i = 0
     for file in all_files:
         #os.system('cls' if os.name == 'nt' else 'clear')   #  This function is making the program 5000% slower
-        print("progress: "+str(format((i/amount_files)*100, '.2f'))+"%")
+        Logger("progress: "+str(format((i/amount_files)*100, '.2f'))+"%")
         i += 1
         hash_object = hashlib.md5(file.encode('utf-8'))
         file_report_file = os.path.join(report_folder, hash_object.hexdigest()+'.html')
@@ -68,8 +59,10 @@ def program():
         overview_html.navigation()
         overview_html.tree_view(Project.projects[project_path], file)
         overview_html.footer()
-        with open(file_report_file, 'w') as f:
-            print(overview_html.gethtml(), file=f)
+        f = codecs.open(file_report_file, 'w', encoding='utf8')
+        f.write(overview_html.gethtml())
+        # with open(file_report_file, 'w') as f:
+        #     print(overview_html.gethtml(), file=f)
 
     # Generate the startpage
     file_report_file = os.path.join(report_folder, 'start.html')
@@ -78,8 +71,10 @@ def program():
     overview_html.navigation()
     overview_html.tree_view(Project.projects[project_path], "")
     overview_html.footer()
-    with open(file_report_file, 'w') as f:
-        print(overview_html.gethtml(), file=f)
+    f = codecs.open(file_report_file, 'w', encoding='utf8')
+    f.write(overview_html.gethtml())
+    # with open(file_report_file, 'w') as f:
+    #     print(overview_html.gethtml(), file=f)
 
     # Generate words overview html file
     words_overview_html_report_file = os.path.join(report_folder, "wordlist_overview.html")
@@ -98,20 +93,24 @@ def program():
     lootbox_html_report.navigation()
     lootbox_html_report.lootbox()
     lootbox_html_report.footer()
-    with open(lootbox_html_report_file, 'w') as f:
-        print(lootbox_html_report.gethtml(), file=f)
+    f = codecs.open(lootbox_html_report_file, 'w', encoding='utf8')
+    f.write(lootbox_html_report.gethtml())
+    # with open(lootbox_html_report_file, 'w') as f:
+    #     print(lootbox_html_report.gethtml(), file=f)
 
     # Generate the treeview
     tree_js_file_path = os.path.join(report_folder, "tree_js_content.js")
-    with open(tree_js_file_path, 'w') as f:
-        print(Report_html.Tree_builder.tree_js_file(Project.projects[project_path]), file=f)
+    f = codecs.open(tree_js_file_path, 'w', encoding='utf8')
+    f.write(Report_html.Tree_builder.tree_js_file(Project.projects[project_path]))
+    # with open(tree_js_file_path, 'w') as f:
+    #     print(Report_html.Tree_builder.tree_js_file(Project.projects[project_path]), file=f)
 
 
     # Generate looty.js file, for the zip creation process at the lootbox page
-    Report_html.make_loot_report_content()
+    Report_html().make_loot_report_content()
 
     # Write all log-events to logfile
-    Logger.logmodule[0].dump()
+    Logger.dump()
 
     # Open the webbrowser to the generated start page.
     url = os.path.join(report_folder, "start.html")
@@ -120,5 +119,8 @@ def program():
     # Exit program
     sys.exit()
 
-
-program()
+if __name__ == "__main__":
+    try:
+        program()
+    except Exception as e:
+        Logger("ERROR: Unknown error: %s." % str(e), 1)
