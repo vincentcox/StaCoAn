@@ -7,6 +7,9 @@ import sys
 
 
 class Logger:
+    ERROR = 1
+    WARNING = 2
+    INFO = 3
     log_html_document = Htmlpage()
 
     class __Logger:
@@ -38,17 +41,14 @@ class Logger:
                         with Logger.log_html_document.tag("div", klass="card-content " + color):
                             Logger.log_html_document.text(message)
 
-        def log(self, message, level):
-            if int(level) == 1 and int(self.loglevel) >= 1:
-                # Level 1 is error
+        def log(self, message, level=Logger.INFO):
+            if int(level) == Logger.ERROR and int(self.loglevel) >= Logger.ERROR:
                 print(message)
                 self.__make_log_entry(message, "red")
                 sys.exit()
-            elif int(level) == 2 and int(self.loglevel) >= 2:
-                # Level 2 is warning
+            elif int(level) == Logger.WARNING and int(self.loglevel) >= Logger.WARNING:
                 self.__make_log_entry(message, "amber")
-            elif int(level) == 3 and int(self.loglevel) >= 3:
-                # Level 3 is informational
+            elif int(level) == Logger.INFO and int(self.loglevel) >= Logger.INFO:
                 self.__make_log_entry(message, "light-blue")
 
     instance = None

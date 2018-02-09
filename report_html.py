@@ -166,7 +166,7 @@ class Report_html(Htmlpage):
                                                 self.text(line)
                                                 self.doc.nl()
                                 except:
-                                    Logger("could not open file" + file_path, 2)
+                                    Logger("could not open file '%s'." % file_path, Logger.WARNING)
 
         elif file_path in Project.projects[project.name].src_files:
             file = Project.projects[project.name].src_files[file_path]
@@ -307,7 +307,7 @@ class Report_html(Htmlpage):
                                             self.text(line)
                                             self.doc.nl()
                                 except:
-                                    Logger("could not open file '%s'" % file_path, 2)
+                                    Logger("could not open file '%s'." % file_path, Logger.WARNING)
 
 
 

@@ -14,7 +14,7 @@ from searchwords import Searchwords
 def program():
     # Script cannot be called outside script directory. It contains a lot of os.getcwd().
     if not os.path.dirname(os.path.abspath(__file__)) == os.getcwd():
-        Logger("Script cannot be called outside directory", 1)
+        Logger("Script cannot be called outside directory", Logger.ERROR)
 
     # Read information from config file
     config = configparser.ConfigParser()
@@ -30,7 +30,7 @@ def program():
         all_project_paths = sys.argv[1:]
     else:
         # No arguments given.
-        Logger("No input file given", 1)
+        Logger("No input file given", Logger.ERROR)
     for project_path in all_project_paths:
         Project.projects[project_path] = Project(project_path)
         print("Decompiling app...")
