@@ -12,11 +12,9 @@ from searchwords import Searchwords
 
 
 def program():
-    # Initiate the log-module
-    Logger()
     # Script cannot be called outside script directory. It contains a lot of os.getcwd().
     if not os.path.dirname(os.path.abspath(__file__)) == os.getcwd():
-        Logger.logmodule[0].log("Script cannot be called outside directory", 1)
+        Logger("Script cannot be called outside directory", 1)
 
     # Read information from config file
     config = configparser.ConfigParser()
@@ -27,20 +25,12 @@ def program():
     Searchwords.searchwords_import(Searchwords())
 
     # For each project (read .ipa or .apk file), run the scripts.
-    # To do: make it run for each ipa, now it's in debugging mode
     all_project_paths = []
     if len(sys.argv) > 1:
         all_project_paths = sys.argv[1:]
     else:
         # No arguments given.
-
-        if development == 1:
-            Logger.logmodule[0].log("Development active", 3)
-            all_project_paths.append(os.path.join(os.getcwd(), "app.apk"))
-        else:
-            Logger.logmodule[0].log("No input file given", 1)
-            sys.exit()
-            #all_project_paths.append(os.path.join(os.getcwd(), "diva-beta.apk"))
+        Logger("No input file given", 1)
     for project_path in all_project_paths:
         Project.projects[project_path] = Project(project_path)
         print("Decompiling app...")
@@ -51,7 +41,7 @@ def program():
         print("Searching done.")
         print("start generating report")
 
-    # Generate the tree-view + Source code view for each SOURCE file
+    # To Do: Generate the tree-view + Source code view for each SOURCE file
     all_files = {}
     all_files.update(Project.projects[project_path].db_files)
     all_files.update(Project.projects[project_path].src_files)
@@ -111,7 +101,7 @@ def program():
     Report_html.make_loot_report_content()
 
     # Write all log-events to logfile
-    Logger.logmodule[0].dump()
+    Logger.dump()
 
     # Open the webbrowser to the generated start page.
     url = os.path.join(report_folder, "start.html")

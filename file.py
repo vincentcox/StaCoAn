@@ -52,7 +52,7 @@ class File:
             with open(self.file_path, "r", encoding="utf8", errors='ignore') as file:
                 lines_in_file = file.read().splitlines()
         except IOError as e:
-            Logger.logmodule[0].log("could not open file "+self.file_path+". Error:"+e.strerror, 2)
+            Logger("could not open file "+self.file_path+". Error:"+e.strerror, 2)
             return list()
         line_index = 1
         for line in lines_in_file:
