@@ -149,6 +149,7 @@ All of these projects have their corresponding licenses. Please respect these wh
 <p style ="font-size: 0.6em">*: the binary is included in this project. If the dev's from JADX are not comfortable with this, feel free to contact me about this so we can find a solution. </p>
 
 ## Acknowledgments
+* [Kevin De Koninck](https://github.com/Kevin-De-Koninck): Git master and senpai of patience with my learning process in [pep8](https://www.python.org/dev/peps/pep-0008/). 
 * [brakke97](https://twitter.com/skeltavik): He learned me how to hack mobile applications. This project would never exist without him.
 * [Aditya Gupta](https://twitter.com/adi1391): Awesome dude, really. Just keep him away from your IoT fridge or coffeemachine. Check out his [website](https://www.attify-store.com/) if you are into IoT hacking.
 * [Quintenvi](https://twitter.com/quintenvi): He learned me alot, also non-hacking things.
