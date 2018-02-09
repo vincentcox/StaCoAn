@@ -111,4 +111,7 @@ def program():
     sys.exit()
 
 if __name__ == "__main__":
-    program()
+    try:
+        program()
+    except Exception as e:
+        print "ERROR: Unknown error: %s." % str(e)
