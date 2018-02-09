@@ -31,25 +31,25 @@ class Logger:
             self.logmodule.append(self)
             self.log(message, level)
 
-        def log(self, message, level):
-            def make_log_entry(message, color):
-                with Logger.log_html_document.tag("div", klass="row"):
-                    with Logger.log_html_document.tag("div", klass="col s10 offset-s1"):
-                        with Logger.log_html_document.tag("div", klass="card"):
-                            with Logger.log_html_document.tag("div", klass="card-content " + color):
-                                Logger.log_html_document.text(message)
+        def __make_log_entry(message, color):
+            with Logger.log_html_document.tag("div", klass="row"):
+                with Logger.log_html_document.tag("div", klass="col s10 offset-s1"):
+                    with Logger.log_html_document.tag("div", klass="card"):
+                        with Logger.log_html_document.tag("div", klass="card-content " + color):
+                            Logger.log_html_document.text(message)
 
+        def log(self, message, level):
             if int(level) == 1 and int(self.loglevel) >= 1:
                 # Level 1 is error
                 print(message)
-                make_log_entry(message, "red")
+                self.__make_log_entry(message, "red")
                 sys.exit()
             elif int(level) == 2 and int(self.loglevel) >= 2:
                 # Level 2 is warning
-                make_log_entry(message, "amber")
+                self.__make_log_entry(message, "amber")
             elif int(level) == 3 and int(self.loglevel) >= 3:
                 # Level 3 is informational
-                make_log_entry(message, "light-blue")
+                self.__make_log_entry(message, "light-blue")
 
     instance = None
 
