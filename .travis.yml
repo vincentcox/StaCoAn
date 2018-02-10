@@ -32,7 +32,6 @@ script:
   - pip3 install pyinstaller
   - python3 -m PyInstaller main.py --onefile --add-data jadx:jadx -p jadx --icon icon.ico --name stacoan --clean --noupx
   - mkdir deploy
-  - cp dist/* ./deploy/
   - mkdir ./deploy/html
   - cp -R report/html ./deploy/html
   - mkdir ./deploy/jadx
@@ -40,9 +39,23 @@ script:
   - cp -R config ./deploy/config
   - cp README.md ./deploy/README.md
   - cp config.ini ./deploy/config.ini
+
+  # Create Windows build. 
+   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then rm -rf ./dist; fi
+   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then sudo apt-get install -qq wine ; fi
+   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://www.python.org/ftp/python/3.6.2/python-3.6.2.msi --output-document=python-32.msi; fi
+   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://www.python.org/ftp/python/3.6.2/python-3.6.2.amd64.msi --output-document=python-64.msi; fi
+   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 msiexec /i  python-64.msi /qn TARGETDIR=c:\\Python-64; fi
+   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install pyinstaller --upgrade; fi
+   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install setuptools --upgrade; fi
+   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install -r requirements.txt; fi
+   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\scripts\\pyinstaller.exe main.py --onefile --add-data jadx:jadx -p jadx --icon icon.ico --name stacoan --clean --noupx; fi
+  # Create zip
+  - cp dist/* ./deploy/
   - name_zip=$TRAVIS_OS_NAME+".zip"
   - zip -r $(echo $name_zip) deploy
-
+  
+  
 deploy:
   provider: releases
   skip_cleanup: true
