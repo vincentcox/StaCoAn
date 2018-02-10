@@ -43,6 +43,7 @@ script:
 deploy:
   provider: releases
   skip_cleanup: true
+  prerelease: true
   on:
     tags: true
   api_key:
