@@ -105,7 +105,7 @@ class Project:
                 Logger(jadx_folder)
                 if not os.path.exists(jadx_folder):
                     os.makedirs(jadx_folder)
-                if not os.access(os.path.join(os.getcwd(), "jadx", "bin", "jadx"), os.X_OK):
+                if not os.access(os.path.join(os.getcwd(), "jadx", "bin", "jadx"), os.X_OK) or os.name == 'nt':
                     Logger( "jadx is not executable. Run \"chmod +x jadx/bin/jadx\"", 1)
                 cmd = "\""+os.path.join(os.getcwd(), "jadx", "bin", "jadx") + '\" -d \"' +jadx_folder + "\" " + self.application_file
                 Logger(cmd)
