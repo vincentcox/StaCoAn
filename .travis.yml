@@ -50,9 +50,9 @@ script:
    - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install -r requirements.txt; fi
    - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\scripts\\pyinstaller.exe main.py --onefile --add-data jadx:jadx -p jadx --icon icon.ico --name stacoan --clean --noupx; fi
   # Create zip
-  - cp dist/* ./deploy/
-  - name_zip=$TRAVIS_OS_NAME+".zip"
-  - zip -r $(echo $name_zip) deploy
+   - cp dist/* ./deploy/
+   - name_zip=$TRAVIS_OS_NAME+".zip"
+   - zip -r $(echo $name_zip) deploy
   
   
 deploy:
