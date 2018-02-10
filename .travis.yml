@@ -37,7 +37,7 @@ script:
   - cp -R report/html ./deploy/html
   - mkdir ./deploy/jadx
   - cp -R jadx ./deploy/jadx
-  - name_zip = $TRAVIS_OS_NAME + ".zip"
+  - name_zip=$TRAVIS_OS_NAME+".zip"
   - zip -r $name_zip deploy
 
 deploy:
