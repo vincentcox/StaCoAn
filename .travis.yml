@@ -1,5 +1,13 @@
-sudo: required
-dist: trusty
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      sudo: required
+    - os: osx
+      sudo: required
+    - os: windows
+      sudo: required
+
 language: python
 python:
   - 3.6.2
@@ -10,7 +18,6 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
 before_install:
-  - sudo apt-get -y install python3-pip python-dev
   - python3 -V
   - pip3 -V
 # command to install dependencies
@@ -18,5 +25,5 @@ install:
   - pip3 install -r requirements.txt
 # command to run tests
 script:
-  - sudo chmod +x jadx/bin/jadx
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; sudo chmod +x jadx/bin/jadx          ; fi
   - python3 main.py test-apk.apk # or py.test for Python versions 3.5 and below
