@@ -108,7 +108,7 @@ class Project:
                 if not os.access(os.path.join(os.getcwd(), "jadx", "bin", "jadx"), os.X_OK) and not os.name == 'nt':
                     Logger( "jadx is not executable. Run \"chmod +x jadx/bin/jadx\"", 1)
                 # if i.startswith("'") and i.endswith("'"):
-                if (self.application_file.startswith("'") and self.application_file.endswith("'") ) or (self.application_file.startswith("\"") and self.application_file.endswith("\"") ):
+                if not ((self.application_file.startswith("'") and self.application_file.endswith("'") ) or (self.application_file.startswith("\"") and self.application_file.endswith("\"") )):
                     self.application_file = "\"" + self.application_file + "\""
                 cmd = "\""+os.path.join(os.getcwd(), "jadx", "bin", "jadx") + '\" -d \"' +jadx_folder + "\" " + self.application_file
                 Logger(cmd)
