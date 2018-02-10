@@ -34,11 +34,9 @@ script:
   
   # Making directories and add files
   - mkdir deploy
-  - mkdir ./deploy/html
-  - cp -R report/html ./deploy/html
-  - mkdir ./deploy/jadx
-  - cp -R jadx ./deploy/jadx
-  - cp -R config ./deploy/config
+  - cp -R report/html ./deploy/
+  - cp -R jadx ./deploy/
+  - cp -R config ./deploy/
   - cp README.md ./deploy/README.md
   - cp config.ini ./deploy/config.ini
 
