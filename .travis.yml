@@ -60,10 +60,10 @@ deploy:
   provider: releases
   skip_cleanup: true
   prerelease: true
-  all_branches: true
   body: "This is an automated build. <br> $TRAVIS_COMMIT $TRAVIS_COMMIT_MESSAGE"
-  if: tag =~ ^version
+  if: tag =~ ^version.*
   on:
+    all_branches: true
     tags: true
   api_key:
     secure: LHo4mTW5GAq2YqArglFcB4T4Gmq8Z3aZIZiAGtvtdUhHhtKBJR1LDRITDsedeNXHf/wye9IxBwbiA6E1GDeZzsk20i6+5UMxsMasMYlq4OFVrbJrdm6adrjagSgZp7JePbk2EXzFFYDL4lvXT3lhSXW7exKBhzQRcr3y4Tuc2DczJ7G5y+ZQnrUYOLX3ln5Pq2DViUcPmH+ycFAq89X5zrXKyIoZTNAA3ffqVac0gMX24sLodTU/bMnp22fde6v7W//yx4nkoaaVqRk3doE8wxm1oaBaAT+Oy9N4P5AZ/5HA3mb96o0+Rfo3FIZGJ9kvv1Mk1eVb8ii1Kd0hA6EzU+ay9w84p77oSPUCAWUcJgNYgcsurRnW9f4GjRWt2KQ8NWP9sHOTsabtkLVhJ6/RBdSM5cvZkxMUgP8ebOtIyaWouO3qBYcZ43Jio44IhF/a6pRIlhLsRuozaBvOWfN/207d2I2p+EMcwpK9I14A1wbc+7Naph6a7gACohmt9+6r8GTMzLPwhev1T7JJn3DbPLsQBX4yWaMMbdITDgbZUxTluwYviCehrb7WhtfMiNWeSluCvn2p9rwyxxUq2fgxd3gteeEVYdTjLa3rTunRS8F8X/YDhgRmd9TEoB0OAkW+vqOAFaPED6tvhVlLHxIotHQ4rQt2LtBD/TaGnbnJiJ4=
