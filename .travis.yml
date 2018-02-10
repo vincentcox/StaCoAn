@@ -48,7 +48,6 @@ deploy:
   skip_cleanup: true
   prerelease: true
   body: "This is an automated build."
-  tag_name: "v0.2 $(date +'%Y%m%d%H%M%S')"
   on:
     tags: true
   api_key:
