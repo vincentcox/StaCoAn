@@ -1,16 +1,24 @@
-sudo: required
-dist: trusty
-language: python
-python:
-  - 3.6.2
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      sudo: required
+      language: python
+      python: 3.6.2
+    - os: osx
+      sudo: required
+    - os: windows
+      language: python
+      sudo: required
+      python: 3.6.2
 addons:
   chrome: stable
 before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
+  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then export DISPLAY=:99.0 ; fi
+  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sh -e /etc/init.d/xvfb start ; fi
+  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sleep 3  ; fi
 before_install:
-  - sudo apt-get -y install python3-pip python-dev
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python3 ; fi
   - python3 -V
   - pip3 -V
 # command to install dependencies
@@ -20,3 +28,26 @@ install:
 script:
   - sudo chmod +x jadx/bin/jadx
   - python3 main.py test-apk.apk # or py.test for Python versions 3.5 and below
+  # Building the executable for the deployment
+  - pip3 install pyinstaller
+  - python3 -m PyInstaller main.py --onefile --add-data jadx:jadx -p jadx --icon icon.ico --name stacoan --clean --noupx
+  - mkdir deploy
+  - cp dist/* ./deploy/
+  - mkdir ./deploy/html
+  - cp -R report/html ./deploy/html
+  - mkdir ./deploy/jadx
+  - cp -R jadx ./deploy/jadx
+  - name_zip=$TRAVIS_OS_NAME+".zip"
+  - zip -r $name_zip deploy
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  on:
+    tags: true
+  api_key:
+    secure: e7Tg1K6V8w58Q0uPKxB1wHS0p8iLOjUjWXIfqhv3XUT1hgqiFtdog3X+CI0hG/KhWHoMN6iC2LHnpEXDTrbOzaEb7gudIcQdIyn00b153NtClK0a9Ca1x5FGIVVXy8VNU0vpceJtsJgzPIz1lNLpMaxnNK1+yNYhHJnbE+TmSXGQ3hsGOwvu1DTlOUdwiqI1Tp45a67pFJKnKQyDFekBtDxhBS8oZBvOyfktweqAMMJff/70whfTqckK3E45VSqSyaPzDQ2BQ7C5LFwi0q+dVfTMMdhkbF66mQPzYWh0D318vZ3V1rw8seH8JTpBSdjWJk8RJGAB5d2tjDDJRoDxzUkADbe2CtuEzhNGHMRR4m2qXhHj+Wc43VgFXtT3IY6RZEI9HSaFb47GWxRcEGaVJ5JjURCKBQrMbkwjOfm8CBvvLFw1+ZNKgmqdmCpAGgve9gkJyvkvcBqsVqO4zlZF2hUQY1pYE9Nzp8bk+8gp8oaiYdIpizToYWWQ61aG8MK10b1xHbo6AuLR+aoCtTtZq2Xf5sr232u6ylmHLOVkgC2su1yAhnSoU9xTgBEK34UNViXxQnZFNOpaoVvLIx75u+lnj1bZWqV2U2hn0NxeeL8HxDAqCPig4IUhKzrL10rnYoh/JcyFLSJstwMfS60K2uZGYGgPUj02Vz9w2s/0lEc=
+  file: $name_zip
+  on:
+    repo: vincentcox/StaCoAn
+    
