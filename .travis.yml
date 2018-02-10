@@ -3,14 +3,14 @@ matrix:
     - os: linux
       dist: trusty
       sudo: required
+      language: python
       python: 3.6.2
     - os: osx
       sudo: required
     - os: windows
+      language: python
       sudo: required
       python: 3.6.2
-
-language: python
 addons:
   chrome: stable
 before_script:
@@ -26,5 +26,5 @@ install:
   - pip3 install -r requirements.txt
 # command to run tests
 script:
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then sudo chmod +x jadx/bin/jadx          ; fi
+  - sudo chmod +x jadx/bin/jadx
   - python3 main.py test-apk.apk # or py.test for Python versions 3.5 and below
