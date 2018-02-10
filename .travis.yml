@@ -3,14 +3,14 @@ matrix:
     - os: linux
       dist: trusty
       sudo: required
+      python: 3.6.2
     - os: osx
       sudo: required
     - os: windows
       sudo: required
+      python: 3.6.2
 
 language: python
-python:
-  - 3.6.2
 addons:
   chrome: stable
 before_script:
@@ -18,7 +18,7 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; brew install python3 ; fi
+  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then brew install python3 ; fi
   - python3 -V
   - pip3 -V
 # command to install dependencies
