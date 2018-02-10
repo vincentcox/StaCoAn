@@ -34,7 +34,8 @@ script:
   
   # Making directories and add files
   - mkdir deploy
-  - cp -R report/html ./deploy/
+  - mkdir deploy/report
+  - cp -R report/html ./deploy/report
   - cp -R jadx ./deploy/
   - cp -R config ./deploy/
   - cp README.md ./deploy/README.md
@@ -59,7 +60,9 @@ deploy:
   provider: releases
   skip_cleanup: true
   prerelease: true
-  body: "This is an automated build."
+  draft: true
+  tag_name: "v0.2"
+  body: "This is an automated build. $TRAVIS_COMMIT $TRAVIS_COMMIT_MESSAGE"
   on:
     tags: true
   api_key:
