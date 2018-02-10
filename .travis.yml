@@ -27,7 +27,7 @@ install:
 # command to run tests
 script:
   - sudo chmod +x jadx/bin/jadx
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 main.py test-apk.apk # or py.test for Python versions 3.5 and below
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 main.py test-apk.apk; fi # or py.test for Python versions 3.5 and below
   # Building the executable for the deployment
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then pip3 install pyinstaller; fi
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 -m PyInstaller main.py --onefile --add-data jadx:jadx -p jadx --icon icon.ico --name stacoan --clean --noupx; fi
