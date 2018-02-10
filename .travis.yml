@@ -25,5 +25,5 @@ install:
   - pip3 install -r requirements.txt
 # command to run tests
 script:
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; sudo chmod +x jadx/bin/jadx          ; fi
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then sudo chmod +x jadx/bin/jadx          ; fi
   - python3 main.py test-apk.apk # or py.test for Python versions 3.5 and below
