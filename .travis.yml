@@ -37,6 +37,9 @@ script:
   - cp -R report/html ./deploy/html
   - mkdir ./deploy/jadx
   - cp -R jadx ./deploy/jadx
+  - cp -R config ./deploy/config
+  - cp README.md ./deploy/README.md
+  - cp config.ini ./deploy/config.ini
   - name_zip=$TRAVIS_OS_NAME+".zip"
   - zip -r $(echo $name_zip) deploy
 
@@ -44,6 +47,7 @@ deploy:
   provider: releases
   skip_cleanup: true
   prerelease: true
+  body: "This is an automated build."
   on:
     tags: true
   api_key:
