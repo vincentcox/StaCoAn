@@ -13,6 +13,8 @@ class Searchwords:
     src_search_words = OrderedDict()
     # 'db_search_words': Contains all searchwords for database files
     db_search_words = OrderedDict()
+    # 'exclusion_list.txt': Contains all searchwords which should be excluded in a certain folder
+    exclusion_list = []
 
     # Each Searchwords-list needs to be imported.
     # 'filename' will be the location of the list which needs to be imported.
@@ -36,6 +38,27 @@ class Searchwords:
         search_words = OrderedDict(sorted(search_words.items(), key=itemgetter(1)))
         self.all_searchwords.update(search_words)
 
+    def exclusion_list_reader(self, filename):
+        try:
+            with open(filename, "r") as file:
+                lines_in_file = file.read().splitlines()
+        except IOError:
+            Logger("could not open file '%s'." % filename, 1)
+            return list()
+        line_index = 1
+        try:
+            for line in lines_in_file:
+                dir_list_with_quotes = str(line.split('|||')[1]).split(',')
+                dir_list_without_quotes = []
+                for item in dir_list_with_quotes:
+                    dir_list_without_quotes.append(item.strip("\""))
+                self.exclusion_list.append([line.split('|||')[0],  os.path.join(*dir_list_without_quotes)])
+                line_index = line_index + 1
+        except IOError:
+            Logger("Format is not readable or file is missing: %s." % filename, 1)
+            sys.exit()
+        #self.exclusion_list.append(search_words)
+
     def searchwords_import(self):
         config = configparser.ConfigParser()
         config.read("config.ini")
@@ -47,10 +70,17 @@ class Searchwords:
                                     config.get("ProgramConfig", 'src_search_words'))
         db_filename = os.path.join(config.get("ProgramConfig", 'config_folder'),
                                    config.get("ProgramConfig", 'db_search_words'))
+        exclusion_filename = os.path.join(config.get("ProgramConfig", 'config_folder'),
+                                   config.get("ProgramConfig", 'exclusion_filename'))
         search_list = dict()
+        exclusion_list = dict()
         search_list[src_filename] = Searchwords.src_search_words
         search_list[db_filename] = Searchwords.db_search_words
+        exclusion_list[exclusion_filename] = Searchwords.exclusion_list
         # How to extend (Cont.d)
         # search_list[TYPE_filename] = Searchwords.TYPE_search_words
         for filename, search_words in search_list.items():
             self.searchwords_for_type(filename, search_words)
+        for filename, search_words in exclusion_list.items():
+            self.exclusion_list_reader(filename)
+        print(Searchwords.exclusion_list)

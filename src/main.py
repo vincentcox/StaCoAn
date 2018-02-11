@@ -120,6 +120,9 @@ def program():
     sys.exit()
 
 if __name__ == "__main__":
+    if os.environ['DEBUG']:
+        program()
+        exit(0)
     try:
         program()
     except Exception as e:

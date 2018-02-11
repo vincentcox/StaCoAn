@@ -41,10 +41,14 @@ class File:
                 line += 1
                 for matchword in Searchwords.db_search_words:
                     if matchword in str(row):
-                        importance = Searchwords.db_search_words[matchword]
-                        db_match = MatchDatabase(matchword, line, str(table_name), str(row), importance)
-                        self.db_matches.append(db_match)
-                        self.all_matches.append(db_match)
+                        for item in Searchwords.exclusion_list:
+                            if item[0] == matchword and item[1] in self.file_path:
+                                Logger("Exclusion found: %s in file %s" % (str(item[0]), self.file_path), 3)
+                            else:
+                                importance = Searchwords.db_search_words[matchword]
+                                db_match = MatchDatabase(matchword, line, str(table_name), str(row), importance)
+                                self.db_matches.append(db_match)
+                                self.all_matches.append(db_match)
         self.orden_matches()
 
     def find_matches_in_src_file(self, CODE_OFFSET, QUERY_IMPORTANCE):
@@ -60,21 +64,30 @@ class File:
                 if int(Searchwords.src_search_words[query]) > QUERY_IMPORTANCE:
                     if re.match(File.non_regex_indicator, query):
                         if query.lower() in line.lower():
-                            upper_range = min(line_index + CODE_OFFSET, len(lines_in_file)+1)
-                            lower_range = max(line_index - CODE_OFFSET-1, 1)
-                            src_match = MatchSource(query, line_index, lines_in_file[lower_range:upper_range],
-                                                    Searchwords.src_search_words[query], len(lines_in_file))
-                            self.all_matches.append(src_match)
-                            self.src_matches.append(src_match)
+                            for item in Searchwords.exclusion_list:
+                                if item[0] == query and item[1] in self.file_path:
+                                    Logger("Exclusion found: %s in file %s" % (str(item[0]), self.file_path), 3)
+                                else:
+                                    upper_range = min(line_index + CODE_OFFSET, len(lines_in_file)+1)
+                                    lower_range = max(line_index - CODE_OFFSET-1, 1)
+                                    src_match = MatchSource(query, line_index, lines_in_file[lower_range:upper_range],
+                                                            Searchwords.src_search_words[query], len(lines_in_file))
+                                    self.all_matches.append(src_match)
+                                    self.src_matches.append(src_match)
 
                     else:
                         if re.search(query, line.lower(), re.IGNORECASE):
-                            upper_range = min(line_index + CODE_OFFSET, len(lines_in_file)+1)
-                            lower_range = max(line_index - CODE_OFFSET-1, 1)
-                            src_match = MatchSource(query, line_index, lines_in_file[lower_range:upper_range],
-                                                    Searchwords.src_search_words[query], len(lines_in_file))
-                            self.all_matches.append(src_match)
-                            self.src_matches.append(src_match)
+                            exclude = False
+                            for item in Searchwords.exclusion_list:
+                                if item[0] == query and item[1] in self.file_path:
+                                    exclude = True
+                            if exclude == False:
+                                upper_range = min(line_index + CODE_OFFSET, len(lines_in_file)+1)
+                                lower_range = max(line_index - CODE_OFFSET-1, 1)
+                                src_match = MatchSource(query, line_index, lines_in_file[lower_range:upper_range],
+                                                        Searchwords.src_search_words[query], len(lines_in_file))
+                                self.all_matches.append(src_match)
+                                self.src_matches.append(src_match)
             line_index = line_index + 1
         self.orden_matches()
 
