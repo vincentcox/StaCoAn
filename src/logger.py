@@ -9,12 +9,11 @@ from time import localtime, strftime
 
 class Logger:
     log_html_document = Htmlpage()
+    ERROR = 1
+    WARNING = 2
+    INFO = 3
 
     class __Logger:
-        ERROR = 1
-        WARNING = 2
-        INFO = 3
-
         config = configparser.ConfigParser()
         config.read("config.ini")
         loglevel = config.get("ProgramConfig", 'loglevel')
