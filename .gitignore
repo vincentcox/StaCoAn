@@ -11,8 +11,10 @@ src/icon.png
 src/report/*
 !src/report/html/
 !src/report/html/*
+src/report/html/looty.js
 *.exe
 src/test-apk/
+
 
 # OS generated files #
 ######################
