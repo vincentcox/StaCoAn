@@ -126,4 +126,4 @@ if __name__ == "__main__":
     try:
         program()
     except Exception as e:
-        Logger("ERROR: Unknown error: %s." % str(e), 1)
+        Logger("Unknown error: %s." % str(e), 1)
