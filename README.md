@@ -116,12 +116,12 @@ Improving the code is also much appreciated.
 If the contribution is high enough, you will be mentioned in the `authors` section.
 
 ### Roadmap
-* Make IPA files also work with this program
-* Make DB matches loot-able
-* Use server to upload files (apk's, ipa's) and process them (https://gist.github.com/touilleMan/eb02ea40b93e52604938)
-* Use an exclusion list
-* Exception list for ignoring findings in certain folders. For example ignoring `http` in `res/layout` and in general `http://schemas.android.com/apk/res/android`
-* Make a cleaner file structure of this project
+- [ ] Make IPA files also work with this program
+- [ ] Make DB matches loot-able
+- [ ] Use server to upload files (apk's, ipa's) and process them (https://gist.github.com/touilleMan/eb02ea40b93e52604938)
+- [ ] Use an exclusion list
+- [ ] Exception list for ignoring findings in certain folders. For example ignoring `http` in `res/layout` and in general `http://schemas.android.com/apk/res/android`
+- [x] Make a cleaner file structure of this project
 
 ## Authors & Contributors
 <table>
