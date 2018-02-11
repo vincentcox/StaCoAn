@@ -1,17 +1,18 @@
-import configparser
+import base64
+import codecs
 import errno
 import hashlib
 import json
 import os
 import re
 import sqlite3
-import base64
-import codecs
 
-from html_page import Htmlpage
-from logger import Logger
-from project import Project
-from searchwords import Searchwords
+import configparser
+
+from helpers.html_page import Htmlpage
+from helpers.logger import Logger
+from helpers.project import Project
+from helpers.searchwords import Searchwords
 
 
 class Report_html(Htmlpage):
@@ -167,7 +168,7 @@ class Report_html(Htmlpage):
                                                 self.text(line)
                                                 self.doc.nl()
                                 except:
-                                    Logger("could not open file '%s'." % file_path, 2)
+                                    Logger("could not open file '%s'." % file_path, Logger.WARNING)
 
         elif file_path in Project.projects[project.name].src_files:
             file = Project.projects[project.name].src_files[file_path]
@@ -308,7 +309,7 @@ class Report_html(Htmlpage):
                                             self.text(line)
                                             self.doc.nl()
                                 except:
-                                    Logger("could not open file '%s'." % file_path, 2)
+                                    Logger("could not open file '%s'." % file_path, Logger.WARNING)
 
 
 

@@ -1,16 +1,16 @@
+import json
 import ntpath
 import os
 import subprocess
-import zipfile
-import json
 import sys
-
-from logger import Logger
-from file import File
-from searchwords import Searchwords
-import configparser
+import zipfile
 from collections import OrderedDict
 
+import configparser
+
+from helpers.file import File
+from helpers.logger import Logger
+from helpers.searchwords import Searchwords
 
 PATH = os.getcwd()
 
@@ -53,7 +53,7 @@ class Project:
                     self.db_files[full_file_name].find_matches_in_db_file()
         self.all_files.update(self.db_files)
         self.all_files.update(self.src_files)
-        from report_html import Report_html
+        from helpers.report_html import Report_html
         treeview = Report_html.Tree_builder(self, "")
         self.tree_object = treeview.return_tree_object()
 
@@ -86,7 +86,7 @@ class Project:
 
     def app_prepper(self):
         if not self.application_file.lower().endswith(tuple(self.apptypes)):
-            Logger("No mobile app detected, exiting! Hgnnnhh", 1)
+            Logger("No mobile app detected, exiting! Hgnnnhh", Logger.ERROR)
             sys.exit()
         if not os.path.exists(os.path.join(PATH,  ntpath.basename(self.application_file))):
             os.makedirs(os.path.join(PATH,  ntpath.basename(self.application_file)))
@@ -121,6 +121,6 @@ class Project:
                 Logger("jadx return code: "+str(jadx_process.returncode))
             # TO DO: ipa decompiling tool
             elif self.application_file.lower().endswith("ipa"):
-                Logger(".ipa files not implemented yet.", 1)
+                Logger(".ipa files not implemented yet.", Logger.ERROR)
                 sys.exit()
 

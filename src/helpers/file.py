@@ -1,11 +1,12 @@
-import configparser
 import os
 import re
 import sqlite3
 
-from logger import Logger
-from match import MatchDatabase, MatchSource
-from searchwords import Searchwords
+import configparser
+
+from helpers.logger import Logger
+from helpers.match import MatchDatabase, MatchSource
+from helpers.searchwords import Searchwords
 
 
 class File:
@@ -43,7 +44,7 @@ class File:
                     if matchword in str(row):
                         for item in Searchwords.exclusion_list:
                             if item[0] == matchword and item[1] in self.file_path:
-                                Logger("Exclusion found: %s in file %s" % (str(item[0]), self.file_path), 3)
+                                Logger("Exclusion found: %s in file %s" % (str(item[0]), self.file_path))
                             else:
                                 importance = Searchwords.db_search_words[matchword]
                                 db_match = MatchDatabase(matchword, line, str(table_name), str(row), importance)
@@ -56,7 +57,7 @@ class File:
             with open(self.file_path, "r", encoding="utf8", errors='ignore') as file:
                 lines_in_file = file.read().splitlines()
         except IOError as e:
-            Logger("could not open file '%s'. Error:" %(self.file_path, e.strerror), 2)
+            Logger("could not open file '%s'. Error:" %(self.file_path, e.strerror), Logger.WARNING)
             return list()
         line_index = 1
         for line in lines_in_file:
@@ -66,7 +67,7 @@ class File:
                         if query.lower() in line.lower():
                             for item in Searchwords.exclusion_list:
                                 if item[0] == query and item[1] in self.file_path:
-                                    Logger("Exclusion found: %s in file %s" % (str(item[0]), self.file_path), 3)
+                                    Logger("Exclusion found: %s in file %s" % (str(item[0]), self.file_path))
                                 else:
                                     upper_range = min(line_index + CODE_OFFSET, len(lines_in_file)+1)
                                     lower_range = max(line_index - CODE_OFFSET-1, 1)

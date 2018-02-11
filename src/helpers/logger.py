@@ -1,23 +1,31 @@
 import os
 import sys
+import inspect
+from time import localtime, strftime, sleep
+
 import configparser
-from html_page import Htmlpage
-from time import localtime, strftime
-import time
+
+from helpers.html_page import Htmlpage
+from helpers.constants import PrintColors
+
 
 # This class uses a singleton. http://python-3-patterns-idioms-test.readthedocs.io/en/latest/Singleton.html
 
 
 class Logger:
     log_html_document = Htmlpage()
+    ERROR = 1
+    WARNING = 2
+    INFO = 3
 
     class __Logger:
-        ERROR = 1
-        WARNING = 2
-        INFO = 3
-
         config = configparser.ConfigParser()
-        config.read("config.ini")
+
+        currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+        parentdir = os.path.dirname(currentdir)
+        configfile = os.path.join(parentdir, "config.ini")
+        config.read(configfile)
+
         loglevel = config.get("ProgramConfig", 'loglevel')
         logpath = os.path.join(config.get("ProgramConfig", 'report_folder'),
                                config.get("ProgramConfig", 'log_file'))
@@ -51,18 +59,19 @@ class Logger:
         @staticmethod
         def cPrint(message, level):
             if level == 1:
-                tag = "[ERROR]"
+                msg =  "%s[ERROR]" % PrintColors.ERROR
             elif level == 2:
-                tag = "[WARNING]"
+                msg = "%s[WARNING]" % PrintColors.WARNING
             else:
-                tag = "[INFO]"
-            print("%s %s" % (tag, message))
+                msg = "%s[INFO]%s" % (PrintColors.INFO, PrintColors.END)
+            msg += " %s%s" % (message, PrintColors.END)
+            print(msg)
 
         def log(self, message, level=3):
             self.cPrint(message, level)
             if int(level) == 1 and int(self.loglevel) >= 1:
                 self.__make_log_entry(message, "red")
-                time.sleep(7)
+                sleep(7)
                 sys.exit(1)
             elif int(level) == 2 and int(self.loglevel) >= 2:
                 self.__make_log_entry(message, "amber")
