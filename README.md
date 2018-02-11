@@ -66,9 +66,7 @@ Drag and drop this file onto the executable. The report will now be generated in
 ### From source
 `git clone https://github.com/vincentcox/StaCoAn/`
 
-`cd StaCoAn`
-
-`cd src`
+`cd StaCoAn/src`
 
 Make sure that you have pip3 installed:
 
@@ -78,7 +76,9 @@ Install the required python packages:
 
 `pip3 install -r requirements.txt `
 
-`python3 main.py yourApp.apk`
+Run StaCoAn:
+
+`python3 stacoan.py yourApp.apk`
 
 ### Building the executable
 
