@@ -61,7 +61,6 @@ deploy:
   provider: releases
   skip_cleanup: true
   prerelease: true
-  body: "This is an automated build. <br> $TRAVIS_COMMIT $TRAVIS_COMMIT_MESSAGE"
   on:
     all_branches: true
     tags: true
