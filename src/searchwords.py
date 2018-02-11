@@ -83,4 +83,3 @@ class Searchwords:
             self.searchwords_for_type(filename, search_words)
         for filename, search_words in exclusion_list.items():
             self.exclusion_list_reader(filename)
-        print(Searchwords.exclusion_list)

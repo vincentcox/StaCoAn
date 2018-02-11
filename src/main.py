@@ -120,7 +120,7 @@ def program():
     sys.exit()
 
 if __name__ == "__main__":
-    if os.environ['DEBUG']:
+    if os.environ.get('DEBUG') is not None:
         program()
         exit(0)
     try:
