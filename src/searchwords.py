@@ -1,10 +1,10 @@
 import configparser
 import os
+import sys
 
 from collections import OrderedDict
 from operator import itemgetter
 from logger import Logger
-import sys
 
 
 class Searchwords:
@@ -24,7 +24,7 @@ class Searchwords:
             with open(filename, "r") as file:
                 lines_in_file = file.read().splitlines()
         except IOError:
-            Logger("could not open file '%s'." % filename, 1)
+            Logger("could not open file '%s'." % filename, Logger.ERROR)
             return list()
         line_index = 1
         try:
@@ -32,7 +32,7 @@ class Searchwords:
                 search_words[line.split('|||')[0]] = int(line.split('|||')[1])
                 line_index = line_index + 1
         except IOError:
-            Logger("Format is not readable or file is missing: %s." % filename, 1)
+            Logger("Format is not readable or file is missing: %s." % filename, Logger.ERROR)
             sys.exit()
         # Sort search words.
         search_words = OrderedDict(sorted(search_words.items(), key=itemgetter(1)))
@@ -43,7 +43,7 @@ class Searchwords:
             with open(filename, "r") as file:
                 lines_in_file = file.read().splitlines()
         except IOError:
-            Logger("could not open file '%s'." % filename, 1)
+            Logger("could not open file '%s'." % filename, Logger.ERROR)
             return list()
         line_index = 1
         try:
@@ -55,7 +55,7 @@ class Searchwords:
                 self.exclusion_list.append([line.split('|||')[0],  os.path.join(*dir_list_without_quotes)])
                 line_index = line_index + 1
         except IOError:
-            Logger("Format is not readable or file is missing: %s." % filename, 1)
+            Logger("Format is not readable or file is missing: %s." % filename, Logger.ERROR)
             sys.exit()
         #self.exclusion_list.append(search_words)
 

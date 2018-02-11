@@ -86,7 +86,7 @@ class Project:
 
     def app_prepper(self):
         if not self.application_file.lower().endswith(tuple(self.apptypes)):
-            Logger("No mobile app detected, exiting! Hgnnnhh", 1)
+            Logger("No mobile app detected, exiting! Hgnnnhh", Logger.ERROR)
             sys.exit()
         if not os.path.exists(os.path.join(PATH,  ntpath.basename(self.application_file))):
             os.makedirs(os.path.join(PATH,  ntpath.basename(self.application_file)))
@@ -121,6 +121,6 @@ class Project:
                 Logger("jadx return code: "+str(jadx_process.returncode))
             # TO DO: ipa decompiling tool
             elif self.application_file.lower().endswith("ipa"):
-                Logger(".ipa files not implemented yet.", 1)
+                Logger(".ipa files not implemented yet.", Logger.ERROR)
                 sys.exit()
 
