@@ -39,7 +39,7 @@ script:
   - cp -R report/html ./deploy/report
   - cp -R jadx ./deploy/
   - cp -R config ./deploy/
-  - cp README.md ./deploy/README.md
+  - cp ../README.md ./deploy/README.md
   - cp config.ini ./deploy/config.ini
 
   # Create Windows build. 
