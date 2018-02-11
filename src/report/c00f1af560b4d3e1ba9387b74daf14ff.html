@@ -1,0 +1,440 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v4\media\routing\MediaRouterJellybean.java" target="_blank">\test-apk\jadx_source_code\android\support\v4\media\routing\MediaRouterJellybean.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="MediaRouterJellybean.java" data-line="" class="code line-numbers"><code>package android.support.v4.media.routing;
+
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.media.MediaRouter;
+import android.media.RemoteControlClient;
+import android.os.Build.VERSION;
+import android.util.Log;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+class MediaRouterJellybean {
+    public static final int ALL_ROUTE_TYPES = 8388611;
+    public static final int ROUTE_TYPE_LIVE_AUDIO = 1;
+    public static final int ROUTE_TYPE_LIVE_VIDEO = 2;
+    public static final int ROUTE_TYPE_USER = 8388608;
+    private static final String TAG = "MediaRouterJellybean";
+
+    public interface Callback {
+        void onRouteAdded(Object obj);
+
+        void onRouteChanged(Object obj);
+
+        void onRouteGrouped(Object obj, Object obj2, int i);
+
+        void onRouteRemoved(Object obj);
+
+        void onRouteSelected(int i, Object obj);
+
+        void onRouteUngrouped(Object obj, Object obj2);
+
+        void onRouteUnselected(int i, Object obj);
+
+        void onRouteVolumeChanged(Object obj);
+    }
+
+    static class CallbackProxy&lt;T extends Callback&gt; extends android.media.MediaRouter.Callback {
+        protected final T mCallback;
+
+        public CallbackProxy(T callback) {
+            this.mCallback = callback;
+        }
+
+        public void onRouteSelected(MediaRouter router, int type, android.media.MediaRouter.RouteInfo route) {
+            this.mCallback.onRouteSelected(type, route);
+        }
+
+        public void onRouteUnselected(MediaRouter router, int type, android.media.MediaRouter.RouteInfo route) {
+            this.mCallback.onRouteUnselected(type, route);
+        }
+
+        public void onRouteAdded(MediaRouter router, android.media.MediaRouter.RouteInfo route) {
+            this.mCallback.onRouteAdded(route);
+        }
+
+        public void onRouteRemoved(MediaRouter router, android.media.MediaRouter.RouteInfo route) {
+            this.mCallback.onRouteRemoved(route);
+        }
+
+        public void onRouteChanged(MediaRouter router, android.media.MediaRouter.RouteInfo route) {
+            this.mCallback.onRouteChanged(route);
+        }
+
+        public void onRouteGrouped(MediaRouter router, android.media.MediaRouter.RouteInfo route, android.media.MediaRouter.RouteGroup group, int index) {
+            this.mCallback.onRouteGrouped(route, group, index);
+        }
+
+        public void onRouteUngrouped(MediaRouter router, android.media.MediaRouter.RouteInfo route, android.media.MediaRouter.RouteGroup group) {
+            this.mCallback.onRouteUngrouped(route, group);
+        }
+
+        public void onRouteVolumeChanged(MediaRouter router, android.media.MediaRouter.RouteInfo route) {
+            this.mCallback.onRouteVolumeChanged(route);
+        }
+    }
+
+    public static final class GetDefaultRouteWorkaround {
+        private Method mGetSystemAudioRouteMethod;
+
+        public GetDefaultRouteWorkaround() {
+            if (VERSION.SDK_INT &lt; 16 || VERSION.SDK_INT &gt; 17) {
+                throw new UnsupportedOperationException();
+            }
+            try {
+                this.mGetSystemAudioRouteMethod = MediaRouter.class.getMethod("getSystemAudioRoute", new Class[0]);
+            } catch (NoSuchMethodException e) {
+            }
+        }
+
+        public Object getDefaultRoute(Object routerObj) {
+            MediaRouter router = (MediaRouter) routerObj;
+            if (this.mGetSystemAudioRouteMethod != null) {
+                try {
+                    return this.mGetSystemAudioRouteMethod.invoke(router, new Object[0]);
+                } catch (IllegalAccessException e) {
+                } catch (InvocationTargetException e2) {
+                }
+            }
+            return router.getRouteAt(0);
+        }
+    }
+
+    public static final class RouteCategory {
+        public static CharSequence getName(Object categoryObj, Context context) {
+            return ((android.media.MediaRouter.RouteCategory) categoryObj).getName(context);
+        }
+
+        public static List getRoutes(Object categoryObj) {
+            ArrayList out = new ArrayList();
+            ((android.media.MediaRouter.RouteCategory) categoryObj).getRoutes(out);
+            return out;
+        }
+
+        public static int getSupportedTypes(Object categoryObj) {
+            return ((android.media.MediaRouter.RouteCategory) categoryObj).getSupportedTypes();
+        }
+
+        public static boolean isGroupable(Object categoryObj) {
+            return ((android.media.MediaRouter.RouteCategory) categoryObj).isGroupable();
+        }
+    }
+
+    public static final class RouteGroup {
+        public static List getGroupedRoutes(Object groupObj) {
+            android.media.MediaRouter.RouteGroup group = (android.media.MediaRouter.RouteGroup) groupObj;
+            int count = group.getRouteCount();
+            List out = new ArrayList(count);
+            for (int i = 0; i &lt; count; i++) {
+                out.add(group.getRouteAt(i));
+            }
+            return out;
+        }
+    }
+
+    public static final class RouteInfo {
+        public static CharSequence getName(Object routeObj, Context context) {
+            return ((android.media.MediaRouter.RouteInfo) routeObj).getName(context);
+        }
+
+        public static CharSequence getStatus(Object routeObj) {
+            return ((android.media.MediaRouter.RouteInfo) routeObj).getStatus();
+        }
+
+        public static int getSupportedTypes(Object routeObj) {
+            return ((android.media.MediaRouter.RouteInfo) routeObj).getSupportedTypes();
+        }
+
+        public static Object getCategory(Object routeObj) {
+            return ((android.media.MediaRouter.RouteInfo) routeObj).getCategory();
+        }
+
+        public static Drawable getIconDrawable(Object routeObj) {
+            return ((android.media.MediaRouter.RouteInfo) routeObj).getIconDrawable();
+        }
+
+        public static int getPlaybackType(Object routeObj) {
+            return ((android.media.MediaRouter.RouteInfo) routeObj).getPlaybackType();
+        }
+
+        public static int getPlaybackStream(Object routeObj) {
+            return ((android.media.MediaRouter.RouteInfo) routeObj).getPlaybackStream();
+        }
+
+        public static int getVolume(Object routeObj) {
+            return ((android.media.MediaRouter.RouteInfo) routeObj).getVolume();
+        }
+
+        public static int getVolumeMax(Object routeObj) {
+            return ((android.media.MediaRouter.RouteInfo) routeObj).getVolumeMax();
+        }
+
+        public static int getVolumeHandling(Object routeObj) {
+            return ((android.media.MediaRouter.RouteInfo) routeObj).getVolumeHandling();
+        }
+
+        public static Object getTag(Object routeObj) {
+            return ((android.media.MediaRouter.RouteInfo) routeObj).getTag();
+        }
+
+        public static void setTag(Object routeObj, Object tag) {
+            ((android.media.MediaRouter.RouteInfo) routeObj).setTag(tag);
+        }
+
+        public static void requestSetVolume(Object routeObj, int volume) {
+            ((android.media.MediaRouter.RouteInfo) routeObj).requestSetVolume(volume);
+        }
+
+        public static void requestUpdateVolume(Object routeObj, int direction) {
+            ((android.media.MediaRouter.RouteInfo) routeObj).requestUpdateVolume(direction);
+        }
+
+        public static Object getGroup(Object routeObj) {
+            return ((android.media.MediaRouter.RouteInfo) routeObj).getGroup();
+        }
+
+        public static boolean isGroup(Object routeObj) {
+            return routeObj instanceof android.media.MediaRouter.RouteGroup;
+        }
+    }
+
+    public static final class SelectRouteWorkaround {
+        private Method mSelectRouteIntMethod;
+
+        public SelectRouteWorkaround() {
+            if (VERSION.SDK_INT &lt; 16 || VERSION.SDK_INT &gt; 17) {
+                throw new UnsupportedOperationException();
+            }
+            try {
+                this.mSelectRouteIntMethod = MediaRouter.class.getMethod("selectRouteInt", new Class[]{Integer.TYPE, android.media.MediaRouter.RouteInfo.class});
+            } catch (NoSuchMethodException e) {
+            }
+        }
+
+        public void selectRoute(Object routerObj, int types, Object routeObj) {
+            MediaRouter router = (MediaRouter) routerObj;
+            android.media.MediaRouter.RouteInfo route = (android.media.MediaRouter.RouteInfo) routeObj;
+            if ((8388608 &amp; route.getSupportedTypes()) == 0) {
+                if (this.mSelectRouteIntMethod != null) {
+                    try {
+                        this.mSelectRouteIntMethod.invoke(router, new Object[]{Integer.valueOf(types), route});
+                        return;
+                    } catch (IllegalAccessException ex) {
+                        Log.w(MediaRouterJellybean.TAG, "Cannot programmatically select non-user route.  Media routing may not work.", ex);
+                    } catch (InvocationTargetException ex2) {
+                        Log.w(MediaRouterJellybean.TAG, "Cannot programmatically select non-user route.  Media routing may not work.", ex2);
+                    }
+                } else {
+                    Log.w(MediaRouterJellybean.TAG, "Cannot programmatically select non-user route because the platform is missing the selectRouteInt() method.  Media routing may not work.");
+                }
+            }
+            router.selectRoute(types, route);
+        }
+    }
+
+    public static final class UserRouteInfo {
+        public static void setName(Object routeObj, CharSequence name) {
+            ((android.media.MediaRouter.UserRouteInfo) routeObj).setName(name);
+        }
+
+        public static void setStatus(Object routeObj, CharSequence status) {
+            ((android.media.MediaRouter.UserRouteInfo) routeObj).setStatus(status);
+        }
+
+        public static void setIconDrawable(Object routeObj, Drawable icon) {
+            ((android.media.MediaRouter.UserRouteInfo) routeObj).setIconDrawable(icon);
+        }
+
+        public static void setPlaybackType(Object routeObj, int type) {
+            ((android.media.MediaRouter.UserRouteInfo) routeObj).setPlaybackType(type);
+        }
+
+        public static void setPlaybackStream(Object routeObj, int stream) {
+            ((android.media.MediaRouter.UserRouteInfo) routeObj).setPlaybackStream(stream);
+        }
+
+        public static void setVolume(Object routeObj, int volume) {
+            ((android.media.MediaRouter.UserRouteInfo) routeObj).setVolume(volume);
+        }
+
+        public static void setVolumeMax(Object routeObj, int volumeMax) {
+            ((android.media.MediaRouter.UserRouteInfo) routeObj).setVolumeMax(volumeMax);
+        }
+
+        public static void setVolumeHandling(Object routeObj, int volumeHandling) {
+            ((android.media.MediaRouter.UserRouteInfo) routeObj).setVolumeHandling(volumeHandling);
+        }
+
+        public static void setVolumeCallback(Object routeObj, Object volumeCallbackObj) {
+            ((android.media.MediaRouter.UserRouteInfo) routeObj).setVolumeCallback((android.media.MediaRouter.VolumeCallback) volumeCallbackObj);
+        }
+
+        public static void setRemoteControlClient(Object routeObj, Object rccObj) {
+            ((android.media.MediaRouter.UserRouteInfo) routeObj).setRemoteControlClient((RemoteControlClient) rccObj);
+        }
+    }
+
+    public interface VolumeCallback {
+        void onVolumeSetRequest(Object obj, int i);
+
+        void onVolumeUpdateRequest(Object obj, int i);
+    }
+
+    static class VolumeCallbackProxy&lt;T extends VolumeCallback&gt; extends android.media.MediaRouter.VolumeCallback {
+        protected final T mCallback;
+
+        public VolumeCallbackProxy(T callback) {
+            this.mCallback = callback;
+        }
+
+        public void onVolumeSetRequest(android.media.MediaRouter.RouteInfo route, int volume) {
+            this.mCallback.onVolumeSetRequest(route, volume);
+        }
+
+        public void onVolumeUpdateRequest(android.media.MediaRouter.RouteInfo route, int direction) {
+            this.mCallback.onVolumeUpdateRequest(route, direction);
+        }
+    }
+
+    MediaRouterJellybean() {
+    }
+
+    public static Object getMediaRouter(Context context) {
+        return context.getSystemService("media_router");
+    }
+
+    public static List getRoutes(Object routerObj) {
+        MediaRouter router = (MediaRouter) routerObj;
+        int count = router.getRouteCount();
+        List out = new ArrayList(count);
+        for (int i = 0; i &lt; count; i++) {
+            out.add(router.getRouteAt(i));
+        }
+        return out;
+    }
+
+    public static List getCategories(Object routerObj) {
+        MediaRouter router = (MediaRouter) routerObj;
+        int count = router.getCategoryCount();
+        List out = new ArrayList(count);
+        for (int i = 0; i &lt; count; i++) {
+            out.add(router.getCategoryAt(i));
+        }
+        return out;
+    }
+
+    public static Object getSelectedRoute(Object routerObj, int type) {
+        return ((MediaRouter) routerObj).getSelectedRoute(type);
+    }
+
+    public static void selectRoute(Object routerObj, int types, Object routeObj) {
+        ((MediaRouter) routerObj).selectRoute(types, (android.media.MediaRouter.RouteInfo) routeObj);
+    }
+
+    public static void addCallback(Object routerObj, int types, Object callbackObj) {
+        ((MediaRouter) routerObj).addCallback(types, (android.media.MediaRouter.Callback) callbackObj);
+    }
+
+    public static void removeCallback(Object routerObj, Object callbackObj) {
+        ((MediaRouter) routerObj).removeCallback((android.media.MediaRouter.Callback) callbackObj);
+    }
+
+    public static Object createRouteCategory(Object routerObj, String name, boolean isGroupable) {
+        return ((MediaRouter) routerObj).createRouteCategory(name, isGroupable);
+    }
+
+    public static Object createUserRoute(Object routerObj, Object categoryObj) {
+        return ((MediaRouter) routerObj).createUserRoute((android.media.MediaRouter.RouteCategory) categoryObj);
+    }
+
+    public static void addUserRoute(Object routerObj, Object routeObj) {
+        ((MediaRouter) routerObj).addUserRoute((android.media.MediaRouter.UserRouteInfo) routeObj);
+    }
+
+    public static void removeUserRoute(Object routerObj, Object routeObj) {
+        ((MediaRouter) routerObj).removeUserRoute((android.media.MediaRouter.UserRouteInfo) routeObj);
+    }
+
+    public static Object createCallback(Callback callback) {
+        return new CallbackProxy(callback);
+    }
+
+    public static Object createVolumeCallback(VolumeCallback callback) {
+        return new VolumeCallbackProxy(callback);
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:40 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

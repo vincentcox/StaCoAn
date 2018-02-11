@@ -1,0 +1,314 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9"><div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v4\view\accessibility\AccessibilityNodeInfoCompatIcs.java" target="_blank">\test-apk\jadx_source_code\android\support\v4\view\accessibility\AccessibilityNodeInfoCompatIcs.java</a></div><div class="col s12"><div class="card"><div class="valign-wrapper"><i class="material-icons medium grade-10">report</i><h5>regex: password</h5></div><div class="card-tabs"><ul class="tabs tabs-fixed-width" style="background-color: #30363A !important;"><li class="tab"><a style="color: #d82c2b;" href="#AccessibilityNodeInfoCompatIcs_java108pass" class="active">line 108</a></li><li class="tab"><a style="color: #d82c2b;" href="#AccessibilityNodeInfoCompatIcs_java109pass">line 109</a></li><li class="tab"><a style="color: #d82c2b;" href="#AccessibilityNodeInfoCompatIcs_java176pass">line 176</a></li><li class="tab"><a style="color: #d82c2b;" href="#AccessibilityNodeInfoCompatIcs_java177pass">line 177</a></li></ul></div><div class="card-content"><div id="AccessibilityNodeInfoCompatIcs_java108pass">Code @ line 108<pre data-start="105" data-line="108" data-src="AccessibilityNodeInfoCompatIcs.java" class="code line-numbers"><code>        return ((AccessibilityNodeInfo) info).isLongClickable();
+    }
+
+    public static boolean isPassword(Object info) {
+        return ((AccessibilityNodeInfo) info).isPassword();
+    }
+
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDEwOCA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDEwOHx8fDEwNQ">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDEwOCA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDEwOHx8fDEwNQ')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDEwOCA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDEwOHx8fDEwNQ').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDEwOCA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDEwOHx8fDEwNQ" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDEwOCA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDEwOHx8fDEwNQ' , 'ICAgICAgICByZXR1cm4gKChBY2Nlc3NpYmlsaXR5Tm9kZUluZm8pIGluZm8pLmlzTG9uZ0NsaWNrYWJsZSgpOwogICAgfQoKICAgIHB1YmxpYyBzdGF0aWMgYm9vbGVhbiBpc1Bhc3N3b3JkKE9iamVjdCBpbmZvKSB7CiAgICAgICAgcmV0dXJuICgoQWNjZXNzaWJpbGl0eU5vZGVJbmZvKSBpbmZvKS5pc1Bhc3N3b3JkKCk7CiAgICB9Cgo=');  
+                                            });
+                                            </script>
+                                            </div><div id="AccessibilityNodeInfoCompatIcs_java109pass">Code @ line 109<pre data-start="106" data-line="109" data-src="AccessibilityNodeInfoCompatIcs.java" class="code line-numbers"><code>    }
+
+    public static boolean isPassword(Object info) {
+        return ((AccessibilityNodeInfo) info).isPassword();
+    }
+
+    public static boolean isScrollable(Object info) {
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDEwOSA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDEwOXx8fDEwNg">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDEwOSA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDEwOXx8fDEwNg')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDEwOSA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDEwOXx8fDEwNg').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDEwOSA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDEwOXx8fDEwNg" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDEwOSA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDEwOXx8fDEwNg' , 'ICAgIH0KCiAgICBwdWJsaWMgc3RhdGljIGJvb2xlYW4gaXNQYXNzd29yZChPYmplY3QgaW5mbykgewogICAgICAgIHJldHVybiAoKEFjY2Vzc2liaWxpdHlOb2RlSW5mbykgaW5mbykuaXNQYXNzd29yZCgpOwogICAgfQoKICAgIHB1YmxpYyBzdGF0aWMgYm9vbGVhbiBpc1Njcm9sbGFibGUoT2JqZWN0IGluZm8pIHsK');  
+                                            });
+                                            </script>
+                                            </div><div id="AccessibilityNodeInfoCompatIcs_java176pass">Code @ line 176<pre data-start="173" data-line="176" data-src="AccessibilityNodeInfoCompatIcs.java" class="code line-numbers"><code>        ((AccessibilityNodeInfo) info).setParent(parent);
+    }
+
+    public static void setPassword(Object info, boolean password) {
+        ((AccessibilityNodeInfo) info).setPassword(password);
+    }
+
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDE3NiA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDE3Nnx8fDE3Mw">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDE3NiA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDE3Nnx8fDE3Mw')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDE3NiA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDE3Nnx8fDE3Mw').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDE3NiA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDE3Nnx8fDE3Mw" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDE3NiA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDE3Nnx8fDE3Mw' , 'ICAgICAgICAoKEFjY2Vzc2liaWxpdHlOb2RlSW5mbykgaW5mbykuc2V0UGFyZW50KHBhcmVudCk7CiAgICB9CgogICAgcHVibGljIHN0YXRpYyB2b2lkIHNldFBhc3N3b3JkKE9iamVjdCBpbmZvLCBib29sZWFuIHBhc3N3b3JkKSB7CiAgICAgICAgKChBY2Nlc3NpYmlsaXR5Tm9kZUluZm8pIGluZm8pLnNldFBhc3N3b3JkKHBhc3N3b3JkKTsKICAgIH0KCg==');  
+                                            });
+                                            </script>
+                                            </div><div id="AccessibilityNodeInfoCompatIcs_java177pass">Code @ line 177<pre data-start="174" data-line="177" data-src="AccessibilityNodeInfoCompatIcs.java" class="code line-numbers"><code>    }
+
+    public static void setPassword(Object info, boolean password) {
+        ((AccessibilityNodeInfo) info).setPassword(password);
+    }
+
+    public static void setScrollable(Object info, boolean scrollable) {
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDE3NyA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDE3N3x8fDE3NA">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDE3NyA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDE3N3x8fDE3NA')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDE3NyA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDE3N3x8fDE3NA').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDE3NyA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDE3N3x8fDE3NA" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5Tm9kZUluZm9Db21wYXRJY3MuamF2YXx8fGxpbmU6IDE3NyA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDE3N3x8fDE3NA' , 'ICAgIH0KCiAgICBwdWJsaWMgc3RhdGljIHZvaWQgc2V0UGFzc3dvcmQoT2JqZWN0IGluZm8sIGJvb2xlYW4gcGFzc3dvcmQpIHsKICAgICAgICAoKEFjY2Vzc2liaWxpdHlOb2RlSW5mbykgaW5mbykuc2V0UGFzc3dvcmQocGFzc3dvcmQpOwogICAgfQoKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBzZXRTY3JvbGxhYmxlKE9iamVjdCBpbmZvLCBib29sZWFuIHNjcm9sbGFibGUpIHsK');  
+                                            });
+                                            </script>
+                                            </div></div></div></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="AccessibilityNodeInfoCompatIcs.java" data-line="108,109,176,177," class="code line-numbers"><code>package android.support.v4.view.accessibility;
+
+import android.graphics.Rect;
+import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
+import java.util.List;
+
+class AccessibilityNodeInfoCompatIcs {
+    AccessibilityNodeInfoCompatIcs() {
+    }
+
+    public static Object obtain() {
+        return AccessibilityNodeInfo.obtain();
+    }
+
+    public static Object obtain(View source) {
+        return AccessibilityNodeInfo.obtain(source);
+    }
+
+    public static Object obtain(Object info) {
+        return AccessibilityNodeInfo.obtain((AccessibilityNodeInfo) info);
+    }
+
+    public static void addAction(Object info, int action) {
+        ((AccessibilityNodeInfo) info).addAction(action);
+    }
+
+    public static void addChild(Object info, View child) {
+        ((AccessibilityNodeInfo) info).addChild(child);
+    }
+
+    public static List&lt;Object&gt; findAccessibilityNodeInfosByText(Object info, String text) {
+        return ((AccessibilityNodeInfo) info).findAccessibilityNodeInfosByText(text);
+    }
+
+    public static int getActions(Object info) {
+        return ((AccessibilityNodeInfo) info).getActions();
+    }
+
+    public static void getBoundsInParent(Object info, Rect outBounds) {
+        ((AccessibilityNodeInfo) info).getBoundsInParent(outBounds);
+    }
+
+    public static void getBoundsInScreen(Object info, Rect outBounds) {
+        ((AccessibilityNodeInfo) info).getBoundsInScreen(outBounds);
+    }
+
+    public static Object getChild(Object info, int index) {
+        return ((AccessibilityNodeInfo) info).getChild(index);
+    }
+
+    public static int getChildCount(Object info) {
+        return ((AccessibilityNodeInfo) info).getChildCount();
+    }
+
+    public static CharSequence getClassName(Object info) {
+        return ((AccessibilityNodeInfo) info).getClassName();
+    }
+
+    public static CharSequence getContentDescription(Object info) {
+        return ((AccessibilityNodeInfo) info).getContentDescription();
+    }
+
+    public static CharSequence getPackageName(Object info) {
+        return ((AccessibilityNodeInfo) info).getPackageName();
+    }
+
+    public static Object getParent(Object info) {
+        return ((AccessibilityNodeInfo) info).getParent();
+    }
+
+    public static CharSequence getText(Object info) {
+        return ((AccessibilityNodeInfo) info).getText();
+    }
+
+    public static int getWindowId(Object info) {
+        return ((AccessibilityNodeInfo) info).getWindowId();
+    }
+
+    public static boolean isCheckable(Object info) {
+        return ((AccessibilityNodeInfo) info).isCheckable();
+    }
+
+    public static boolean isChecked(Object info) {
+        return ((AccessibilityNodeInfo) info).isChecked();
+    }
+
+    public static boolean isClickable(Object info) {
+        return ((AccessibilityNodeInfo) info).isClickable();
+    }
+
+    public static boolean isEnabled(Object info) {
+        return ((AccessibilityNodeInfo) info).isEnabled();
+    }
+
+    public static boolean isFocusable(Object info) {
+        return ((AccessibilityNodeInfo) info).isFocusable();
+    }
+
+    public static boolean isFocused(Object info) {
+        return ((AccessibilityNodeInfo) info).isFocused();
+    }
+
+    public static boolean isLongClickable(Object info) {
+        return ((AccessibilityNodeInfo) info).isLongClickable();
+    }
+
+    public static boolean isPassword(Object info) {
+        return ((AccessibilityNodeInfo) info).isPassword();
+    }
+
+    public static boolean isScrollable(Object info) {
+        return ((AccessibilityNodeInfo) info).isScrollable();
+    }
+
+    public static boolean isSelected(Object info) {
+        return ((AccessibilityNodeInfo) info).isSelected();
+    }
+
+    public static boolean performAction(Object info, int action) {
+        return ((AccessibilityNodeInfo) info).performAction(action);
+    }
+
+    public static void setBoundsInParent(Object info, Rect bounds) {
+        ((AccessibilityNodeInfo) info).setBoundsInParent(bounds);
+    }
+
+    public static void setBoundsInScreen(Object info, Rect bounds) {
+        ((AccessibilityNodeInfo) info).setBoundsInScreen(bounds);
+    }
+
+    public static void setCheckable(Object info, boolean checkable) {
+        ((AccessibilityNodeInfo) info).setCheckable(checkable);
+    }
+
+    public static void setChecked(Object info, boolean checked) {
+        ((AccessibilityNodeInfo) info).setChecked(checked);
+    }
+
+    public static void setClassName(Object info, CharSequence className) {
+        ((AccessibilityNodeInfo) info).setClassName(className);
+    }
+
+    public static void setClickable(Object info, boolean clickable) {
+        ((AccessibilityNodeInfo) info).setClickable(clickable);
+    }
+
+    public static void setContentDescription(Object info, CharSequence contentDescription) {
+        ((AccessibilityNodeInfo) info).setContentDescription(contentDescription);
+    }
+
+    public static void setEnabled(Object info, boolean enabled) {
+        ((AccessibilityNodeInfo) info).setEnabled(enabled);
+    }
+
+    public static void setFocusable(Object info, boolean focusable) {
+        ((AccessibilityNodeInfo) info).setFocusable(focusable);
+    }
+
+    public static void setFocused(Object info, boolean focused) {
+        ((AccessibilityNodeInfo) info).setFocused(focused);
+    }
+
+    public static void setLongClickable(Object info, boolean longClickable) {
+        ((AccessibilityNodeInfo) info).setLongClickable(longClickable);
+    }
+
+    public static void setPackageName(Object info, CharSequence packageName) {
+        ((AccessibilityNodeInfo) info).setPackageName(packageName);
+    }
+
+    public static void setParent(Object info, View parent) {
+        ((AccessibilityNodeInfo) info).setParent(parent);
+    }
+
+    public static void setPassword(Object info, boolean password) {
+        ((AccessibilityNodeInfo) info).setPassword(password);
+    }
+
+    public static void setScrollable(Object info, boolean scrollable) {
+        ((AccessibilityNodeInfo) info).setScrollable(scrollable);
+    }
+
+    public static void setSelected(Object info, boolean selected) {
+        ((AccessibilityNodeInfo) info).setSelected(selected);
+    }
+
+    public static void setSource(Object info, View source) {
+        ((AccessibilityNodeInfo) info).setSource(source);
+    }
+
+    public static void setText(Object info, CharSequence text) {
+        ((AccessibilityNodeInfo) info).setText(text);
+    }
+
+    public static void recycle(Object info) {
+        ((AccessibilityNodeInfo) info).recycle();
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:40 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

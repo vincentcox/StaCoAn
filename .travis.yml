@@ -23,6 +23,7 @@ before_install:
   - pip3 -V
 # command to install dependencies
 install:
+  - cd src
   - pip3 install -r requirements.txt
 # command to run tests
 script:

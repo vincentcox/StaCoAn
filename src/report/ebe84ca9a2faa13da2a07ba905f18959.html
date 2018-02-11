@@ -1,0 +1,1371 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v4\widget\NestedScrollView.java" target="_blank">\test-apk\jadx_source_code\android\support\v4\widget\NestedScrollView.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="NestedScrollView.java" data-line="" class="code line-numbers"><code>package android.support.v4.widget;
+
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
+import android.support.v4.media.TransportMediator;
+import android.support.v4.view.AccessibilityDelegateCompat;
+import android.support.v4.view.MotionEventCompat;
+import android.support.v4.view.NestedScrollingChild;
+import android.support.v4.view.NestedScrollingChildHelper;
+import android.support.v4.view.NestedScrollingParent;
+import android.support.v4.view.NestedScrollingParentHelper;
+import android.support.v4.view.ScrollingView;
+import android.support.v4.view.VelocityTrackerCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.accessibility.AccessibilityEventCompat;
+import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
+import android.support.v4.view.accessibility.AccessibilityRecordCompat;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.FocusFinder;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
+import android.view.View;
+import android.view.View.BaseSavedState;
+import android.view.View.MeasureSpec;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup.MarginLayoutParams;
+import android.view.ViewParent;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
+import android.widget.ScrollView;
+import java.util.List;
+
+public class NestedScrollView extends FrameLayout implements NestedScrollingParent, NestedScrollingChild, ScrollingView {
+    private static final AccessibilityDelegate ACCESSIBILITY_DELEGATE = new AccessibilityDelegate();
+    static final int ANIMATED_SCROLL_GAP = 250;
+    private static final int INVALID_POINTER = -1;
+    static final float MAX_SCROLL_FACTOR = 0.5f;
+    private static final int[] SCROLLVIEW_STYLEABLE = new int[]{16843130};
+    private static final String TAG = "NestedScrollView";
+    private int mActivePointerId;
+    private final NestedScrollingChildHelper mChildHelper;
+    private View mChildToScrollTo;
+    private EdgeEffectCompat mEdgeGlowBottom;
+    private EdgeEffectCompat mEdgeGlowTop;
+    private boolean mFillViewport;
+    private boolean mIsBeingDragged;
+    private boolean mIsLaidOut;
+    private boolean mIsLayoutDirty;
+    private int mLastMotionY;
+    private long mLastScroll;
+    private int mMaximumVelocity;
+    private int mMinimumVelocity;
+    private int mNestedYOffset;
+    private OnScrollChangeListener mOnScrollChangeListener;
+    private final NestedScrollingParentHelper mParentHelper;
+    private SavedState mSavedState;
+    private final int[] mScrollConsumed;
+    private final int[] mScrollOffset;
+    private ScrollerCompat mScroller;
+    private boolean mSmoothScrollingEnabled;
+    private final Rect mTempRect;
+    private int mTouchSlop;
+    private VelocityTracker mVelocityTracker;
+    private float mVerticalScrollFactor;
+
+    public interface OnScrollChangeListener {
+        void onScrollChange(NestedScrollView nestedScrollView, int i, int i2, int i3, int i4);
+    }
+
+    static class SavedState extends BaseSavedState {
+        public static final Creator&lt;SavedState&gt; CREATOR = new Creator&lt;SavedState&gt;() {
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+        public int scrollPosition;
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        public SavedState(Parcel source) {
+            super(source);
+            this.scrollPosition = source.readInt();
+        }
+
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeInt(this.scrollPosition);
+        }
+
+        public String toString() {
+            return "HorizontalScrollView.SavedState{" + Integer.toHexString(System.identityHashCode(this)) + " scrollPosition=" + this.scrollPosition + "}";
+        }
+    }
+
+    static class AccessibilityDelegate extends AccessibilityDelegateCompat {
+        AccessibilityDelegate() {
+        }
+
+        public boolean performAccessibilityAction(View host, int action, Bundle arguments) {
+            if (super.performAccessibilityAction(host, action, arguments)) {
+                return true;
+            }
+            NestedScrollView nsvHost = (NestedScrollView) host;
+            if (!nsvHost.isEnabled()) {
+                return false;
+            }
+            int targetScrollY;
+            switch (action) {
+                case 4096:
+                    targetScrollY = Math.min(nsvHost.getScrollY() + ((nsvHost.getHeight() - nsvHost.getPaddingBottom()) - nsvHost.getPaddingTop()), nsvHost.getScrollRange());
+                    if (targetScrollY == nsvHost.getScrollY()) {
+                        return false;
+                    }
+                    nsvHost.smoothScrollTo(0, targetScrollY);
+                    return true;
+                case 8192:
+                    targetScrollY = Math.max(nsvHost.getScrollY() - ((nsvHost.getHeight() - nsvHost.getPaddingBottom()) - nsvHost.getPaddingTop()), 0);
+                    if (targetScrollY == nsvHost.getScrollY()) {
+                        return false;
+                    }
+                    nsvHost.smoothScrollTo(0, targetScrollY);
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
+            super.onInitializeAccessibilityNodeInfo(host, info);
+            NestedScrollView nsvHost = (NestedScrollView) host;
+            info.setClassName(ScrollView.class.getName());
+            if (nsvHost.isEnabled()) {
+                int scrollRange = nsvHost.getScrollRange();
+                if (scrollRange &gt; 0) {
+                    info.setScrollable(true);
+                    if (nsvHost.getScrollY() &gt; 0) {
+                        info.addAction(8192);
+                    }
+                    if (nsvHost.getScrollY() &lt; scrollRange) {
+                        info.addAction(4096);
+                    }
+                }
+            }
+        }
+
+        public void onInitializeAccessibilityEvent(View host, AccessibilityEvent event) {
+            super.onInitializeAccessibilityEvent(host, event);
+            NestedScrollView nsvHost = (NestedScrollView) host;
+            event.setClassName(ScrollView.class.getName());
+            AccessibilityRecordCompat record = AccessibilityEventCompat.asRecord(event);
+            record.setScrollable(nsvHost.getScrollRange() &gt; 0);
+            record.setScrollX(nsvHost.getScrollX());
+            record.setScrollY(nsvHost.getScrollY());
+            record.setMaxScrollX(nsvHost.getScrollX());
+            record.setMaxScrollY(nsvHost.getScrollRange());
+        }
+    }
+
+    public NestedScrollView(Context context) {
+        this(context, null);
+    }
+
+    public NestedScrollView(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public NestedScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        this.mTempRect = new Rect();
+        this.mIsLayoutDirty = true;
+        this.mIsLaidOut = false;
+        this.mChildToScrollTo = null;
+        this.mIsBeingDragged = false;
+        this.mSmoothScrollingEnabled = true;
+        this.mActivePointerId = -1;
+        this.mScrollOffset = new int[2];
+        this.mScrollConsumed = new int[2];
+        initScrollView();
+        TypedArray a = context.obtainStyledAttributes(attrs, SCROLLVIEW_STYLEABLE, defStyleAttr, 0);
+        setFillViewport(a.getBoolean(0, false));
+        a.recycle();
+        this.mParentHelper = new NestedScrollingParentHelper(this);
+        this.mChildHelper = new NestedScrollingChildHelper(this);
+        setNestedScrollingEnabled(true);
+        ViewCompat.setAccessibilityDelegate(this, ACCESSIBILITY_DELEGATE);
+    }
+
+    public void setNestedScrollingEnabled(boolean enabled) {
+        this.mChildHelper.setNestedScrollingEnabled(enabled);
+    }
+
+    public boolean isNestedScrollingEnabled() {
+        return this.mChildHelper.isNestedScrollingEnabled();
+    }
+
+    public boolean startNestedScroll(int axes) {
+        return this.mChildHelper.startNestedScroll(axes);
+    }
+
+    public void stopNestedScroll() {
+        this.mChildHelper.stopNestedScroll();
+    }
+
+    public boolean hasNestedScrollingParent() {
+        return this.mChildHelper.hasNestedScrollingParent();
+    }
+
+    public boolean dispatchNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int[] offsetInWindow) {
+        return this.mChildHelper.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, offsetInWindow);
+    }
+
+    public boolean dispatchNestedPreScroll(int dx, int dy, int[] consumed, int[] offsetInWindow) {
+        return this.mChildHelper.dispatchNestedPreScroll(dx, dy, consumed, offsetInWindow);
+    }
+
+    public boolean dispatchNestedFling(float velocityX, float velocityY, boolean consumed) {
+        return this.mChildHelper.dispatchNestedFling(velocityX, velocityY, consumed);
+    }
+
+    public boolean dispatchNestedPreFling(float velocityX, float velocityY) {
+        return this.mChildHelper.dispatchNestedPreFling(velocityX, velocityY);
+    }
+
+    public boolean onStartNestedScroll(View child, View target, int nestedScrollAxes) {
+        return (nestedScrollAxes &amp; 2) != 0;
+    }
+
+    public void onNestedScrollAccepted(View child, View target, int nestedScrollAxes) {
+        this.mParentHelper.onNestedScrollAccepted(child, target, nestedScrollAxes);
+        startNestedScroll(2);
+    }
+
+    public void onStopNestedScroll(View target) {
+        stopNestedScroll();
+    }
+
+    public void onNestedScroll(View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
+        int oldScrollY = getScrollY();
+        scrollBy(0, dyUnconsumed);
+        int myConsumed = getScrollY() - oldScrollY;
+        dispatchNestedScroll(0, myConsumed, 0, dyUnconsumed - myConsumed, null);
+    }
+
+    public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
+    }
+
+    public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
+        if (consumed) {
+            return false;
+        }
+        flingWithNestedDispatch((int) velocityY);
+        return true;
+    }
+
+    public boolean onNestedPreFling(View target, float velocityX, float velocityY) {
+        return false;
+    }
+
+    public int getNestedScrollAxes() {
+        return this.mParentHelper.getNestedScrollAxes();
+    }
+
+    public boolean shouldDelayChildPressedState() {
+        return true;
+    }
+
+    protected float getTopFadingEdgeStrength() {
+        if (getChildCount() == 0) {
+            return 0.0f;
+        }
+        int length = getVerticalFadingEdgeLength();
+        int scrollY = getScrollY();
+        if (scrollY &lt; length) {
+            return ((float) scrollY) / ((float) length);
+        }
+        return 1.0f;
+    }
+
+    protected float getBottomFadingEdgeStrength() {
+        if (getChildCount() == 0) {
+            return 0.0f;
+        }
+        int length = getVerticalFadingEdgeLength();
+        int span = (getChildAt(0).getBottom() - getScrollY()) - (getHeight() - getPaddingBottom());
+        if (span &lt; length) {
+            return ((float) span) / ((float) length);
+        }
+        return 1.0f;
+    }
+
+    public int getMaxScrollAmount() {
+        return (int) (MAX_SCROLL_FACTOR * ((float) getHeight()));
+    }
+
+    private void initScrollView() {
+        this.mScroller = new ScrollerCompat(getContext(), null);
+        setFocusable(true);
+        setDescendantFocusability(262144);
+        setWillNotDraw(false);
+        ViewConfiguration configuration = ViewConfiguration.get(getContext());
+        this.mTouchSlop = configuration.getScaledTouchSlop();
+        this.mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
+        this.mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
+    }
+
+    public void addView(View child) {
+        if (getChildCount() &gt; 0) {
+            throw new IllegalStateException("ScrollView can host only one direct child");
+        }
+        super.addView(child);
+    }
+
+    public void addView(View child, int index) {
+        if (getChildCount() &gt; 0) {
+            throw new IllegalStateException("ScrollView can host only one direct child");
+        }
+        super.addView(child, index);
+    }
+
+    public void addView(View child, LayoutParams params) {
+        if (getChildCount() &gt; 0) {
+            throw new IllegalStateException("ScrollView can host only one direct child");
+        }
+        super.addView(child, params);
+    }
+
+    public void addView(View child, int index, LayoutParams params) {
+        if (getChildCount() &gt; 0) {
+            throw new IllegalStateException("ScrollView can host only one direct child");
+        }
+        super.addView(child, index, params);
+    }
+
+    public void setOnScrollChangeListener(OnScrollChangeListener l) {
+        this.mOnScrollChangeListener = l;
+    }
+
+    private boolean canScroll() {
+        View child = getChildAt(0);
+        if (child == null) {
+            return false;
+        }
+        if (getHeight() &lt; (getPaddingTop() + child.getHeight()) + getPaddingBottom()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isFillViewport() {
+        return this.mFillViewport;
+    }
+
+    public void setFillViewport(boolean fillViewport) {
+        if (fillViewport != this.mFillViewport) {
+            this.mFillViewport = fillViewport;
+            requestLayout();
+        }
+    }
+
+    public boolean isSmoothScrollingEnabled() {
+        return this.mSmoothScrollingEnabled;
+    }
+
+    public void setSmoothScrollingEnabled(boolean smoothScrollingEnabled) {
+        this.mSmoothScrollingEnabled = smoothScrollingEnabled;
+    }
+
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        super.onScrollChanged(l, t, oldl, oldt);
+        if (this.mOnScrollChangeListener != null) {
+            this.mOnScrollChangeListener.onScrollChange(this, l, t, oldl, oldt);
+        }
+    }
+
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (this.mFillViewport &amp;&amp; MeasureSpec.getMode(heightMeasureSpec) != 0 &amp;&amp; getChildCount() &gt; 0) {
+            View child = getChildAt(0);
+            int height = getMeasuredHeight();
+            if (child.getMeasuredHeight() &lt; height) {
+                child.measure(getChildMeasureSpec(widthMeasureSpec, getPaddingLeft() + getPaddingRight(), ((FrameLayout.LayoutParams) child.getLayoutParams()).width), MeasureSpec.makeMeasureSpec((height - getPaddingTop()) - getPaddingBottom(), 1073741824));
+            }
+        }
+    }
+
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        return super.dispatchKeyEvent(event) || executeKeyEvent(event);
+    }
+
+    public boolean executeKeyEvent(KeyEvent event) {
+        this.mTempRect.setEmpty();
+        if (canScroll()) {
+            boolean handled = false;
+            if (event.getAction() == 0) {
+                switch (event.getKeyCode()) {
+                    case 19:
+                        if (!event.isAltPressed()) {
+                            handled = arrowScroll(33);
+                            break;
+                        }
+                        handled = fullScroll(33);
+                        break;
+                    case 20:
+                        if (!event.isAltPressed()) {
+                            handled = arrowScroll(TransportMediator.KEYCODE_MEDIA_RECORD);
+                            break;
+                        }
+                        handled = fullScroll(TransportMediator.KEYCODE_MEDIA_RECORD);
+                        break;
+                    case 62:
+                        pageScroll(event.isShiftPressed() ? 33 : TransportMediator.KEYCODE_MEDIA_RECORD);
+                        break;
+                }
+            }
+            return handled;
+        } else if (!isFocused() || event.getKeyCode() == 4) {
+            return false;
+        } else {
+            View currentFocused = findFocus();
+            if (currentFocused == this) {
+                currentFocused = null;
+            }
+            View nextFocused = FocusFinder.getInstance().findNextFocus(this, currentFocused, TransportMediator.KEYCODE_MEDIA_RECORD);
+            if (nextFocused == null || nextFocused == this || !nextFocused.requestFocus(TransportMediator.KEYCODE_MEDIA_RECORD)) {
+                return false;
+            }
+            return true;
+        }
+    }
+
+    private boolean inChild(int x, int y) {
+        if (getChildCount() &lt;= 0) {
+            return false;
+        }
+        int scrollY = getScrollY();
+        View child = getChildAt(0);
+        if (y &lt; child.getTop() - scrollY || y &gt;= child.getBottom() - scrollY || x &lt; child.getLeft() || x &gt;= child.getRight()) {
+            return false;
+        }
+        return true;
+    }
+
+    private void initOrResetVelocityTracker() {
+        if (this.mVelocityTracker == null) {
+            this.mVelocityTracker = VelocityTracker.obtain();
+        } else {
+            this.mVelocityTracker.clear();
+        }
+    }
+
+    private void initVelocityTrackerIfNotExists() {
+        if (this.mVelocityTracker == null) {
+            this.mVelocityTracker = VelocityTracker.obtain();
+        }
+    }
+
+    private void recycleVelocityTracker() {
+        if (this.mVelocityTracker != null) {
+            this.mVelocityTracker.recycle();
+            this.mVelocityTracker = null;
+        }
+    }
+
+    public void requestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+        if (disallowIntercept) {
+            recycleVelocityTracker();
+        }
+        super.requestDisallowInterceptTouchEvent(disallowIntercept);
+    }
+
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        boolean z = false;
+        int action = ev.getAction();
+        if (action == 2 &amp;&amp; this.mIsBeingDragged) {
+            return true;
+        }
+        int y;
+        switch (action &amp; 255) {
+            case 0:
+                y = (int) ev.getY();
+                if (!inChild((int) ev.getX(), y)) {
+                    this.mIsBeingDragged = false;
+                    recycleVelocityTracker();
+                    break;
+                }
+                this.mLastMotionY = y;
+                this.mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
+                initOrResetVelocityTracker();
+                this.mVelocityTracker.addMovement(ev);
+                if (!this.mScroller.isFinished()) {
+                    z = true;
+                }
+                this.mIsBeingDragged = z;
+                startNestedScroll(2);
+                break;
+            case 1:
+            case 3:
+                this.mIsBeingDragged = false;
+                this.mActivePointerId = -1;
+                recycleVelocityTracker();
+                if (this.mScroller.springBack(getScrollX(), getScrollY(), 0, 0, 0, getScrollRange())) {
+                    ViewCompat.postInvalidateOnAnimation(this);
+                }
+                stopNestedScroll();
+                break;
+            case 2:
+                int activePointerId = this.mActivePointerId;
+                if (activePointerId != -1) {
+                    int pointerIndex = MotionEventCompat.findPointerIndex(ev, activePointerId);
+                    if (pointerIndex != -1) {
+                        y = (int) MotionEventCompat.getY(ev, pointerIndex);
+                        if (Math.abs(y - this.mLastMotionY) &gt; this.mTouchSlop &amp;&amp; (getNestedScrollAxes() &amp; 2) == 0) {
+                            this.mIsBeingDragged = true;
+                            this.mLastMotionY = y;
+                            initVelocityTrackerIfNotExists();
+                            this.mVelocityTracker.addMovement(ev);
+                            this.mNestedYOffset = 0;
+                            ViewParent parent = getParent();
+                            if (parent != null) {
+                                parent.requestDisallowInterceptTouchEvent(true);
+                                break;
+                            }
+                        }
+                    }
+                    Log.e(TAG, "Invalid pointerId=" + activePointerId + " in onInterceptTouchEvent");
+                    break;
+                }
+                break;
+            case 6:
+                onSecondaryPointerUp(ev);
+                break;
+        }
+        return this.mIsBeingDragged;
+    }
+
+    public boolean onTouchEvent(MotionEvent ev) {
+        initVelocityTrackerIfNotExists();
+        MotionEvent vtev = MotionEvent.obtain(ev);
+        int actionMasked = MotionEventCompat.getActionMasked(ev);
+        if (actionMasked == 0) {
+            this.mNestedYOffset = 0;
+        }
+        vtev.offsetLocation(0.0f, (float) this.mNestedYOffset);
+        ViewParent parent;
+        switch (actionMasked) {
+            case 0:
+                if (getChildCount() != 0) {
+                    boolean z = !this.mScroller.isFinished();
+                    this.mIsBeingDragged = z;
+                    if (z) {
+                        parent = getParent();
+                        if (parent != null) {
+                            parent.requestDisallowInterceptTouchEvent(true);
+                        }
+                    }
+                    if (!this.mScroller.isFinished()) {
+                        this.mScroller.abortAnimation();
+                    }
+                    this.mLastMotionY = (int) ev.getY();
+                    this.mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
+                    startNestedScroll(2);
+                    break;
+                }
+                return false;
+            case 1:
+                if (this.mIsBeingDragged) {
+                    VelocityTracker velocityTracker = this.mVelocityTracker;
+                    velocityTracker.computeCurrentVelocity(1000, (float) this.mMaximumVelocity);
+                    int initialVelocity = (int) VelocityTrackerCompat.getYVelocity(velocityTracker, this.mActivePointerId);
+                    if (Math.abs(initialVelocity) &gt; this.mMinimumVelocity) {
+                        flingWithNestedDispatch(-initialVelocity);
+                    } else if (this.mScroller.springBack(getScrollX(), getScrollY(), 0, 0, 0, getScrollRange())) {
+                        ViewCompat.postInvalidateOnAnimation(this);
+                    }
+                }
+                this.mActivePointerId = -1;
+                endDrag();
+                break;
+            case 2:
+                int activePointerIndex = MotionEventCompat.findPointerIndex(ev, this.mActivePointerId);
+                if (activePointerIndex != -1) {
+                    int y = (int) MotionEventCompat.getY(ev, activePointerIndex);
+                    int deltaY = this.mLastMotionY - y;
+                    if (dispatchNestedPreScroll(0, deltaY, this.mScrollConsumed, this.mScrollOffset)) {
+                        deltaY -= this.mScrollConsumed[1];
+                        vtev.offsetLocation(0.0f, (float) this.mScrollOffset[1]);
+                        this.mNestedYOffset += this.mScrollOffset[1];
+                    }
+                    if (!this.mIsBeingDragged &amp;&amp; Math.abs(deltaY) &gt; this.mTouchSlop) {
+                        parent = getParent();
+                        if (parent != null) {
+                            parent.requestDisallowInterceptTouchEvent(true);
+                        }
+                        this.mIsBeingDragged = true;
+                        if (deltaY &gt; 0) {
+                            deltaY -= this.mTouchSlop;
+                        } else {
+                            deltaY += this.mTouchSlop;
+                        }
+                    }
+                    if (this.mIsBeingDragged) {
+                        this.mLastMotionY = y - this.mScrollOffset[1];
+                        int oldY = getScrollY();
+                        int range = getScrollRange();
+                        int overscrollMode = ViewCompat.getOverScrollMode(this);
+                        boolean canOverscroll = overscrollMode == 0 || (overscrollMode == 1 &amp;&amp; range &gt; 0);
+                        if (overScrollByCompat(0, deltaY, 0, getScrollY(), 0, range, 0, 0, true) &amp;&amp; !hasNestedScrollingParent()) {
+                            this.mVelocityTracker.clear();
+                        }
+                        int scrolledDeltaY = getScrollY() - oldY;
+                        if (!dispatchNestedScroll(0, scrolledDeltaY, 0, deltaY - scrolledDeltaY, this.mScrollOffset)) {
+                            if (canOverscroll) {
+                                ensureGlows();
+                                int pulledToY = oldY + deltaY;
+                                if (pulledToY &lt; 0) {
+                                    this.mEdgeGlowTop.onPull(((float) deltaY) / ((float) getHeight()), MotionEventCompat.getX(ev, activePointerIndex) / ((float) getWidth()));
+                                    if (!this.mEdgeGlowBottom.isFinished()) {
+                                        this.mEdgeGlowBottom.onRelease();
+                                    }
+                                } else if (pulledToY &gt; range) {
+                                    this.mEdgeGlowBottom.onPull(((float) deltaY) / ((float) getHeight()), 1.0f - (MotionEventCompat.getX(ev, activePointerIndex) / ((float) getWidth())));
+                                    if (!this.mEdgeGlowTop.isFinished()) {
+                                        this.mEdgeGlowTop.onRelease();
+                                    }
+                                }
+                                if (!(this.mEdgeGlowTop == null || (this.mEdgeGlowTop.isFinished() &amp;&amp; this.mEdgeGlowBottom.isFinished()))) {
+                                    ViewCompat.postInvalidateOnAnimation(this);
+                                    break;
+                                }
+                            }
+                        }
+                        this.mLastMotionY -= this.mScrollOffset[1];
+                        vtev.offsetLocation(0.0f, (float) this.mScrollOffset[1]);
+                        this.mNestedYOffset += this.mScrollOffset[1];
+                        break;
+                    }
+                }
+                Log.e(TAG, "Invalid pointerId=" + this.mActivePointerId + " in onTouchEvent");
+                break;
+                break;
+            case 3:
+                if (this.mIsBeingDragged &amp;&amp; getChildCount() &gt; 0 &amp;&amp; this.mScroller.springBack(getScrollX(), getScrollY(), 0, 0, 0, getScrollRange())) {
+                    ViewCompat.postInvalidateOnAnimation(this);
+                }
+                this.mActivePointerId = -1;
+                endDrag();
+                break;
+            case 5:
+                int index = MotionEventCompat.getActionIndex(ev);
+                this.mLastMotionY = (int) MotionEventCompat.getY(ev, index);
+                this.mActivePointerId = MotionEventCompat.getPointerId(ev, index);
+                break;
+            case 6:
+                onSecondaryPointerUp(ev);
+                this.mLastMotionY = (int) MotionEventCompat.getY(ev, MotionEventCompat.findPointerIndex(ev, this.mActivePointerId));
+                break;
+        }
+        if (this.mVelocityTracker != null) {
+            this.mVelocityTracker.addMovement(vtev);
+        }
+        vtev.recycle();
+        return true;
+    }
+
+    private void onSecondaryPointerUp(MotionEvent ev) {
+        int pointerIndex = (ev.getAction() &amp; MotionEventCompat.ACTION_POINTER_INDEX_MASK) &gt;&gt; 8;
+        if (MotionEventCompat.getPointerId(ev, pointerIndex) == this.mActivePointerId) {
+            int newPointerIndex = pointerIndex == 0 ? 1 : 0;
+            this.mLastMotionY = (int) MotionEventCompat.getY(ev, newPointerIndex);
+            this.mActivePointerId = MotionEventCompat.getPointerId(ev, newPointerIndex);
+            if (this.mVelocityTracker != null) {
+                this.mVelocityTracker.clear();
+            }
+        }
+    }
+
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        if ((MotionEventCompat.getSource(event) &amp; 2) != 0) {
+            switch (event.getAction()) {
+                case 8:
+                    if (!this.mIsBeingDragged) {
+                        float vscroll = MotionEventCompat.getAxisValue(event, 9);
+                        if (vscroll != 0.0f) {
+                            int delta = (int) (getVerticalScrollFactorCompat() * vscroll);
+                            int range = getScrollRange();
+                            int oldScrollY = getScrollY();
+                            int newScrollY = oldScrollY - delta;
+                            if (newScrollY &lt; 0) {
+                                newScrollY = 0;
+                            } else if (newScrollY &gt; range) {
+                                newScrollY = range;
+                            }
+                            if (newScrollY != oldScrollY) {
+                                super.scrollTo(getScrollX(), newScrollY);
+                                return true;
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+        return false;
+    }
+
+    private float getVerticalScrollFactorCompat() {
+        if (this.mVerticalScrollFactor == 0.0f) {
+            TypedValue outValue = new TypedValue();
+            Context context = getContext();
+            if (context.getTheme().resolveAttribute(16842829, outValue, true)) {
+                this.mVerticalScrollFactor = outValue.getDimension(context.getResources().getDisplayMetrics());
+            } else {
+                throw new IllegalStateException("Expected theme to define listPreferredItemHeight.");
+            }
+        }
+        return this.mVerticalScrollFactor;
+    }
+
+    protected void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY) {
+        super.scrollTo(scrollX, scrollY);
+    }
+
+    boolean overScrollByCompat(int deltaX, int deltaY, int scrollX, int scrollY, int scrollRangeX, int scrollRangeY, int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
+        int overScrollMode = ViewCompat.getOverScrollMode(this);
+        boolean canScrollHorizontal = computeHorizontalScrollRange() &gt; computeHorizontalScrollExtent();
+        boolean canScrollVertical = computeVerticalScrollRange() &gt; computeVerticalScrollExtent();
+        boolean overScrollHorizontal = overScrollMode == 0 || (overScrollMode == 1 &amp;&amp; canScrollHorizontal);
+        boolean overScrollVertical = overScrollMode == 0 || (overScrollMode == 1 &amp;&amp; canScrollVertical);
+        int newScrollX = scrollX + deltaX;
+        if (!overScrollHorizontal) {
+            maxOverScrollX = 0;
+        }
+        int newScrollY = scrollY + deltaY;
+        if (!overScrollVertical) {
+            maxOverScrollY = 0;
+        }
+        int left = -maxOverScrollX;
+        int right = maxOverScrollX + scrollRangeX;
+        int top = -maxOverScrollY;
+        int bottom = maxOverScrollY + scrollRangeY;
+        boolean clampedX = false;
+        if (newScrollX &gt; right) {
+            newScrollX = right;
+            clampedX = true;
+        } else if (newScrollX &lt; left) {
+            newScrollX = left;
+            clampedX = true;
+        }
+        boolean clampedY = false;
+        if (newScrollY &gt; bottom) {
+            newScrollY = bottom;
+            clampedY = true;
+        } else if (newScrollY &lt; top) {
+            newScrollY = top;
+            clampedY = true;
+        }
+        if (clampedY) {
+            this.mScroller.springBack(newScrollX, newScrollY, 0, 0, 0, getScrollRange());
+        }
+        onOverScrolled(newScrollX, newScrollY, clampedX, clampedY);
+        if (clampedX || clampedY) {
+            return true;
+        }
+        return false;
+    }
+
+    private int getScrollRange() {
+        if (getChildCount() &gt; 0) {
+            return Math.max(0, getChildAt(0).getHeight() - ((getHeight() - getPaddingBottom()) - getPaddingTop()));
+        }
+        return 0;
+    }
+
+    private View findFocusableViewInBounds(boolean topFocus, int top, int bottom) {
+        List&lt;View&gt; focusables = getFocusables(2);
+        View focusCandidate = null;
+        boolean foundFullyContainedFocusable = false;
+        int count = focusables.size();
+        for (int i = 0; i &lt; count; i++) {
+            View view = (View) focusables.get(i);
+            int viewTop = view.getTop();
+            int viewBottom = view.getBottom();
+            if (top &lt; viewBottom &amp;&amp; viewTop &lt; bottom) {
+                boolean viewIsFullyContained = top &lt; viewTop &amp;&amp; viewBottom &lt; bottom;
+                if (focusCandidate == null) {
+                    focusCandidate = view;
+                    foundFullyContainedFocusable = viewIsFullyContained;
+                } else {
+                    boolean viewIsCloserToBoundary = (topFocus &amp;&amp; viewTop &lt; focusCandidate.getTop()) || (!topFocus &amp;&amp; viewBottom &gt; focusCandidate.getBottom());
+                    if (foundFullyContainedFocusable) {
+                        if (viewIsFullyContained &amp;&amp; viewIsCloserToBoundary) {
+                            focusCandidate = view;
+                        }
+                    } else if (viewIsFullyContained) {
+                        focusCandidate = view;
+                        foundFullyContainedFocusable = true;
+                    } else if (viewIsCloserToBoundary) {
+                        focusCandidate = view;
+                    }
+                }
+            }
+        }
+        return focusCandidate;
+    }
+
+    public boolean pageScroll(int direction) {
+        boolean down;
+        if (direction == TransportMediator.KEYCODE_MEDIA_RECORD) {
+            down = true;
+        } else {
+            down = false;
+        }
+        int height = getHeight();
+        if (down) {
+            this.mTempRect.top = getScrollY() + height;
+            int count = getChildCount();
+            if (count &gt; 0) {
+                View view = getChildAt(count - 1);
+                if (this.mTempRect.top + height &gt; view.getBottom()) {
+                    this.mTempRect.top = view.getBottom() - height;
+                }
+            }
+        } else {
+            this.mTempRect.top = getScrollY() - height;
+            if (this.mTempRect.top &lt; 0) {
+                this.mTempRect.top = 0;
+            }
+        }
+        this.mTempRect.bottom = this.mTempRect.top + height;
+        return scrollAndFocus(direction, this.mTempRect.top, this.mTempRect.bottom);
+    }
+
+    public boolean fullScroll(int direction) {
+        boolean down;
+        if (direction == TransportMediator.KEYCODE_MEDIA_RECORD) {
+            down = true;
+        } else {
+            down = false;
+        }
+        int height = getHeight();
+        this.mTempRect.top = 0;
+        this.mTempRect.bottom = height;
+        if (down) {
+            int count = getChildCount();
+            if (count &gt; 0) {
+                View view = getChildAt(count - 1);
+                this.mTempRect.bottom = view.getBottom() + getPaddingBottom();
+                this.mTempRect.top = this.mTempRect.bottom - height;
+            }
+        }
+        return scrollAndFocus(direction, this.mTempRect.top, this.mTempRect.bottom);
+    }
+
+    private boolean scrollAndFocus(int direction, int top, int bottom) {
+        boolean handled = true;
+        int height = getHeight();
+        int containerTop = getScrollY();
+        int containerBottom = containerTop + height;
+        boolean up = direction == 33;
+        View newFocused = findFocusableViewInBounds(up, top, bottom);
+        if (newFocused == null) {
+            newFocused = this;
+        }
+        if (top &lt; containerTop || bottom &gt; containerBottom) {
+            doScrollY(up ? top - containerTop : bottom - containerBottom);
+        } else {
+            handled = false;
+        }
+        if (newFocused != findFocus()) {
+            newFocused.requestFocus(direction);
+        }
+        return handled;
+    }
+
+    public boolean arrowScroll(int direction) {
+        View currentFocused = findFocus();
+        if (currentFocused == this) {
+            currentFocused = null;
+        }
+        View nextFocused = FocusFinder.getInstance().findNextFocus(this, currentFocused, direction);
+        int maxJump = getMaxScrollAmount();
+        if (nextFocused == null || !isWithinDeltaOfScreen(nextFocused, maxJump, getHeight())) {
+            int scrollDelta = maxJump;
+            if (direction == 33 &amp;&amp; getScrollY() &lt; scrollDelta) {
+                scrollDelta = getScrollY();
+            } else if (direction == TransportMediator.KEYCODE_MEDIA_RECORD &amp;&amp; getChildCount() &gt; 0) {
+                int daBottom = getChildAt(0).getBottom();
+                int screenBottom = (getScrollY() + getHeight()) - getPaddingBottom();
+                if (daBottom - screenBottom &lt; maxJump) {
+                    scrollDelta = daBottom - screenBottom;
+                }
+            }
+            if (scrollDelta == 0) {
+                return false;
+            }
+            int i;
+            if (direction == TransportMediator.KEYCODE_MEDIA_RECORD) {
+                i = scrollDelta;
+            } else {
+                i = -scrollDelta;
+            }
+            doScrollY(i);
+        } else {
+            nextFocused.getDrawingRect(this.mTempRect);
+            offsetDescendantRectToMyCoords(nextFocused, this.mTempRect);
+            doScrollY(computeScrollDeltaToGetChildRectOnScreen(this.mTempRect));
+            nextFocused.requestFocus(direction);
+        }
+        if (currentFocused != null &amp;&amp; currentFocused.isFocused() &amp;&amp; isOffScreen(currentFocused)) {
+            int descendantFocusability = getDescendantFocusability();
+            setDescendantFocusability(131072);
+            requestFocus();
+            setDescendantFocusability(descendantFocusability);
+        }
+        return true;
+    }
+
+    private boolean isOffScreen(View descendant) {
+        return !isWithinDeltaOfScreen(descendant, 0, getHeight());
+    }
+
+    private boolean isWithinDeltaOfScreen(View descendant, int delta, int height) {
+        descendant.getDrawingRect(this.mTempRect);
+        offsetDescendantRectToMyCoords(descendant, this.mTempRect);
+        return this.mTempRect.bottom + delta &gt;= getScrollY() &amp;&amp; this.mTempRect.top - delta &lt;= getScrollY() + height;
+    }
+
+    private void doScrollY(int delta) {
+        if (delta == 0) {
+            return;
+        }
+        if (this.mSmoothScrollingEnabled) {
+            smoothScrollBy(0, delta);
+        } else {
+            scrollBy(0, delta);
+        }
+    }
+
+    public final void smoothScrollBy(int dx, int dy) {
+        if (getChildCount() != 0) {
+            if (AnimationUtils.currentAnimationTimeMillis() - this.mLastScroll &gt; 250) {
+                int maxY = Math.max(0, getChildAt(0).getHeight() - ((getHeight() - getPaddingBottom()) - getPaddingTop()));
+                int scrollY = getScrollY();
+                this.mScroller.startScroll(getScrollX(), scrollY, 0, Math.max(0, Math.min(scrollY + dy, maxY)) - scrollY);
+                ViewCompat.postInvalidateOnAnimation(this);
+            } else {
+                if (!this.mScroller.isFinished()) {
+                    this.mScroller.abortAnimation();
+                }
+                scrollBy(dx, dy);
+            }
+            this.mLastScroll = AnimationUtils.currentAnimationTimeMillis();
+        }
+    }
+
+    public final void smoothScrollTo(int x, int y) {
+        smoothScrollBy(x - getScrollX(), y - getScrollY());
+    }
+
+    public int computeVerticalScrollRange() {
+        int contentHeight = (getHeight() - getPaddingBottom()) - getPaddingTop();
+        if (getChildCount() == 0) {
+            return contentHeight;
+        }
+        int scrollRange = getChildAt(0).getBottom();
+        int scrollY = getScrollY();
+        int overscrollBottom = Math.max(0, scrollRange - contentHeight);
+        if (scrollY &lt; 0) {
+            scrollRange -= scrollY;
+        } else if (scrollY &gt; overscrollBottom) {
+            scrollRange += scrollY - overscrollBottom;
+        }
+        return scrollRange;
+    }
+
+    public int computeVerticalScrollOffset() {
+        return Math.max(0, super.computeVerticalScrollOffset());
+    }
+
+    public int computeVerticalScrollExtent() {
+        return super.computeVerticalScrollExtent();
+    }
+
+    public int computeHorizontalScrollRange() {
+        return super.computeHorizontalScrollRange();
+    }
+
+    public int computeHorizontalScrollOffset() {
+        return super.computeHorizontalScrollOffset();
+    }
+
+    public int computeHorizontalScrollExtent() {
+        return super.computeHorizontalScrollExtent();
+    }
+
+    protected void measureChild(View child, int parentWidthMeasureSpec, int parentHeightMeasureSpec) {
+        child.measure(getChildMeasureSpec(parentWidthMeasureSpec, getPaddingLeft() + getPaddingRight(), child.getLayoutParams().width), MeasureSpec.makeMeasureSpec(0, 0));
+    }
+
+    protected void measureChildWithMargins(View child, int parentWidthMeasureSpec, int widthUsed, int parentHeightMeasureSpec, int heightUsed) {
+        MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
+        child.measure(getChildMeasureSpec(parentWidthMeasureSpec, (((getPaddingLeft() + getPaddingRight()) + lp.leftMargin) + lp.rightMargin) + widthUsed, lp.width), MeasureSpec.makeMeasureSpec(lp.topMargin + lp.bottomMargin, 0));
+    }
+
+    public void computeScroll() {
+        boolean canOverscroll = true;
+        if (this.mScroller.computeScrollOffset()) {
+            int oldX = getScrollX();
+            int oldY = getScrollY();
+            int x = this.mScroller.getCurrX();
+            int y = this.mScroller.getCurrY();
+            if (oldX != x || oldY != y) {
+                int range = getScrollRange();
+                int overscrollMode = ViewCompat.getOverScrollMode(this);
+                if (overscrollMode != 0 &amp;&amp; (overscrollMode != 1 || range &lt;= 0)) {
+                    canOverscroll = false;
+                }
+                overScrollByCompat(x - oldX, y - oldY, oldX, oldY, 0, range, 0, 0, false);
+                if (canOverscroll) {
+                    ensureGlows();
+                    if (y &lt;= 0 &amp;&amp; oldY &gt; 0) {
+                        this.mEdgeGlowTop.onAbsorb((int) this.mScroller.getCurrVelocity());
+                    } else if (y &gt;= range &amp;&amp; oldY &lt; range) {
+                        this.mEdgeGlowBottom.onAbsorb((int) this.mScroller.getCurrVelocity());
+                    }
+                }
+            }
+        }
+    }
+
+    private void scrollToChild(View child) {
+        child.getDrawingRect(this.mTempRect);
+        offsetDescendantRectToMyCoords(child, this.mTempRect);
+        int scrollDelta = computeScrollDeltaToGetChildRectOnScreen(this.mTempRect);
+        if (scrollDelta != 0) {
+            scrollBy(0, scrollDelta);
+        }
+    }
+
+    private boolean scrollToChildRect(Rect rect, boolean immediate) {
+        boolean scroll;
+        int delta = computeScrollDeltaToGetChildRectOnScreen(rect);
+        if (delta != 0) {
+            scroll = true;
+        } else {
+            scroll = false;
+        }
+        if (scroll) {
+            if (immediate) {
+                scrollBy(0, delta);
+            } else {
+                smoothScrollBy(0, delta);
+            }
+        }
+        return scroll;
+    }
+
+    protected int computeScrollDeltaToGetChildRectOnScreen(Rect rect) {
+        if (getChildCount() == 0) {
+            return 0;
+        }
+        int height = getHeight();
+        int screenTop = getScrollY();
+        int screenBottom = screenTop + height;
+        int fadingEdge = getVerticalFadingEdgeLength();
+        if (rect.top &gt; 0) {
+            screenTop += fadingEdge;
+        }
+        if (rect.bottom &lt; getChildAt(0).getHeight()) {
+            screenBottom -= fadingEdge;
+        }
+        int scrollYDelta;
+        if (rect.bottom &gt; screenBottom &amp;&amp; rect.top &gt; screenTop) {
+            if (rect.height() &gt; height) {
+                scrollYDelta = 0 + (rect.top - screenTop);
+            } else {
+                scrollYDelta = 0 + (rect.bottom - screenBottom);
+            }
+            return Math.min(scrollYDelta, getChildAt(0).getBottom() - screenBottom);
+        } else if (rect.top &gt;= screenTop || rect.bottom &gt;= screenBottom) {
+            return 0;
+        } else {
+            if (rect.height() &gt; height) {
+                scrollYDelta = 0 - (screenBottom - rect.bottom);
+            } else {
+                scrollYDelta = 0 - (screenTop - rect.top);
+            }
+            return Math.max(scrollYDelta, -getScrollY());
+        }
+    }
+
+    public void requestChildFocus(View child, View focused) {
+        if (this.mIsLayoutDirty) {
+            this.mChildToScrollTo = focused;
+        } else {
+            scrollToChild(focused);
+        }
+        super.requestChildFocus(child, focused);
+    }
+
+    protected boolean onRequestFocusInDescendants(int direction, Rect previouslyFocusedRect) {
+        if (direction == 2) {
+            direction = TransportMediator.KEYCODE_MEDIA_RECORD;
+        } else if (direction == 1) {
+            direction = 33;
+        }
+        View nextFocus = previouslyFocusedRect == null ? FocusFinder.getInstance().findNextFocus(this, null, direction) : FocusFinder.getInstance().findNextFocusFromRect(this, previouslyFocusedRect, direction);
+        if (nextFocus == null || isOffScreen(nextFocus)) {
+            return false;
+        }
+        return nextFocus.requestFocus(direction, previouslyFocusedRect);
+    }
+
+    public boolean requestChildRectangleOnScreen(View child, Rect rectangle, boolean immediate) {
+        rectangle.offset(child.getLeft() - child.getScrollX(), child.getTop() - child.getScrollY());
+        return scrollToChildRect(rectangle, immediate);
+    }
+
+    public void requestLayout() {
+        this.mIsLayoutDirty = true;
+        super.requestLayout();
+    }
+
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        this.mIsLayoutDirty = false;
+        if (this.mChildToScrollTo != null &amp;&amp; isViewDescendantOf(this.mChildToScrollTo, this)) {
+            scrollToChild(this.mChildToScrollTo);
+        }
+        this.mChildToScrollTo = null;
+        if (!this.mIsLaidOut) {
+            if (this.mSavedState != null) {
+                scrollTo(getScrollX(), this.mSavedState.scrollPosition);
+                this.mSavedState = null;
+            }
+            int scrollRange = Math.max(0, (getChildCount() &gt; 0 ? getChildAt(0).getMeasuredHeight() : 0) - (((b - t) - getPaddingBottom()) - getPaddingTop()));
+            if (getScrollY() &gt; scrollRange) {
+                scrollTo(getScrollX(), scrollRange);
+            } else if (getScrollY() &lt; 0) {
+                scrollTo(getScrollX(), 0);
+            }
+        }
+        scrollTo(getScrollX(), getScrollY());
+        this.mIsLaidOut = true;
+    }
+
+    public void onAttachedToWindow() {
+        this.mIsLaidOut = false;
+    }
+
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        View currentFocused = findFocus();
+        if (currentFocused != null &amp;&amp; this != currentFocused &amp;&amp; isWithinDeltaOfScreen(currentFocused, 0, oldh)) {
+            currentFocused.getDrawingRect(this.mTempRect);
+            offsetDescendantRectToMyCoords(currentFocused, this.mTempRect);
+            doScrollY(computeScrollDeltaToGetChildRectOnScreen(this.mTempRect));
+        }
+    }
+
+    private static boolean isViewDescendantOf(View child, View parent) {
+        if (child == parent) {
+            return true;
+        }
+        ViewParent theParent = child.getParent();
+        if ((theParent instanceof ViewGroup) &amp;&amp; isViewDescendantOf((View) theParent, parent)) {
+            return true;
+        }
+        return false;
+    }
+
+    public void fling(int velocityY) {
+        if (getChildCount() &gt; 0) {
+            int height = (getHeight() - getPaddingBottom()) - getPaddingTop();
+            int i = velocityY;
+            int i2 = 0;
+            int i3 = 0;
+            int i4 = 0;
+            int i5 = 0;
+            this.mScroller.fling(getScrollX(), getScrollY(), 0, i, i2, i3, i4, Math.max(0, getChildAt(0).getHeight() - height), i5, height / 2);
+            ViewCompat.postInvalidateOnAnimation(this);
+        }
+    }
+
+    private void flingWithNestedDispatch(int velocityY) {
+        int scrollY = getScrollY();
+        boolean canFling = (scrollY &gt; 0 || velocityY &gt; 0) &amp;&amp; (scrollY &lt; getScrollRange() || velocityY &lt; 0);
+        if (!dispatchNestedPreFling(0.0f, (float) velocityY)) {
+            dispatchNestedFling(0.0f, (float) velocityY, canFling);
+            if (canFling) {
+                fling(velocityY);
+            }
+        }
+    }
+
+    private void endDrag() {
+        this.mIsBeingDragged = false;
+        recycleVelocityTracker();
+        stopNestedScroll();
+        if (this.mEdgeGlowTop != null) {
+            this.mEdgeGlowTop.onRelease();
+            this.mEdgeGlowBottom.onRelease();
+        }
+    }
+
+    public void scrollTo(int x, int y) {
+        if (getChildCount() &gt; 0) {
+            View child = getChildAt(0);
+            x = clamp(x, (getWidth() - getPaddingRight()) - getPaddingLeft(), child.getWidth());
+            y = clamp(y, (getHeight() - getPaddingBottom()) - getPaddingTop(), child.getHeight());
+            if (x != getScrollX() || y != getScrollY()) {
+                super.scrollTo(x, y);
+            }
+        }
+    }
+
+    private void ensureGlows() {
+        if (ViewCompat.getOverScrollMode(this) == 2) {
+            this.mEdgeGlowTop = null;
+            this.mEdgeGlowBottom = null;
+        } else if (this.mEdgeGlowTop == null) {
+            Context context = getContext();
+            this.mEdgeGlowTop = new EdgeEffectCompat(context);
+            this.mEdgeGlowBottom = new EdgeEffectCompat(context);
+        }
+    }
+
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        if (this.mEdgeGlowTop != null) {
+            int restoreCount;
+            int width;
+            int scrollY = getScrollY();
+            if (!this.mEdgeGlowTop.isFinished()) {
+                restoreCount = canvas.save();
+                width = (getWidth() - getPaddingLeft()) - getPaddingRight();
+                canvas.translate((float) getPaddingLeft(), (float) Math.min(0, scrollY));
+                this.mEdgeGlowTop.setSize(width, getHeight());
+                if (this.mEdgeGlowTop.draw(canvas)) {
+                    ViewCompat.postInvalidateOnAnimation(this);
+                }
+                canvas.restoreToCount(restoreCount);
+            }
+            if (!this.mEdgeGlowBottom.isFinished()) {
+                restoreCount = canvas.save();
+                width = (getWidth() - getPaddingLeft()) - getPaddingRight();
+                int height = getHeight();
+                canvas.translate((float) ((-width) + getPaddingLeft()), (float) (Math.max(getScrollRange(), scrollY) + height));
+                canvas.rotate(180.0f, (float) width, 0.0f);
+                this.mEdgeGlowBottom.setSize(width, height);
+                if (this.mEdgeGlowBottom.draw(canvas)) {
+                    ViewCompat.postInvalidateOnAnimation(this);
+                }
+                canvas.restoreToCount(restoreCount);
+            }
+        }
+    }
+
+    private static int clamp(int n, int my, int child) {
+        if (my &gt;= child || n &lt; 0) {
+            return 0;
+        }
+        if (my + n &gt; child) {
+            return child - my;
+        }
+        return n;
+    }
+
+    protected void onRestoreInstanceState(Parcelable state) {
+        SavedState ss = (SavedState) state;
+        super.onRestoreInstanceState(ss.getSuperState());
+        this.mSavedState = ss;
+        requestLayout();
+    }
+
+    protected Parcelable onSaveInstanceState() {
+        SavedState ss = new SavedState(super.onSaveInstanceState());
+        ss.scrollPosition = getScrollY();
+        return ss;
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:40 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

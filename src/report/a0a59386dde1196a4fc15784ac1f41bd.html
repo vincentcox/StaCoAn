@@ -1,0 +1,375 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v7\widget\PositionMap.java" target="_blank">\test-apk\jadx_source_code\android\support\v7\widget\PositionMap.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="PositionMap.java" data-line="" class="code line-numbers"><code>package android.support.v7.widget;
+
+import java.util.ArrayList;
+
+class PositionMap&lt;E&gt; implements Cloneable {
+    private static final Object DELETED = new Object();
+    private boolean mGarbage;
+    private int[] mKeys;
+    private int mSize;
+    private Object[] mValues;
+
+    static class ContainerHelpers {
+        static final boolean[] EMPTY_BOOLEANS = new boolean[0];
+        static final int[] EMPTY_INTS = new int[0];
+        static final long[] EMPTY_LONGS = new long[0];
+        static final Object[] EMPTY_OBJECTS = new Object[0];
+
+        ContainerHelpers() {
+        }
+
+        static int binarySearch(int[] array, int size, int value) {
+            int lo = 0;
+            int hi = size - 1;
+            while (lo &lt;= hi) {
+                int i = (lo + hi) &gt;&gt;&gt; 1;
+                int midVal = array[i];
+                if (midVal &lt; value) {
+                    lo = i + 1;
+                } else if (midVal &lt;= value) {
+                    return i;
+                } else {
+                    hi = i - 1;
+                }
+            }
+            return lo ^ -1;
+        }
+    }
+
+    public PositionMap() {
+        this(10);
+    }
+
+    public PositionMap(int initialCapacity) {
+        this.mGarbage = false;
+        if (initialCapacity == 0) {
+            this.mKeys = ContainerHelpers.EMPTY_INTS;
+            this.mValues = ContainerHelpers.EMPTY_OBJECTS;
+        } else {
+            initialCapacity = idealIntArraySize(initialCapacity);
+            this.mKeys = new int[initialCapacity];
+            this.mValues = new Object[initialCapacity];
+        }
+        this.mSize = 0;
+    }
+
+    public PositionMap&lt;E&gt; clone() {
+        PositionMap&lt;E&gt; clone = null;
+        try {
+            clone = (PositionMap) super.clone();
+            clone.mKeys = (int[]) this.mKeys.clone();
+            clone.mValues = (Object[]) this.mValues.clone();
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            return clone;
+        }
+    }
+
+    public E get(int key) {
+        return get(key, null);
+    }
+
+    public E get(int key, E valueIfKeyNotFound) {
+        int i = ContainerHelpers.binarySearch(this.mKeys, this.mSize, key);
+        return (i &lt; 0 || this.mValues[i] == DELETED) ? valueIfKeyNotFound : this.mValues[i];
+    }
+
+    public void delete(int key) {
+        int i = ContainerHelpers.binarySearch(this.mKeys, this.mSize, key);
+        if (i &gt;= 0 &amp;&amp; this.mValues[i] != DELETED) {
+            this.mValues[i] = DELETED;
+            this.mGarbage = true;
+        }
+    }
+
+    public void remove(int key) {
+        delete(key);
+    }
+
+    public void removeAt(int index) {
+        if (this.mValues[index] != DELETED) {
+            this.mValues[index] = DELETED;
+            this.mGarbage = true;
+        }
+    }
+
+    public void removeAtRange(int index, int size) {
+        int end = Math.min(this.mSize, index + size);
+        for (int i = index; i &lt; end; i++) {
+            removeAt(i);
+        }
+    }
+
+    public void insertKeyRange(int keyStart, int count) {
+    }
+
+    public void removeKeyRange(ArrayList&lt;E&gt; arrayList, int keyStart, int count) {
+    }
+
+    private void gc() {
+        int n = this.mSize;
+        int o = 0;
+        int[] keys = this.mKeys;
+        Object[] values = this.mValues;
+        for (int i = 0; i &lt; n; i++) {
+            Object val = values[i];
+            if (val != DELETED) {
+                if (i != o) {
+                    keys[o] = keys[i];
+                    values[o] = val;
+                    values[i] = null;
+                }
+                o++;
+            }
+        }
+        this.mGarbage = false;
+        this.mSize = o;
+    }
+
+    public void put(int key, E value) {
+        int i = ContainerHelpers.binarySearch(this.mKeys, this.mSize, key);
+        if (i &gt;= 0) {
+            this.mValues[i] = value;
+            return;
+        }
+        i ^= -1;
+        if (i &gt;= this.mSize || this.mValues[i] != DELETED) {
+            if (this.mGarbage &amp;&amp; this.mSize &gt;= this.mKeys.length) {
+                gc();
+                i = ContainerHelpers.binarySearch(this.mKeys, this.mSize, key) ^ -1;
+            }
+            if (this.mSize &gt;= this.mKeys.length) {
+                int n = idealIntArraySize(this.mSize + 1);
+                int[] nkeys = new int[n];
+                Object[] nvalues = new Object[n];
+                System.arraycopy(this.mKeys, 0, nkeys, 0, this.mKeys.length);
+                System.arraycopy(this.mValues, 0, nvalues, 0, this.mValues.length);
+                this.mKeys = nkeys;
+                this.mValues = nvalues;
+            }
+            if (this.mSize - i != 0) {
+                System.arraycopy(this.mKeys, i, this.mKeys, i + 1, this.mSize - i);
+                System.arraycopy(this.mValues, i, this.mValues, i + 1, this.mSize - i);
+            }
+            this.mKeys[i] = key;
+            this.mValues[i] = value;
+            this.mSize++;
+            return;
+        }
+        this.mKeys[i] = key;
+        this.mValues[i] = value;
+    }
+
+    public int size() {
+        if (this.mGarbage) {
+            gc();
+        }
+        return this.mSize;
+    }
+
+    public int keyAt(int index) {
+        if (this.mGarbage) {
+            gc();
+        }
+        return this.mKeys[index];
+    }
+
+    public E valueAt(int index) {
+        if (this.mGarbage) {
+            gc();
+        }
+        return this.mValues[index];
+    }
+
+    public void setValueAt(int index, E value) {
+        if (this.mGarbage) {
+            gc();
+        }
+        this.mValues[index] = value;
+    }
+
+    public int indexOfKey(int key) {
+        if (this.mGarbage) {
+            gc();
+        }
+        return ContainerHelpers.binarySearch(this.mKeys, this.mSize, key);
+    }
+
+    public int indexOfValue(E value) {
+        if (this.mGarbage) {
+            gc();
+        }
+        for (int i = 0; i &lt; this.mSize; i++) {
+            if (this.mValues[i] == value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void clear() {
+        int n = this.mSize;
+        Object[] values = this.mValues;
+        for (int i = 0; i &lt; n; i++) {
+            values[i] = null;
+        }
+        this.mSize = 0;
+        this.mGarbage = false;
+    }
+
+    public void append(int key, E value) {
+        if (this.mSize == 0 || key &gt; this.mKeys[this.mSize - 1]) {
+            if (this.mGarbage &amp;&amp; this.mSize &gt;= this.mKeys.length) {
+                gc();
+            }
+            int pos = this.mSize;
+            if (pos &gt;= this.mKeys.length) {
+                int n = idealIntArraySize(pos + 1);
+                int[] nkeys = new int[n];
+                Object[] nvalues = new Object[n];
+                System.arraycopy(this.mKeys, 0, nkeys, 0, this.mKeys.length);
+                System.arraycopy(this.mValues, 0, nvalues, 0, this.mValues.length);
+                this.mKeys = nkeys;
+                this.mValues = nvalues;
+            }
+            this.mKeys[pos] = key;
+            this.mValues[pos] = value;
+            this.mSize = pos + 1;
+            return;
+        }
+        put(key, value);
+    }
+
+    public String toString() {
+        if (size() &lt;= 0) {
+            return "{}";
+        }
+        StringBuilder buffer = new StringBuilder(this.mSize * 28);
+        buffer.append('{');
+        for (int i = 0; i &lt; this.mSize; i++) {
+            if (i &gt; 0) {
+                buffer.append(", ");
+            }
+            buffer.append(keyAt(i));
+            buffer.append('=');
+            PositionMap value = valueAt(i);
+            if (value != this) {
+                buffer.append(value);
+            } else {
+                buffer.append("(this Map)");
+            }
+        }
+        buffer.append('}');
+        return buffer.toString();
+    }
+
+    static int idealByteArraySize(int need) {
+        for (int i = 4; i &lt; 32; i++) {
+            if (need &lt;= (1 &lt;&lt; i) - 12) {
+                return (1 &lt;&lt; i) - 12;
+            }
+        }
+        return need;
+    }
+
+    static int idealBooleanArraySize(int need) {
+        return idealByteArraySize(need);
+    }
+
+    static int idealShortArraySize(int need) {
+        return idealByteArraySize(need * 2) / 2;
+    }
+
+    static int idealCharArraySize(int need) {
+        return idealByteArraySize(need * 2) / 2;
+    }
+
+    static int idealIntArraySize(int need) {
+        return idealByteArraySize(need * 4) / 4;
+    }
+
+    static int idealFloatArraySize(int need) {
+        return idealByteArraySize(need * 4) / 4;
+    }
+
+    static int idealObjectArraySize(int need) {
+        return idealByteArraySize(need * 4) / 4;
+    }
+
+    static int idealLongArraySize(int need) {
+        return idealByteArraySize(need * 8) / 8;
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:41 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

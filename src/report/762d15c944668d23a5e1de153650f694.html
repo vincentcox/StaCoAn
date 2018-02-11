@@ -1,0 +1,289 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v7\app\AppCompatDelegateImplBase.java" target="_blank">\test-apk\jadx_source_code\android\support\v7\app\AppCompatDelegateImplBase.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="AppCompatDelegateImplBase.java" data-line="" class="code line-numbers"><code>package android.support.v7.app;
+
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v7.app.ActionBarDrawerToggle.Delegate;
+import android.support.v7.appcompat.R;
+import android.support.v7.internal.view.SupportMenuInflater;
+import android.support.v7.internal.view.WindowCallbackWrapper;
+import android.support.v7.internal.view.menu.MenuBuilder;
+import android.support.v7.internal.widget.TintTypedArray;
+import android.support.v7.view.ActionMode;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.Window;
+import android.view.Window.Callback;
+
+abstract class AppCompatDelegateImplBase extends AppCompatDelegate {
+    ActionBar mActionBar;
+    final AppCompatCallback mAppCompatCallback;
+    final Callback mAppCompatWindowCallback;
+    final Context mContext;
+    boolean mHasActionBar;
+    private boolean mIsDestroyed;
+    boolean mIsFloating;
+    MenuInflater mMenuInflater;
+    final Callback mOriginalWindowCallback = this.mWindow.getCallback();
+    boolean mOverlayActionBar;
+    boolean mOverlayActionMode;
+    boolean mThemeRead;
+    private CharSequence mTitle;
+    final Window mWindow;
+    boolean mWindowNoTitle;
+
+    private class ActionBarDrawableToggleImpl implements Delegate {
+        private ActionBarDrawableToggleImpl() {
+        }
+
+        public Drawable getThemeUpIndicator() {
+            TintTypedArray a = TintTypedArray.obtainStyledAttributes(getActionBarThemedContext(), null, new int[]{R.attr.homeAsUpIndicator});
+            Drawable result = a.getDrawable(0);
+            a.recycle();
+            return result;
+        }
+
+        public Context getActionBarThemedContext() {
+            return AppCompatDelegateImplBase.this.getActionBarThemedContext();
+        }
+
+        public boolean isNavigationVisible() {
+            ActionBar ab = AppCompatDelegateImplBase.this.getSupportActionBar();
+            return (ab == null || (ab.getDisplayOptions() &amp; 4) == 0) ? false : true;
+        }
+
+        public void setActionBarUpIndicator(Drawable upDrawable, int contentDescRes) {
+            ActionBar ab = AppCompatDelegateImplBase.this.getSupportActionBar();
+            if (ab != null) {
+                ab.setHomeAsUpIndicator(upDrawable);
+                ab.setHomeActionContentDescription(contentDescRes);
+            }
+        }
+
+        public void setActionBarDescription(int contentDescRes) {
+            ActionBar ab = AppCompatDelegateImplBase.this.getSupportActionBar();
+            if (ab != null) {
+                ab.setHomeActionContentDescription(contentDescRes);
+            }
+        }
+    }
+
+    class AppCompatWindowCallbackBase extends WindowCallbackWrapper {
+        AppCompatWindowCallbackBase(Callback callback) {
+            super(callback);
+        }
+
+        public boolean dispatchKeyEvent(KeyEvent event) {
+            return AppCompatDelegateImplBase.this.dispatchKeyEvent(event) || super.dispatchKeyEvent(event);
+        }
+
+        public boolean dispatchKeyShortcutEvent(KeyEvent event) {
+            return super.dispatchKeyShortcutEvent(event) || AppCompatDelegateImplBase.this.onKeyShortcut(event.getKeyCode(), event);
+        }
+
+        public boolean onCreatePanelMenu(int featureId, Menu menu) {
+            if (featureId != 0 || (menu instanceof MenuBuilder)) {
+                return super.onCreatePanelMenu(featureId, menu);
+            }
+            return false;
+        }
+
+        public void onContentChanged() {
+        }
+
+        public boolean onPreparePanel(int featureId, View view, Menu menu) {
+            MenuBuilder mb = menu instanceof MenuBuilder ? (MenuBuilder) menu : null;
+            if (featureId == 0 &amp;&amp; mb == null) {
+                return false;
+            }
+            if (mb != null) {
+                mb.setOverrideVisibleItems(true);
+            }
+            boolean handled = super.onPreparePanel(featureId, view, menu);
+            if (mb == null) {
+                return handled;
+            }
+            mb.setOverrideVisibleItems(false);
+            return handled;
+        }
+
+        public boolean onMenuOpened(int featureId, Menu menu) {
+            super.onMenuOpened(featureId, menu);
+            AppCompatDelegateImplBase.this.onMenuOpened(featureId, menu);
+            return true;
+        }
+
+        public void onPanelClosed(int featureId, Menu menu) {
+            super.onPanelClosed(featureId, menu);
+            AppCompatDelegateImplBase.this.onPanelClosed(featureId, menu);
+        }
+    }
+
+    abstract boolean dispatchKeyEvent(KeyEvent keyEvent);
+
+    abstract void initWindowDecorActionBar();
+
+    abstract boolean onKeyShortcut(int i, KeyEvent keyEvent);
+
+    abstract boolean onMenuOpened(int i, Menu menu);
+
+    abstract void onPanelClosed(int i, Menu menu);
+
+    abstract void onTitleChanged(CharSequence charSequence);
+
+    abstract ActionMode startSupportActionModeFromWindow(ActionMode.Callback callback);
+
+    AppCompatDelegateImplBase(Context context, Window window, AppCompatCallback callback) {
+        this.mContext = context;
+        this.mWindow = window;
+        this.mAppCompatCallback = callback;
+        if (this.mOriginalWindowCallback instanceof AppCompatWindowCallbackBase) {
+            throw new IllegalStateException("AppCompat has already installed itself into the Window");
+        }
+        this.mAppCompatWindowCallback = wrapWindowCallback(this.mOriginalWindowCallback);
+        this.mWindow.setCallback(this.mAppCompatWindowCallback);
+    }
+
+    Callback wrapWindowCallback(Callback callback) {
+        return new AppCompatWindowCallbackBase(callback);
+    }
+
+    public ActionBar getSupportActionBar() {
+        initWindowDecorActionBar();
+        return this.mActionBar;
+    }
+
+    final ActionBar peekSupportActionBar() {
+        return this.mActionBar;
+    }
+
+    public MenuInflater getMenuInflater() {
+        if (this.mMenuInflater == null) {
+            initWindowDecorActionBar();
+            this.mMenuInflater = new SupportMenuInflater(this.mActionBar != null ? this.mActionBar.getThemedContext() : this.mContext);
+        }
+        return this.mMenuInflater;
+    }
+
+    public final Delegate getDrawerToggleDelegate() {
+        return new ActionBarDrawableToggleImpl();
+    }
+
+    final Context getActionBarThemedContext() {
+        Context context = null;
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            context = ab.getThemedContext();
+        }
+        if (context == null) {
+            return this.mContext;
+        }
+        return context;
+    }
+
+    public final void onDestroy() {
+        this.mIsDestroyed = true;
+    }
+
+    public void setHandleNativeActionModesEnabled(boolean enabled) {
+    }
+
+    public boolean isHandleNativeActionModesEnabled() {
+        return false;
+    }
+
+    final boolean isDestroyed() {
+        return this.mIsDestroyed;
+    }
+
+    final Callback getWindowCallback() {
+        return this.mWindow.getCallback();
+    }
+
+    public final void setTitle(CharSequence title) {
+        this.mTitle = title;
+        onTitleChanged(title);
+    }
+
+    final CharSequence getTitle() {
+        if (this.mOriginalWindowCallback instanceof Activity) {
+            return ((Activity) this.mOriginalWindowCallback).getTitle();
+        }
+        return this.mTitle;
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:41 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

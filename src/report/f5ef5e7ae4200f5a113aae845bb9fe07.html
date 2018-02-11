@@ -1,0 +1,200 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v4\app\NotificationCompatKitKat.java" target="_blank">\test-apk\jadx_source_code\android\support\v4\app\NotificationCompatKitKat.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="NotificationCompatKitKat.java" data-line="" class="code line-numbers"><code>package android.support.v4.app;
+
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.support.v4.app.NotificationCompatBase.Action;
+import android.support.v4.app.NotificationCompatBase.Action.Factory;
+import android.support.v4.app.RemoteInputCompatBase.RemoteInput;
+import android.util.SparseArray;
+import android.widget.RemoteViews;
+import java.util.ArrayList;
+import java.util.List;
+
+class NotificationCompatKitKat {
+
+    public static class Builder implements NotificationBuilderWithBuilderAccessor, NotificationBuilderWithActions {
+        private android.app.Notification.Builder b;
+        private List&lt;Bundle&gt; mActionExtrasList = new ArrayList();
+        private Bundle mExtras;
+
+        public Builder(Context context, Notification n, CharSequence contentTitle, CharSequence contentText, CharSequence contentInfo, RemoteViews tickerView, int number, PendingIntent contentIntent, PendingIntent fullScreenIntent, Bitmap largeIcon, int progressMax, int progress, boolean progressIndeterminate, boolean showWhen, boolean useChronometer, int priority, CharSequence subText, boolean localOnly, ArrayList&lt;String&gt; people, Bundle extras, String groupKey, boolean groupSummary, String sortKey) {
+            boolean z;
+            android.app.Notification.Builder lights = new android.app.Notification.Builder(context).setWhen(n.when).setShowWhen(showWhen).setSmallIcon(n.icon, n.iconLevel).setContent(n.contentView).setTicker(n.tickerText, tickerView).setSound(n.sound, n.audioStreamType).setVibrate(n.vibrate).setLights(n.ledARGB, n.ledOnMS, n.ledOffMS);
+            if ((n.flags &amp; 2) != 0) {
+                z = true;
+            } else {
+                z = false;
+            }
+            lights = lights.setOngoing(z);
+            if ((n.flags &amp; 8) != 0) {
+                z = true;
+            } else {
+                z = false;
+            }
+            lights = lights.setOnlyAlertOnce(z);
+            if ((n.flags &amp; 16) != 0) {
+                z = true;
+            } else {
+                z = false;
+            }
+            lights = lights.setAutoCancel(z).setDefaults(n.defaults).setContentTitle(contentTitle).setContentText(contentText).setSubText(subText).setContentInfo(contentInfo).setContentIntent(contentIntent).setDeleteIntent(n.deleteIntent);
+            if ((n.flags &amp; 128) != 0) {
+                z = true;
+            } else {
+                z = false;
+            }
+            this.b = lights.setFullScreenIntent(fullScreenIntent, z).setLargeIcon(largeIcon).setNumber(number).setUsesChronometer(useChronometer).setPriority(priority).setProgress(progressMax, progress, progressIndeterminate);
+            this.mExtras = new Bundle();
+            if (extras != null) {
+                this.mExtras.putAll(extras);
+            }
+            if (!(people == null || people.isEmpty())) {
+                this.mExtras.putStringArray(NotificationCompat.EXTRA_PEOPLE, (String[]) people.toArray(new String[people.size()]));
+            }
+            if (localOnly) {
+                this.mExtras.putBoolean(NotificationCompatExtras.EXTRA_LOCAL_ONLY, true);
+            }
+            if (groupKey != null) {
+                this.mExtras.putString(NotificationCompatExtras.EXTRA_GROUP_KEY, groupKey);
+                if (groupSummary) {
+                    this.mExtras.putBoolean(NotificationCompatExtras.EXTRA_GROUP_SUMMARY, true);
+                } else {
+                    this.mExtras.putBoolean(NotificationManagerCompat.EXTRA_USE_SIDE_CHANNEL, true);
+                }
+            }
+            if (sortKey != null) {
+                this.mExtras.putString(NotificationCompatExtras.EXTRA_SORT_KEY, sortKey);
+            }
+        }
+
+        public void addAction(Action action) {
+            this.mActionExtrasList.add(NotificationCompatJellybean.writeActionAndGetExtras(this.b, action));
+        }
+
+        public android.app.Notification.Builder getBuilder() {
+            return this.b;
+        }
+
+        public Notification build() {
+            SparseArray&lt;Bundle&gt; actionExtrasMap = NotificationCompatJellybean.buildActionExtrasMap(this.mActionExtrasList);
+            if (actionExtrasMap != null) {
+                this.mExtras.putSparseParcelableArray(NotificationCompatExtras.EXTRA_ACTION_EXTRAS, actionExtrasMap);
+            }
+            this.b.setExtras(this.mExtras);
+            return this.b.build();
+        }
+    }
+
+    NotificationCompatKitKat() {
+    }
+
+    public static Bundle getExtras(Notification notif) {
+        return notif.extras;
+    }
+
+    public static int getActionCount(Notification notif) {
+        return notif.actions != null ? notif.actions.length : 0;
+    }
+
+    public static Action getAction(Notification notif, int actionIndex, Factory factory, RemoteInput.Factory remoteInputFactory) {
+        Notification.Action action = notif.actions[actionIndex];
+        Bundle actionExtras = null;
+        SparseArray&lt;Bundle&gt; actionExtrasMap = notif.extras.getSparseParcelableArray(NotificationCompatExtras.EXTRA_ACTION_EXTRAS);
+        if (actionExtrasMap != null) {
+            actionExtras = (Bundle) actionExtrasMap.get(actionIndex);
+        }
+        return NotificationCompatJellybean.readAction(factory, remoteInputFactory, action.icon, action.title, action.actionIntent, actionExtras);
+    }
+
+    public static boolean getLocalOnly(Notification notif) {
+        return notif.extras.getBoolean(NotificationCompatExtras.EXTRA_LOCAL_ONLY);
+    }
+
+    public static String getGroup(Notification notif) {
+        return notif.extras.getString(NotificationCompatExtras.EXTRA_GROUP_KEY);
+    }
+
+    public static boolean isGroupSummary(Notification notif) {
+        return notif.extras.getBoolean(NotificationCompatExtras.EXTRA_GROUP_SUMMARY);
+    }
+
+    public static String getSortKey(Notification notif) {
+        return notif.extras.getString(NotificationCompatExtras.EXTRA_SORT_KEY);
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:40 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

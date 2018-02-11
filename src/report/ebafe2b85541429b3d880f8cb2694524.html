@@ -1,0 +1,304 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v4\content\Loader.java" target="_blank">\test-apk\jadx_source_code\android\support\v4\content\Loader.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="Loader.java" data-line="" class="code line-numbers"><code>package android.support.v4.content;
+
+import android.content.Context;
+import android.database.ContentObserver;
+import android.os.Handler;
+import android.support.v4.util.DebugUtils;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+
+public class Loader&lt;D&gt; {
+    boolean mAbandoned = false;
+    boolean mContentChanged = false;
+    Context mContext;
+    int mId;
+    OnLoadCompleteListener&lt;D&gt; mListener;
+    OnLoadCanceledListener&lt;D&gt; mOnLoadCanceledListener;
+    boolean mProcessingChange = false;
+    boolean mReset = true;
+    boolean mStarted = false;
+
+    public final class ForceLoadContentObserver extends ContentObserver {
+        public ForceLoadContentObserver() {
+            super(new Handler());
+        }
+
+        public boolean deliverSelfNotifications() {
+            return true;
+        }
+
+        public void onChange(boolean selfChange) {
+            Loader.this.onContentChanged();
+        }
+    }
+
+    public interface OnLoadCanceledListener&lt;D&gt; {
+        void onLoadCanceled(Loader&lt;D&gt; loader);
+    }
+
+    public interface OnLoadCompleteListener&lt;D&gt; {
+        void onLoadComplete(Loader&lt;D&gt; loader, D d);
+    }
+
+    public Loader(Context context) {
+        this.mContext = context.getApplicationContext();
+    }
+
+    public void deliverResult(D data) {
+        if (this.mListener != null) {
+            this.mListener.onLoadComplete(this, data);
+        }
+    }
+
+    public void deliverCancellation() {
+        if (this.mOnLoadCanceledListener != null) {
+            this.mOnLoadCanceledListener.onLoadCanceled(this);
+        }
+    }
+
+    public Context getContext() {
+        return this.mContext;
+    }
+
+    public int getId() {
+        return this.mId;
+    }
+
+    public void registerListener(int id, OnLoadCompleteListener&lt;D&gt; listener) {
+        if (this.mListener != null) {
+            throw new IllegalStateException("There is already a listener registered");
+        }
+        this.mListener = listener;
+        this.mId = id;
+    }
+
+    public void unregisterListener(OnLoadCompleteListener&lt;D&gt; listener) {
+        if (this.mListener == null) {
+            throw new IllegalStateException("No listener register");
+        } else if (this.mListener != listener) {
+            throw new IllegalArgumentException("Attempting to unregister the wrong listener");
+        } else {
+            this.mListener = null;
+        }
+    }
+
+    public void registerOnLoadCanceledListener(OnLoadCanceledListener&lt;D&gt; listener) {
+        if (this.mOnLoadCanceledListener != null) {
+            throw new IllegalStateException("There is already a listener registered");
+        }
+        this.mOnLoadCanceledListener = listener;
+    }
+
+    public void unregisterOnLoadCanceledListener(OnLoadCanceledListener&lt;D&gt; listener) {
+        if (this.mOnLoadCanceledListener == null) {
+            throw new IllegalStateException("No listener register");
+        } else if (this.mOnLoadCanceledListener != listener) {
+            throw new IllegalArgumentException("Attempting to unregister the wrong listener");
+        } else {
+            this.mOnLoadCanceledListener = null;
+        }
+    }
+
+    public boolean isStarted() {
+        return this.mStarted;
+    }
+
+    public boolean isAbandoned() {
+        return this.mAbandoned;
+    }
+
+    public boolean isReset() {
+        return this.mReset;
+    }
+
+    public final void startLoading() {
+        this.mStarted = true;
+        this.mReset = false;
+        this.mAbandoned = false;
+        onStartLoading();
+    }
+
+    protected void onStartLoading() {
+    }
+
+    public boolean cancelLoad() {
+        return onCancelLoad();
+    }
+
+    protected boolean onCancelLoad() {
+        return false;
+    }
+
+    public void forceLoad() {
+        onForceLoad();
+    }
+
+    protected void onForceLoad() {
+    }
+
+    public void stopLoading() {
+        this.mStarted = false;
+        onStopLoading();
+    }
+
+    protected void onStopLoading() {
+    }
+
+    public void abandon() {
+        this.mAbandoned = true;
+        onAbandon();
+    }
+
+    protected void onAbandon() {
+    }
+
+    public void reset() {
+        onReset();
+        this.mReset = true;
+        this.mStarted = false;
+        this.mAbandoned = false;
+        this.mContentChanged = false;
+        this.mProcessingChange = false;
+    }
+
+    protected void onReset() {
+    }
+
+    public boolean takeContentChanged() {
+        boolean res = this.mContentChanged;
+        this.mContentChanged = false;
+        this.mProcessingChange |= res;
+        return res;
+    }
+
+    public void commitContentChanged() {
+        this.mProcessingChange = false;
+    }
+
+    public void rollbackContentChanged() {
+        if (this.mProcessingChange) {
+            this.mContentChanged = true;
+        }
+    }
+
+    public void onContentChanged() {
+        if (this.mStarted) {
+            forceLoad();
+        } else {
+            this.mContentChanged = true;
+        }
+    }
+
+    public String dataToString(D data) {
+        StringBuilder sb = new StringBuilder(64);
+        DebugUtils.buildShortClassTag(data, sb);
+        sb.append("}");
+        return sb.toString();
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder(64);
+        DebugUtils.buildShortClassTag(this, sb);
+        sb.append(" id=");
+        sb.append(this.mId);
+        sb.append("}");
+        return sb.toString();
+    }
+
+    public void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args) {
+        writer.print(prefix);
+        writer.print("mId=");
+        writer.print(this.mId);
+        writer.print(" mListener=");
+        writer.println(this.mListener);
+        if (this.mStarted || this.mContentChanged || this.mProcessingChange) {
+            writer.print(prefix);
+            writer.print("mStarted=");
+            writer.print(this.mStarted);
+            writer.print(" mContentChanged=");
+            writer.print(this.mContentChanged);
+            writer.print(" mProcessingChange=");
+            writer.println(this.mProcessingChange);
+        }
+        if (this.mAbandoned || this.mReset) {
+            writer.print(prefix);
+            writer.print("mAbandoned=");
+            writer.print(this.mAbandoned);
+            writer.print(" mReset=");
+            writer.println(this.mReset);
+        }
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:40 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

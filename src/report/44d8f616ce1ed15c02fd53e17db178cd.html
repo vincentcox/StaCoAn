@@ -1,0 +1,611 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v7\internal\widget\ToolbarWidgetWrapper.java" target="_blank">\test-apk\jadx_source_code\android\support\v7\internal\widget\ToolbarWidgetWrapper.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="ToolbarWidgetWrapper.java" data-line="" class="code line-numbers"><code>package android.support.v7.internal.widget;
+
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Parcelable;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorCompat;
+import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
+import android.support.v7.appcompat.R;
+import android.support.v7.internal.view.menu.ActionMenuItem;
+import android.support.v7.internal.view.menu.MenuBuilder;
+import android.support.v7.internal.view.menu.MenuPresenter;
+import android.support.v7.widget.ActionMenuPresenter;
+import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
+import android.util.SparseArray;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.Window.Callback;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+
+public class ToolbarWidgetWrapper implements DecorToolbar {
+    private static final int AFFECTS_LOGO_MASK = 3;
+    private static final long DEFAULT_FADE_DURATION_MS = 200;
+    private static final String TAG = "ToolbarWidgetWrapper";
+    private ActionMenuPresenter mActionMenuPresenter;
+    private View mCustomView;
+    private int mDefaultNavigationContentDescription;
+    private Drawable mDefaultNavigationIcon;
+    private int mDisplayOpts;
+    private CharSequence mHomeDescription;
+    private Drawable mIcon;
+    private Drawable mLogo;
+    private boolean mMenuPrepared;
+    private Drawable mNavIcon;
+    private int mNavigationMode;
+    private Spinner mSpinner;
+    private CharSequence mSubtitle;
+    private View mTabView;
+    private final TintManager mTintManager;
+    private CharSequence mTitle;
+    private boolean mTitleSet;
+    private Toolbar mToolbar;
+    private Callback mWindowCallback;
+
+    public ToolbarWidgetWrapper(Toolbar toolbar, boolean style) {
+        this(toolbar, style, R.string.abc_action_bar_up_description, R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+    }
+
+    public ToolbarWidgetWrapper(Toolbar toolbar, boolean style, int defaultNavigationContentDescription, int defaultNavigationIcon) {
+        this.mNavigationMode = 0;
+        this.mDefaultNavigationContentDescription = 0;
+        this.mToolbar = toolbar;
+        this.mTitle = toolbar.getTitle();
+        this.mSubtitle = toolbar.getSubtitle();
+        this.mTitleSet = this.mTitle != null;
+        this.mNavIcon = toolbar.getNavigationIcon();
+        if (style) {
+            TintTypedArray a = TintTypedArray.obtainStyledAttributes(toolbar.getContext(), null, R.styleable.ActionBar, R.attr.actionBarStyle, 0);
+            CharSequence title = a.getText(R.styleable.ActionBar_title);
+            if (!TextUtils.isEmpty(title)) {
+                setTitle(title);
+            }
+            CharSequence subtitle = a.getText(R.styleable.ActionBar_subtitle);
+            if (!TextUtils.isEmpty(subtitle)) {
+                setSubtitle(subtitle);
+            }
+            Drawable logo = a.getDrawable(R.styleable.ActionBar_logo);
+            if (logo != null) {
+                setLogo(logo);
+            }
+            Drawable icon = a.getDrawable(R.styleable.ActionBar_icon);
+            if (this.mNavIcon == null &amp;&amp; icon != null) {
+                setIcon(icon);
+            }
+            Drawable navIcon = a.getDrawable(R.styleable.ActionBar_homeAsUpIndicator);
+            if (navIcon != null) {
+                setNavigationIcon(navIcon);
+            }
+            setDisplayOptions(a.getInt(R.styleable.ActionBar_displayOptions, 0));
+            int customNavId = a.getResourceId(R.styleable.ActionBar_customNavigationLayout, 0);
+            if (customNavId != 0) {
+                setCustomView(LayoutInflater.from(this.mToolbar.getContext()).inflate(customNavId, this.mToolbar, false));
+                setDisplayOptions(this.mDisplayOpts | 16);
+            }
+            int height = a.getLayoutDimension(R.styleable.ActionBar_height, 0);
+            if (height &gt; 0) {
+                LayoutParams lp = this.mToolbar.getLayoutParams();
+                lp.height = height;
+                this.mToolbar.setLayoutParams(lp);
+            }
+            int contentInsetStart = a.getDimensionPixelOffset(R.styleable.ActionBar_contentInsetStart, -1);
+            int contentInsetEnd = a.getDimensionPixelOffset(R.styleable.ActionBar_contentInsetEnd, -1);
+            if (contentInsetStart &gt;= 0 || contentInsetEnd &gt;= 0) {
+                this.mToolbar.setContentInsetsRelative(Math.max(contentInsetStart, 0), Math.max(contentInsetEnd, 0));
+            }
+            int titleTextStyle = a.getResourceId(R.styleable.ActionBar_titleTextStyle, 0);
+            if (titleTextStyle != 0) {
+                this.mToolbar.setTitleTextAppearance(this.mToolbar.getContext(), titleTextStyle);
+            }
+            int subtitleTextStyle = a.getResourceId(R.styleable.ActionBar_subtitleTextStyle, 0);
+            if (subtitleTextStyle != 0) {
+                this.mToolbar.setSubtitleTextAppearance(this.mToolbar.getContext(), subtitleTextStyle);
+            }
+            int popupTheme = a.getResourceId(R.styleable.ActionBar_popupTheme, 0);
+            if (popupTheme != 0) {
+                this.mToolbar.setPopupTheme(popupTheme);
+            }
+            a.recycle();
+            this.mTintManager = a.getTintManager();
+        } else {
+            this.mDisplayOpts = detectDisplayOptions();
+            this.mTintManager = TintManager.get(toolbar.getContext());
+        }
+        setDefaultNavigationContentDescription(defaultNavigationContentDescription);
+        this.mHomeDescription = this.mToolbar.getNavigationContentDescription();
+        setDefaultNavigationIcon(this.mTintManager.getDrawable(defaultNavigationIcon));
+        this.mToolbar.setNavigationOnClickListener(new OnClickListener() {
+            final ActionMenuItem mNavItem = new ActionMenuItem(ToolbarWidgetWrapper.this.mToolbar.getContext(), 0, 16908332, 0, 0, ToolbarWidgetWrapper.this.mTitle);
+
+            public void onClick(View v) {
+                if (ToolbarWidgetWrapper.this.mWindowCallback != null &amp;&amp; ToolbarWidgetWrapper.this.mMenuPrepared) {
+                    ToolbarWidgetWrapper.this.mWindowCallback.onMenuItemSelected(0, this.mNavItem);
+                }
+            }
+        });
+    }
+
+    public void setDefaultNavigationContentDescription(int defaultNavigationContentDescription) {
+        if (defaultNavigationContentDescription != this.mDefaultNavigationContentDescription) {
+            this.mDefaultNavigationContentDescription = defaultNavigationContentDescription;
+            if (TextUtils.isEmpty(this.mToolbar.getNavigationContentDescription())) {
+                setNavigationContentDescription(this.mDefaultNavigationContentDescription);
+            }
+        }
+    }
+
+    public void setDefaultNavigationIcon(Drawable defaultNavigationIcon) {
+        if (this.mDefaultNavigationIcon != defaultNavigationIcon) {
+            this.mDefaultNavigationIcon = defaultNavigationIcon;
+            updateNavigationIcon();
+        }
+    }
+
+    private int detectDisplayOptions() {
+        if (this.mToolbar.getNavigationIcon() != null) {
+            return 11 | 4;
+        }
+        return 11;
+    }
+
+    public ViewGroup getViewGroup() {
+        return this.mToolbar;
+    }
+
+    public Context getContext() {
+        return this.mToolbar.getContext();
+    }
+
+    public boolean hasExpandedActionView() {
+        return this.mToolbar.hasExpandedActionView();
+    }
+
+    public void collapseActionView() {
+        this.mToolbar.collapseActionView();
+    }
+
+    public void setWindowCallback(Callback cb) {
+        this.mWindowCallback = cb;
+    }
+
+    public void setWindowTitle(CharSequence title) {
+        if (!this.mTitleSet) {
+            setTitleInt(title);
+        }
+    }
+
+    public CharSequence getTitle() {
+        return this.mToolbar.getTitle();
+    }
+
+    public void setTitle(CharSequence title) {
+        this.mTitleSet = true;
+        setTitleInt(title);
+    }
+
+    private void setTitleInt(CharSequence title) {
+        this.mTitle = title;
+        if ((this.mDisplayOpts &amp; 8) != 0) {
+            this.mToolbar.setTitle(title);
+        }
+    }
+
+    public CharSequence getSubtitle() {
+        return this.mToolbar.getSubtitle();
+    }
+
+    public void setSubtitle(CharSequence subtitle) {
+        this.mSubtitle = subtitle;
+        if ((this.mDisplayOpts &amp; 8) != 0) {
+            this.mToolbar.setSubtitle(subtitle);
+        }
+    }
+
+    public void initProgress() {
+        Log.i(TAG, "Progress display unsupported");
+    }
+
+    public void initIndeterminateProgress() {
+        Log.i(TAG, "Progress display unsupported");
+    }
+
+    public boolean hasIcon() {
+        return this.mIcon != null;
+    }
+
+    public boolean hasLogo() {
+        return this.mLogo != null;
+    }
+
+    public void setIcon(int resId) {
+        setIcon(resId != 0 ? this.mTintManager.getDrawable(resId) : null);
+    }
+
+    public void setIcon(Drawable d) {
+        this.mIcon = d;
+        updateToolbarLogo();
+    }
+
+    public void setLogo(int resId) {
+        setLogo(resId != 0 ? this.mTintManager.getDrawable(resId) : null);
+    }
+
+    public void setLogo(Drawable d) {
+        this.mLogo = d;
+        updateToolbarLogo();
+    }
+
+    private void updateToolbarLogo() {
+        Drawable logo = null;
+        if ((this.mDisplayOpts &amp; 2) != 0) {
+            logo = (this.mDisplayOpts &amp; 1) != 0 ? this.mLogo != null ? this.mLogo : this.mIcon : this.mIcon;
+        }
+        this.mToolbar.setLogo(logo);
+    }
+
+    public boolean canShowOverflowMenu() {
+        return this.mToolbar.canShowOverflowMenu();
+    }
+
+    public boolean isOverflowMenuShowing() {
+        return this.mToolbar.isOverflowMenuShowing();
+    }
+
+    public boolean isOverflowMenuShowPending() {
+        return this.mToolbar.isOverflowMenuShowPending();
+    }
+
+    public boolean showOverflowMenu() {
+        return this.mToolbar.showOverflowMenu();
+    }
+
+    public boolean hideOverflowMenu() {
+        return this.mToolbar.hideOverflowMenu();
+    }
+
+    public void setMenuPrepared() {
+        this.mMenuPrepared = true;
+    }
+
+    public void setMenu(Menu menu, MenuPresenter.Callback cb) {
+        if (this.mActionMenuPresenter == null) {
+            this.mActionMenuPresenter = new ActionMenuPresenter(this.mToolbar.getContext());
+            this.mActionMenuPresenter.setId(R.id.action_menu_presenter);
+        }
+        this.mActionMenuPresenter.setCallback(cb);
+        this.mToolbar.setMenu((MenuBuilder) menu, this.mActionMenuPresenter);
+    }
+
+    public void dismissPopupMenus() {
+        this.mToolbar.dismissPopupMenus();
+    }
+
+    public int getDisplayOptions() {
+        return this.mDisplayOpts;
+    }
+
+    public void setDisplayOptions(int newOpts) {
+        int changed = this.mDisplayOpts ^ newOpts;
+        this.mDisplayOpts = newOpts;
+        if (changed != 0) {
+            if ((changed &amp; 4) != 0) {
+                if ((newOpts &amp; 4) != 0) {
+                    updateNavigationIcon();
+                    updateHomeAccessibility();
+                } else {
+                    this.mToolbar.setNavigationIcon(null);
+                }
+            }
+            if ((changed &amp; 3) != 0) {
+                updateToolbarLogo();
+            }
+            if ((changed &amp; 8) != 0) {
+                if ((newOpts &amp; 8) != 0) {
+                    this.mToolbar.setTitle(this.mTitle);
+                    this.mToolbar.setSubtitle(this.mSubtitle);
+                } else {
+                    this.mToolbar.setTitle(null);
+                    this.mToolbar.setSubtitle(null);
+                }
+            }
+            if ((changed &amp; 16) != 0 &amp;&amp; this.mCustomView != null) {
+                if ((newOpts &amp; 16) != 0) {
+                    this.mToolbar.addView(this.mCustomView);
+                } else {
+                    this.mToolbar.removeView(this.mCustomView);
+                }
+            }
+        }
+    }
+
+    public void setEmbeddedTabView(ScrollingTabContainerView tabView) {
+        if (this.mTabView != null &amp;&amp; this.mTabView.getParent() == this.mToolbar) {
+            this.mToolbar.removeView(this.mTabView);
+        }
+        this.mTabView = tabView;
+        if (tabView != null &amp;&amp; this.mNavigationMode == 2) {
+            this.mToolbar.addView(this.mTabView, 0);
+            Toolbar.LayoutParams lp = (Toolbar.LayoutParams) this.mTabView.getLayoutParams();
+            lp.width = -2;
+            lp.height = -2;
+            lp.gravity = 8388691;
+            tabView.setAllowCollapse(true);
+        }
+    }
+
+    public boolean hasEmbeddedTabs() {
+        return this.mTabView != null;
+    }
+
+    public boolean isTitleTruncated() {
+        return this.mToolbar.isTitleTruncated();
+    }
+
+    public void setCollapsible(boolean collapsible) {
+        this.mToolbar.setCollapsible(collapsible);
+    }
+
+    public void setHomeButtonEnabled(boolean enable) {
+    }
+
+    public int getNavigationMode() {
+        return this.mNavigationMode;
+    }
+
+    public void setNavigationMode(int mode) {
+        int oldMode = this.mNavigationMode;
+        if (mode != oldMode) {
+            switch (oldMode) {
+                case 1:
+                    if (this.mSpinner != null &amp;&amp; this.mSpinner.getParent() == this.mToolbar) {
+                        this.mToolbar.removeView(this.mSpinner);
+                        break;
+                    }
+                case 2:
+                    if (this.mTabView != null &amp;&amp; this.mTabView.getParent() == this.mToolbar) {
+                        this.mToolbar.removeView(this.mTabView);
+                        break;
+                    }
+            }
+            this.mNavigationMode = mode;
+            switch (mode) {
+                case 0:
+                    return;
+                case 1:
+                    ensureSpinner();
+                    this.mToolbar.addView(this.mSpinner, 0);
+                    return;
+                case 2:
+                    if (this.mTabView != null) {
+                        this.mToolbar.addView(this.mTabView, 0);
+                        Toolbar.LayoutParams lp = (Toolbar.LayoutParams) this.mTabView.getLayoutParams();
+                        lp.width = -2;
+                        lp.height = -2;
+                        lp.gravity = 8388691;
+                        return;
+                    }
+                    return;
+                default:
+                    throw new IllegalArgumentException("Invalid navigation mode " + mode);
+            }
+        }
+    }
+
+    private void ensureSpinner() {
+        if (this.mSpinner == null) {
+            this.mSpinner = new AppCompatSpinner(getContext(), null, R.attr.actionDropDownStyle);
+            this.mSpinner.setLayoutParams(new Toolbar.LayoutParams(-2, -2, 8388627));
+        }
+    }
+
+    public void setDropdownParams(SpinnerAdapter adapter, OnItemSelectedListener listener) {
+        ensureSpinner();
+        this.mSpinner.setAdapter(adapter);
+        this.mSpinner.setOnItemSelectedListener(listener);
+    }
+
+    public void setDropdownSelectedPosition(int position) {
+        if (this.mSpinner == null) {
+            throw new IllegalStateException("Can't set dropdown selected position without an adapter");
+        }
+        this.mSpinner.setSelection(position);
+    }
+
+    public int getDropdownSelectedPosition() {
+        return this.mSpinner != null ? this.mSpinner.getSelectedItemPosition() : 0;
+    }
+
+    public int getDropdownItemCount() {
+        return this.mSpinner != null ? this.mSpinner.getCount() : 0;
+    }
+
+    public void setCustomView(View view) {
+        if (!(this.mCustomView == null || (this.mDisplayOpts &amp; 16) == 0)) {
+            this.mToolbar.removeView(this.mCustomView);
+        }
+        this.mCustomView = view;
+        if (view != null &amp;&amp; (this.mDisplayOpts &amp; 16) != 0) {
+            this.mToolbar.addView(this.mCustomView);
+        }
+    }
+
+    public View getCustomView() {
+        return this.mCustomView;
+    }
+
+    public void animateToVisibility(int visibility) {
+        ViewPropertyAnimatorCompat anim = setupAnimatorToVisibility(visibility, DEFAULT_FADE_DURATION_MS);
+        if (anim != null) {
+            anim.start();
+        }
+    }
+
+    public ViewPropertyAnimatorCompat setupAnimatorToVisibility(final int visibility, long duration) {
+        return ViewCompat.animate(this.mToolbar).alpha(visibility == 0 ? 1.0f : 0.0f).setDuration(duration).setListener(new ViewPropertyAnimatorListenerAdapter() {
+            private boolean mCanceled = false;
+
+            public void onAnimationStart(View view) {
+                ToolbarWidgetWrapper.this.mToolbar.setVisibility(0);
+            }
+
+            public void onAnimationEnd(View view) {
+                if (!this.mCanceled) {
+                    ToolbarWidgetWrapper.this.mToolbar.setVisibility(visibility);
+                }
+            }
+
+            public void onAnimationCancel(View view) {
+                this.mCanceled = true;
+            }
+        });
+    }
+
+    public void setNavigationIcon(Drawable icon) {
+        this.mNavIcon = icon;
+        updateNavigationIcon();
+    }
+
+    public void setNavigationIcon(int resId) {
+        setNavigationIcon(resId != 0 ? this.mTintManager.getDrawable(resId) : null);
+    }
+
+    public void setNavigationContentDescription(CharSequence description) {
+        this.mHomeDescription = description;
+        updateHomeAccessibility();
+    }
+
+    public void setNavigationContentDescription(int resId) {
+        setNavigationContentDescription(resId == 0 ? null : getContext().getString(resId));
+    }
+
+    private void updateHomeAccessibility() {
+        if ((this.mDisplayOpts &amp; 4) == 0) {
+            return;
+        }
+        if (TextUtils.isEmpty(this.mHomeDescription)) {
+            this.mToolbar.setNavigationContentDescription(this.mDefaultNavigationContentDescription);
+        } else {
+            this.mToolbar.setNavigationContentDescription(this.mHomeDescription);
+        }
+    }
+
+    private void updateNavigationIcon() {
+        if ((this.mDisplayOpts &amp; 4) != 0) {
+            this.mToolbar.setNavigationIcon(this.mNavIcon != null ? this.mNavIcon : this.mDefaultNavigationIcon);
+        }
+    }
+
+    public void saveHierarchyState(SparseArray&lt;Parcelable&gt; toolbarStates) {
+        this.mToolbar.saveHierarchyState(toolbarStates);
+    }
+
+    public void restoreHierarchyState(SparseArray&lt;Parcelable&gt; toolbarStates) {
+        this.mToolbar.restoreHierarchyState(toolbarStates);
+    }
+
+    public void setBackgroundDrawable(Drawable d) {
+        this.mToolbar.setBackgroundDrawable(d);
+    }
+
+    public int getHeight() {
+        return this.mToolbar.getHeight();
+    }
+
+    public void setVisibility(int visible) {
+        this.mToolbar.setVisibility(visible);
+    }
+
+    public int getVisibility() {
+        return this.mToolbar.getVisibility();
+    }
+
+    public void setMenuCallbacks(MenuPresenter.Callback actionMenuPresenterCallback, MenuBuilder.Callback menuBuilderCallback) {
+        this.mToolbar.setMenuCallbacks(actionMenuPresenterCallback, menuBuilderCallback);
+    }
+
+    public Menu getMenu() {
+        return this.mToolbar.getMenu();
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:41 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

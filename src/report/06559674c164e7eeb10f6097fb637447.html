@@ -1,0 +1,81 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9"><div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\res\anim\abc_shrink_fade_out_from_bottom.xml" target="_blank">\test-apk\jadx_source_code\res\anim\abc_shrink_fade_out_from_bottom.xml</a></div><div class="col s12"><div class="card"><div class="valign-wrapper"><i class="material-icons medium grade-10">report</i><h5>regex: http:</h5></div><div class="card-tabs"><ul class="tabs tabs-fixed-width" style="background-color: #30363A !important;"><li class="tab"><a style="color: #d82c2b;" href="#abc_shrink_fade_out_from_bottom_xml2http" class="active">line 2</a></li></ul></div><div class="card-content"><div id="abc_shrink_fade_out_from_bottom_xml2http">Code @ line 2<pre data-start="1" data-line="2" data-src="abc_shrink_fade_out_from_bottom.xml" class="code line-numbers"><code>&lt;set xmlns:android="http://schemas.android.com/apk/res/android" android:shareInterpolator="false"&gt;
+    &lt;scale android:interpolator="0x10a0006" android:duration="@integer/abc_config_activityDefaultDur" android:pivotX="50%" android:pivotY="100%" android:fromXScale="1.0" android:toXScale="0.9" android:fromYScale="1.0" android:toYScale="0.9" /&gt;
+    &lt;alpha android:interpolator="0x10a0006" android:duration="@integer/abc_config_activityShortDur" android:fromAlpha="1.0" android:toAlpha="0.0" /&gt;
+&lt;/set&gt;
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVccmVzXGFuaW1cYWJjX3Nocmlua19mYWRlX291dF9mcm9tX2JvdHRvbS54bWx8fHxsaW5lOiAyIDogaHR0cDp8fHwxMHx8fGh0dHA6fHx8Mnx8fDE">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVccmVzXGFuaW1cYWJjX3Nocmlua19mYWRlX291dF9mcm9tX2JvdHRvbS54bWx8fHxsaW5lOiAyIDogaHR0cDp8fHwxMHx8fGh0dHA6fHx8Mnx8fDE')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVccmVzXGFuaW1cYWJjX3Nocmlua19mYWRlX291dF9mcm9tX2JvdHRvbS54bWx8fHxsaW5lOiAyIDogaHR0cDp8fHwxMHx8fGh0dHA6fHx8Mnx8fDE').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVccmVzXGFuaW1cYWJjX3Nocmlua19mYWRlX291dF9mcm9tX2JvdHRvbS54bWx8fHxsaW5lOiAyIDogaHR0cDp8fHwxMHx8fGh0dHA6fHx8Mnx8fDE" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVccmVzXGFuaW1cYWJjX3Nocmlua19mYWRlX291dF9mcm9tX2JvdHRvbS54bWx8fHxsaW5lOiAyIDogaHR0cDp8fHwxMHx8fGh0dHA6fHx8Mnx8fDE' , 'PHNldCB4bWxuczphbmRyb2lkPSJodHRwOi8vc2NoZW1hcy5hbmRyb2lkLmNvbS9hcGsvcmVzL2FuZHJvaWQiIGFuZHJvaWQ6c2hhcmVJbnRlcnBvbGF0b3I9ImZhbHNlIj4KICAgIDxzY2FsZSBhbmRyb2lkOmludGVycG9sYXRvcj0iMHgxMGEwMDA2IiBhbmRyb2lkOmR1cmF0aW9uPSJAaW50ZWdlci9hYmNfY29uZmlnX2FjdGl2aXR5RGVmYXVsdER1ciIgYW5kcm9pZDpwaXZvdFg9IjUwJSIgYW5kcm9pZDpwaXZvdFk9IjEwMCUiIGFuZHJvaWQ6ZnJvbVhTY2FsZT0iMS4wIiBhbmRyb2lkOnRvWFNjYWxlPSIwLjkiIGFuZHJvaWQ6ZnJvbVlTY2FsZT0iMS4wIiBhbmRyb2lkOnRvWVNjYWxlPSIwLjkiIC8+CiAgICA8YWxwaGEgYW5kcm9pZDppbnRlcnBvbGF0b3I9IjB4MTBhMDAwNiIgYW5kcm9pZDpkdXJhdGlvbj0iQGludGVnZXIvYWJjX2NvbmZpZ19hY3Rpdml0eVNob3J0RHVyIiBhbmRyb2lkOmZyb21BbHBoYT0iMS4wIiBhbmRyb2lkOnRvQWxwaGE9IjAuMCIgLz4KPC9zZXQ+Cg==');  
+                                            });
+                                            </script>
+                                            </div></div></div></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="abc_shrink_fade_out_from_bottom.xml" data-line="2," class="code line-numbers"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;set xmlns:android="http://schemas.android.com/apk/res/android" android:shareInterpolator="false"&gt;
+    &lt;scale android:interpolator="0x10a0006" android:duration="@integer/abc_config_activityDefaultDur" android:pivotX="50%" android:pivotY="100%" android:fromXScale="1.0" android:toXScale="0.9" android:fromYScale="1.0" android:toYScale="0.9" /&gt;
+    &lt;alpha android:interpolator="0x10a0006" android:duration="@integer/abc_config_activityShortDur" android:fromAlpha="1.0" android:toAlpha="0.0" /&gt;
+&lt;/set&gt;
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:41 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

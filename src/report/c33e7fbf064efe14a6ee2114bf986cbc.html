@@ -1,0 +1,397 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v7\util\AsyncListUtil.java" target="_blank">\test-apk\jadx_source_code\android\support\v7\util\AsyncListUtil.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="AsyncListUtil.java" data-line="" class="code line-numbers"><code>package android.support.v7.util;
+
+import android.support.annotation.UiThread;
+import android.support.annotation.WorkerThread;
+import android.support.v7.util.ThreadUtil.BackgroundCallback;
+import android.support.v7.util.ThreadUtil.MainThreadCallback;
+import android.support.v7.util.TileList.Tile;
+import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.util.SparseIntArray;
+
+public class AsyncListUtil&lt;T&gt; {
+    private static final boolean DEBUG = false;
+    private static final String TAG = "AsyncListUtil";
+    private boolean mAllowScrollHints;
+    private final BackgroundCallback&lt;T&gt; mBackgroundCallback = new BackgroundCallback&lt;T&gt;() {
+        private int mFirstRequiredTileStart;
+        private int mGeneration;
+        private int mItemCount;
+        private int mLastRequiredTileStart;
+        final SparseBooleanArray mLoadedTiles = new SparseBooleanArray();
+        private Tile&lt;T&gt; mRecycledRoot;
+
+        public void refresh(int generation) {
+            this.mGeneration = generation;
+            this.mLoadedTiles.clear();
+            this.mItemCount = AsyncListUtil.this.mDataCallback.refreshData();
+            AsyncListUtil.this.mMainThreadProxy.updateItemCount(this.mGeneration, this.mItemCount);
+        }
+
+        public void updateRange(int rangeStart, int rangeEnd, int extRangeStart, int extRangeEnd, int scrollHint) {
+            if (rangeStart &lt;= rangeEnd) {
+                int firstVisibleTileStart = getTileStart(rangeStart);
+                int lastVisibleTileStart = getTileStart(rangeEnd);
+                this.mFirstRequiredTileStart = getTileStart(extRangeStart);
+                this.mLastRequiredTileStart = getTileStart(extRangeEnd);
+                if (scrollHint == 1) {
+                    requestTiles(this.mFirstRequiredTileStart, lastVisibleTileStart, scrollHint, true);
+                    requestTiles(AsyncListUtil.this.mTileSize + lastVisibleTileStart, this.mLastRequiredTileStart, scrollHint, false);
+                    return;
+                }
+                requestTiles(firstVisibleTileStart, this.mLastRequiredTileStart, scrollHint, false);
+                requestTiles(this.mFirstRequiredTileStart, firstVisibleTileStart - AsyncListUtil.this.mTileSize, scrollHint, true);
+            }
+        }
+
+        private int getTileStart(int position) {
+            return position - (position % AsyncListUtil.this.mTileSize);
+        }
+
+        private void requestTiles(int firstTileStart, int lastTileStart, int scrollHint, boolean backwards) {
+            int i = firstTileStart;
+            while (i &lt;= lastTileStart) {
+                int tileStart;
+                if (backwards) {
+                    tileStart = (lastTileStart + firstTileStart) - i;
+                } else {
+                    tileStart = i;
+                }
+                AsyncListUtil.this.mBackgroundProxy.loadTile(tileStart, scrollHint);
+                i += AsyncListUtil.this.mTileSize;
+            }
+        }
+
+        public void loadTile(int position, int scrollHint) {
+            if (!isTileLoaded(position)) {
+                Tile&lt;T&gt; tile = acquireTile();
+                tile.mStartPosition = position;
+                tile.mItemCount = Math.min(AsyncListUtil.this.mTileSize, this.mItemCount - tile.mStartPosition);
+                AsyncListUtil.this.mDataCallback.fillData(tile.mItems, tile.mStartPosition, tile.mItemCount);
+                flushTileCache(scrollHint);
+                addTile(tile);
+            }
+        }
+
+        public void recycleTile(Tile&lt;T&gt; tile) {
+            AsyncListUtil.this.mDataCallback.recycleData(tile.mItems, tile.mItemCount);
+            tile.mNext = this.mRecycledRoot;
+            this.mRecycledRoot = tile;
+        }
+
+        private Tile&lt;T&gt; acquireTile() {
+            if (this.mRecycledRoot == null) {
+                return new Tile(AsyncListUtil.this.mTClass, AsyncListUtil.this.mTileSize);
+            }
+            Tile&lt;T&gt; result = this.mRecycledRoot;
+            this.mRecycledRoot = this.mRecycledRoot.mNext;
+            return result;
+        }
+
+        private boolean isTileLoaded(int position) {
+            return this.mLoadedTiles.get(position);
+        }
+
+        private void addTile(Tile&lt;T&gt; tile) {
+            this.mLoadedTiles.put(tile.mStartPosition, true);
+            AsyncListUtil.this.mMainThreadProxy.addTile(this.mGeneration, tile);
+        }
+
+        private void removeTile(int position) {
+            this.mLoadedTiles.delete(position);
+            AsyncListUtil.this.mMainThreadProxy.removeTile(this.mGeneration, position);
+        }
+
+        private void flushTileCache(int scrollHint) {
+            int cacheSizeLimit = AsyncListUtil.this.mDataCallback.getMaxCachedTiles();
+            while (this.mLoadedTiles.size() &gt;= cacheSizeLimit) {
+                int firstLoadedTileStart = this.mLoadedTiles.keyAt(0);
+                int lastLoadedTileStart = this.mLoadedTiles.keyAt(this.mLoadedTiles.size() - 1);
+                int startMargin = this.mFirstRequiredTileStart - firstLoadedTileStart;
+                int endMargin = lastLoadedTileStart - this.mLastRequiredTileStart;
+                if (startMargin &gt; 0 &amp;&amp; (startMargin &gt;= endMargin || scrollHint == 2)) {
+                    removeTile(firstLoadedTileStart);
+                } else if (endMargin &lt;= 0) {
+                    return;
+                } else {
+                    if (startMargin &lt; endMargin || scrollHint == 1) {
+                        removeTile(lastLoadedTileStart);
+                    } else {
+                        return;
+                    }
+                }
+            }
+        }
+
+        private void log(String s, Object... args) {
+            Log.d(AsyncListUtil.TAG, "[BKGR] " + String.format(s, args));
+        }
+    };
+    final BackgroundCallback&lt;T&gt; mBackgroundProxy;
+    final DataCallback&lt;T&gt; mDataCallback;
+    int mDisplayedGeneration = 0;
+    private int mItemCount = 0;
+    private final MainThreadCallback&lt;T&gt; mMainThreadCallback = new MainThreadCallback&lt;T&gt;() {
+        public void updateItemCount(int generation, int itemCount) {
+            if (isRequestedGeneration(generation)) {
+                AsyncListUtil.this.mItemCount = itemCount;
+                AsyncListUtil.this.mViewCallback.onDataRefresh();
+                AsyncListUtil.this.mDisplayedGeneration = AsyncListUtil.this.mRequestedGeneration;
+                recycleAllTiles();
+                AsyncListUtil.this.mAllowScrollHints = false;
+                AsyncListUtil.this.updateRange();
+            }
+        }
+
+        public void addTile(int generation, Tile&lt;T&gt; tile) {
+            if (isRequestedGeneration(generation)) {
+                Tile&lt;T&gt; duplicate = AsyncListUtil.this.mTileList.addOrReplace(tile);
+                if (duplicate != null) {
+                    Log.e(AsyncListUtil.TAG, "duplicate tile @" + duplicate.mStartPosition);
+                    AsyncListUtil.this.mBackgroundProxy.recycleTile(duplicate);
+                }
+                int endPosition = tile.mStartPosition + tile.mItemCount;
+                int index = 0;
+                while (index &lt; AsyncListUtil.this.mMissingPositions.size()) {
+                    int position = AsyncListUtil.this.mMissingPositions.keyAt(index);
+                    if (tile.mStartPosition &gt; position || position &gt;= endPosition) {
+                        index++;
+                    } else {
+                        AsyncListUtil.this.mMissingPositions.removeAt(index);
+                        AsyncListUtil.this.mViewCallback.onItemLoaded(position);
+                    }
+                }
+                return;
+            }
+            AsyncListUtil.this.mBackgroundProxy.recycleTile(tile);
+        }
+
+        public void removeTile(int generation, int position) {
+            if (isRequestedGeneration(generation)) {
+                Tile&lt;T&gt; tile = AsyncListUtil.this.mTileList.removeAtPos(position);
+                if (tile == null) {
+                    Log.e(AsyncListUtil.TAG, "tile not found @" + position);
+                } else {
+                    AsyncListUtil.this.mBackgroundProxy.recycleTile(tile);
+                }
+            }
+        }
+
+        private void recycleAllTiles() {
+            for (int i = 0; i &lt; AsyncListUtil.this.mTileList.size(); i++) {
+                AsyncListUtil.this.mBackgroundProxy.recycleTile(AsyncListUtil.this.mTileList.getAtIndex(i));
+            }
+            AsyncListUtil.this.mTileList.clear();
+        }
+
+        private boolean isRequestedGeneration(int generation) {
+            return generation == AsyncListUtil.this.mRequestedGeneration;
+        }
+    };
+    final MainThreadCallback&lt;T&gt; mMainThreadProxy;
+    private final SparseIntArray mMissingPositions = new SparseIntArray();
+    final int[] mPrevRange = new int[2];
+    int mRequestedGeneration = this.mDisplayedGeneration;
+    private int mScrollHint = 0;
+    final Class&lt;T&gt; mTClass;
+    final TileList&lt;T&gt; mTileList;
+    final int mTileSize;
+    final int[] mTmpRange = new int[2];
+    final int[] mTmpRangeExtended = new int[2];
+    final ViewCallback mViewCallback;
+
+    public static abstract class DataCallback&lt;T&gt; {
+        @WorkerThread
+        public abstract void fillData(T[] tArr, int i, int i2);
+
+        @WorkerThread
+        public abstract int refreshData();
+
+        @WorkerThread
+        public void recycleData(T[] tArr, int itemCount) {
+        }
+
+        @WorkerThread
+        public int getMaxCachedTiles() {
+            return 10;
+        }
+    }
+
+    public static abstract class ViewCallback {
+        public static final int HINT_SCROLL_ASC = 2;
+        public static final int HINT_SCROLL_DESC = 1;
+        public static final int HINT_SCROLL_NONE = 0;
+
+        @UiThread
+        public abstract void getItemRangeInto(int[] iArr);
+
+        @UiThread
+        public abstract void onDataRefresh();
+
+        @UiThread
+        public abstract void onItemLoaded(int i);
+
+        @UiThread
+        public void extendRangeInto(int[] range, int[] outRange, int scrollHint) {
+            int i;
+            int fullRange = (range[1] - range[0]) + 1;
+            int halfRange = fullRange / 2;
+            int i2 = range[0];
+            if (scrollHint == 1) {
+                i = fullRange;
+            } else {
+                i = halfRange;
+            }
+            outRange[0] = i2 - i;
+            i = range[1];
+            if (scrollHint != 2) {
+                fullRange = halfRange;
+            }
+            outRange[1] = i + fullRange;
+        }
+    }
+
+    private void log(String s, Object... args) {
+        Log.d(TAG, "[MAIN] " + String.format(s, args));
+    }
+
+    public AsyncListUtil(Class&lt;T&gt; klass, int tileSize, DataCallback&lt;T&gt; dataCallback, ViewCallback viewCallback) {
+        this.mTClass = klass;
+        this.mTileSize = tileSize;
+        this.mDataCallback = dataCallback;
+        this.mViewCallback = viewCallback;
+        this.mTileList = new TileList(this.mTileSize);
+        ThreadUtil&lt;T&gt; threadUtil = new MessageThreadUtil();
+        this.mMainThreadProxy = threadUtil.getMainThreadProxy(this.mMainThreadCallback);
+        this.mBackgroundProxy = threadUtil.getBackgroundProxy(this.mBackgroundCallback);
+        refresh();
+    }
+
+    private boolean isRefreshPending() {
+        return this.mRequestedGeneration != this.mDisplayedGeneration;
+    }
+
+    public void onRangeChanged() {
+        if (!isRefreshPending()) {
+            updateRange();
+            this.mAllowScrollHints = true;
+        }
+    }
+
+    public void refresh() {
+        this.mMissingPositions.clear();
+        BackgroundCallback backgroundCallback = this.mBackgroundProxy;
+        int i = this.mRequestedGeneration + 1;
+        this.mRequestedGeneration = i;
+        backgroundCallback.refresh(i);
+    }
+
+    public T getItem(int position) {
+        if (position &lt; 0 || position &gt;= this.mItemCount) {
+            throw new IndexOutOfBoundsException(position + " is not within 0 and " + this.mItemCount);
+        }
+        T item = this.mTileList.getItemAt(position);
+        if (item == null &amp;&amp; !isRefreshPending()) {
+            this.mMissingPositions.put(position, 0);
+        }
+        return item;
+    }
+
+    public int getItemCount() {
+        return this.mItemCount;
+    }
+
+    private void updateRange() {
+        this.mViewCallback.getItemRangeInto(this.mTmpRange);
+        if (this.mTmpRange[0] &lt;= this.mTmpRange[1] &amp;&amp; this.mTmpRange[0] &gt;= 0 &amp;&amp; this.mTmpRange[1] &lt; this.mItemCount) {
+            if (!this.mAllowScrollHints) {
+                this.mScrollHint = 0;
+            } else if (this.mTmpRange[0] &gt; this.mPrevRange[1] || this.mPrevRange[0] &gt; this.mTmpRange[1]) {
+                this.mScrollHint = 0;
+            } else if (this.mTmpRange[0] &lt; this.mPrevRange[0]) {
+                this.mScrollHint = 1;
+            } else if (this.mTmpRange[0] &gt; this.mPrevRange[0]) {
+                this.mScrollHint = 2;
+            }
+            this.mPrevRange[0] = this.mTmpRange[0];
+            this.mPrevRange[1] = this.mTmpRange[1];
+            this.mViewCallback.extendRangeInto(this.mTmpRange, this.mTmpRangeExtended, this.mScrollHint);
+            this.mTmpRangeExtended[0] = Math.min(this.mTmpRange[0], Math.max(this.mTmpRangeExtended[0], 0));
+            this.mTmpRangeExtended[1] = Math.max(this.mTmpRange[1], Math.min(this.mTmpRangeExtended[1], this.mItemCount - 1));
+            this.mBackgroundProxy.updateRange(this.mTmpRange[0], this.mTmpRange[1], this.mTmpRangeExtended[0], this.mTmpRangeExtended[1], this.mScrollHint);
+        }
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:41 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

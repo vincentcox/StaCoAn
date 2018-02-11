@@ -1,0 +1,219 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v4\os\CancellationSignal.java" target="_blank">\test-apk\jadx_source_code\android\support\v4\os\CancellationSignal.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="CancellationSignal.java" data-line="" class="code line-numbers"><code>package android.support.v4.os;
+
+import android.os.Build.VERSION;
+
+public final class CancellationSignal {
+    private boolean mCancelInProgress;
+    private Object mCancellationSignalObj;
+    private boolean mIsCanceled;
+    private OnCancelListener mOnCancelListener;
+
+    public interface OnCancelListener {
+        void onCancel();
+    }
+
+    public boolean isCanceled() {
+        boolean z;
+        synchronized (this) {
+            z = this.mIsCanceled;
+        }
+        return z;
+    }
+
+    public void throwIfCanceled() {
+        if (isCanceled()) {
+            throw new OperationCanceledException();
+        }
+    }
+
+    /* JADX WARNING: inconsistent code. */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public void cancel() {
+        /*
+        r4 = this;
+        monitor-enter(r4);
+        r2 = r4.mIsCanceled;	 Catch:{ all -&gt; 0x0028 }
+        if (r2 == 0) goto L_0x0007;
+    L_0x0005:
+        monitor-exit(r4);	 Catch:{ all -&gt; 0x0028 }
+    L_0x0006:
+        return;
+    L_0x0007:
+        r2 = 1;
+        r4.mIsCanceled = r2;	 Catch:{ all -&gt; 0x0028 }
+        r2 = 1;
+        r4.mCancelInProgress = r2;	 Catch:{ all -&gt; 0x0028 }
+        r0 = r4.mOnCancelListener;	 Catch:{ all -&gt; 0x0028 }
+        r1 = r4.mCancellationSignalObj;	 Catch:{ all -&gt; 0x0028 }
+        monitor-exit(r4);	 Catch:{ all -&gt; 0x0028 }
+        if (r0 == 0) goto L_0x0017;
+    L_0x0014:
+        r0.onCancel();	 Catch:{ all -&gt; 0x002b }
+    L_0x0017:
+        if (r1 == 0) goto L_0x001c;
+    L_0x0019:
+        android.support.v4.os.CancellationSignalCompatJellybean.cancel(r1);	 Catch:{ all -&gt; 0x002b }
+    L_0x001c:
+        monitor-enter(r4);
+        r2 = 0;
+        r4.mCancelInProgress = r2;	 Catch:{ all -&gt; 0x0025 }
+        r4.notifyAll();	 Catch:{ all -&gt; 0x0025 }
+        monitor-exit(r4);	 Catch:{ all -&gt; 0x0025 }
+        goto L_0x0006;
+    L_0x0025:
+        r2 = move-exception;
+        monitor-exit(r4);	 Catch:{ all -&gt; 0x0025 }
+        throw r2;
+    L_0x0028:
+        r2 = move-exception;
+        monitor-exit(r4);	 Catch:{ all -&gt; 0x0028 }
+        throw r2;
+    L_0x002b:
+        r2 = move-exception;
+        monitor-enter(r4);
+        r3 = 0;
+        r4.mCancelInProgress = r3;	 Catch:{ all -&gt; 0x0035 }
+        r4.notifyAll();	 Catch:{ all -&gt; 0x0035 }
+        monitor-exit(r4);	 Catch:{ all -&gt; 0x0035 }
+        throw r2;
+    L_0x0035:
+        r2 = move-exception;
+        monitor-exit(r4);	 Catch:{ all -&gt; 0x0035 }
+        throw r2;
+        */
+        throw new UnsupportedOperationException("Method not decompiled: android.support.v4.os.CancellationSignal.cancel():void");
+    }
+
+    /* JADX WARNING: inconsistent code. */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public void setOnCancelListener(android.support.v4.os.CancellationSignal.OnCancelListener r2) {
+        /*
+        r1 = this;
+        monitor-enter(r1);
+        r1.waitForCancelFinishedLocked();	 Catch:{ all -&gt; 0x0014 }
+        r0 = r1.mOnCancelListener;	 Catch:{ all -&gt; 0x0014 }
+        if (r0 != r2) goto L_0x000a;
+    L_0x0008:
+        monitor-exit(r1);	 Catch:{ all -&gt; 0x0014 }
+    L_0x0009:
+        return;
+    L_0x000a:
+        r1.mOnCancelListener = r2;	 Catch:{ all -&gt; 0x0014 }
+        r0 = r1.mIsCanceled;	 Catch:{ all -&gt; 0x0014 }
+        if (r0 == 0) goto L_0x0012;
+    L_0x0010:
+        if (r2 != 0) goto L_0x0017;
+    L_0x0012:
+        monitor-exit(r1);	 Catch:{ all -&gt; 0x0014 }
+        goto L_0x0009;
+    L_0x0014:
+        r0 = move-exception;
+        monitor-exit(r1);	 Catch:{ all -&gt; 0x0014 }
+        throw r0;
+    L_0x0017:
+        monitor-exit(r1);	 Catch:{ all -&gt; 0x0014 }
+        r2.onCancel();
+        goto L_0x0009;
+        */
+        throw new UnsupportedOperationException("Method not decompiled: android.support.v4.os.CancellationSignal.setOnCancelListener(android.support.v4.os.CancellationSignal$OnCancelListener):void");
+    }
+
+    public Object getCancellationSignalObject() {
+        if (VERSION.SDK_INT &lt; 16) {
+            return null;
+        }
+        Object obj;
+        synchronized (this) {
+            if (this.mCancellationSignalObj == null) {
+                this.mCancellationSignalObj = CancellationSignalCompatJellybean.create();
+                if (this.mIsCanceled) {
+                    CancellationSignalCompatJellybean.cancel(this.mCancellationSignalObj);
+                }
+            }
+            obj = this.mCancellationSignalObj;
+        }
+        return obj;
+    }
+
+    private void waitForCancelFinishedLocked() {
+        while (this.mCancelInProgress) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+            }
+        }
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:40 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

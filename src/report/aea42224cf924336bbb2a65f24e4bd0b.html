@@ -1,0 +1,158 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9"><div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\res\values\strings.xml" target="_blank">\test-apk\jadx_source_code\res\values\strings.xml</a></div><div class="col s12"><div class="card"><div class="valign-wrapper"><i class="material-icons medium grade-10">report</i><h5>regex: password</h5></div><div class="card-tabs"><ul class="tabs tabs-fixed-width" style="background-color: #30363A !important;"><li class="tab"><a style="color: #d82c2b;" href="#strings_xml61pass" class="active">line 61</a></li></ul></div><div class="card-content"><div id="strings_xml61pass">Code @ line 61<pre data-start="58" data-line="61" data-src="strings.xml" class="code line-numbers"><code>    &lt;string name="hardcode_enter"&gt;Enter the vendor key&lt;/string&gt;
+    &lt;string name="hardcode_intro"&gt;Objective: Find out what is hardcoded and where.\n Hint: Developers sometimes will hardcode sensitive information for ease.&lt;/string&gt;
+    &lt;string name="ids1_intro"&gt;Objective: Find out where/how the credentials are being stored and the vulnerable code.\n Hint: Insecure data storage is the result of storing confidential information insecurely on the system i.e. poor encryption, plain text, access control issues etc. &lt;/string&gt;
+    &lt;string name="ids1_password"&gt;Enter 3rd party service password&lt;/string&gt;
+    &lt;string name="ids1_save"&gt;SAVE&lt;/string&gt;
+    &lt;string name="ids1_user"&gt;Enter 3rd party service user name&lt;/string&gt;
+    &lt;string name="ivi1_enter"&gt;Enter user name to search&lt;/string&gt;
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVccmVzXHZhbHVlc1xzdHJpbmdzLnhtbHx8fGxpbmU6IDYxIDogcGFzc3dvcmR8fHwxMHx8fHBhc3N3b3JkfHx8NjF8fHw1OA">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVccmVzXHZhbHVlc1xzdHJpbmdzLnhtbHx8fGxpbmU6IDYxIDogcGFzc3dvcmR8fHwxMHx8fHBhc3N3b3JkfHx8NjF8fHw1OA')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVccmVzXHZhbHVlc1xzdHJpbmdzLnhtbHx8fGxpbmU6IDYxIDogcGFzc3dvcmR8fHwxMHx8fHBhc3N3b3JkfHx8NjF8fHw1OA').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVccmVzXHZhbHVlc1xzdHJpbmdzLnhtbHx8fGxpbmU6IDYxIDogcGFzc3dvcmR8fHwxMHx8fHBhc3N3b3JkfHx8NjF8fHw1OA" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVccmVzXHZhbHVlc1xzdHJpbmdzLnhtbHx8fGxpbmU6IDYxIDogcGFzc3dvcmR8fHwxMHx8fHBhc3N3b3JkfHx8NjF8fHw1OA' , 'ICAgIDxzdHJpbmcgbmFtZT0iaGFyZGNvZGVfZW50ZXIiPkVudGVyIHRoZSB2ZW5kb3Iga2V5PC9zdHJpbmc+CiAgICA8c3RyaW5nIG5hbWU9ImhhcmRjb2RlX2ludHJvIj5PYmplY3RpdmU6IEZpbmQgb3V0IHdoYXQgaXMgaGFyZGNvZGVkIGFuZCB3aGVyZS5cbiBIaW50OiBEZXZlbG9wZXJzIHNvbWV0aW1lcyB3aWxsIGhhcmRjb2RlIHNlbnNpdGl2ZSBpbmZvcm1hdGlvbiBmb3IgZWFzZS48L3N0cmluZz4KICAgIDxzdHJpbmcgbmFtZT0iaWRzMV9pbnRybyI+T2JqZWN0aXZlOiBGaW5kIG91dCB3aGVyZS9ob3cgdGhlIGNyZWRlbnRpYWxzIGFyZSBiZWluZyBzdG9yZWQgYW5kIHRoZSB2dWxuZXJhYmxlIGNvZGUuXG4gSGludDogSW5zZWN1cmUgZGF0YSBzdG9yYWdlIGlzIHRoZSByZXN1bHQgb2Ygc3RvcmluZyBjb25maWRlbnRpYWwgaW5mb3JtYXRpb24gaW5zZWN1cmVseSBvbiB0aGUgc3lzdGVtIGkuZS4gcG9vciBlbmNyeXB0aW9uLCBwbGFpbiB0ZXh0LCBhY2Nlc3MgY29udHJvbCBpc3N1ZXMgZXRjLiA8L3N0cmluZz4KICAgIDxzdHJpbmcgbmFtZT0iaWRzMV9wYXNzd29yZCI+RW50ZXIgM3JkIHBhcnR5IHNlcnZpY2UgcGFzc3dvcmQ8L3N0cmluZz4KICAgIDxzdHJpbmcgbmFtZT0iaWRzMV9zYXZlIj5TQVZFPC9zdHJpbmc+CiAgICA8c3RyaW5nIG5hbWU9ImlkczFfdXNlciI+RW50ZXIgM3JkIHBhcnR5IHNlcnZpY2UgdXNlciBuYW1lPC9zdHJpbmc+CiAgICA8c3RyaW5nIG5hbWU9Iml2aTFfZW50ZXIiPkVudGVyIHVzZXIgbmFtZSB0byBzZWFyY2g8L3N0cmluZz4K');  
+                                            });
+                                            </script>
+                                            </div></div></div></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="strings.xml" data-line="61," class="code line-numbers"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;resources&gt;
+    &lt;string name="abc_action_bar_home_description"&gt;Navigate home&lt;/string&gt;
+    &lt;string name="abc_action_bar_home_description_format"&gt;%1$s, %2$s&lt;/string&gt;
+    &lt;string name="abc_action_bar_home_subtitle_description_format"&gt;%1$s, %2$s, %3$s&lt;/string&gt;
+    &lt;string name="abc_action_bar_up_description"&gt;Navigate up&lt;/string&gt;
+    &lt;string name="abc_action_menu_overflow_description"&gt;More options&lt;/string&gt;
+    &lt;string name="abc_action_mode_done"&gt;Done&lt;/string&gt;
+    &lt;string name="abc_activity_chooser_view_see_all"&gt;See all&lt;/string&gt;
+    &lt;string name="abc_activitychooserview_choose_application"&gt;Choose an app&lt;/string&gt;
+    &lt;string name="abc_capital_off"&gt;OFF&lt;/string&gt;
+    &lt;string name="abc_capital_on"&gt;ON&lt;/string&gt;
+    &lt;string name="abc_search_hint"&gt;Search…&lt;/string&gt;
+    &lt;string name="abc_searchview_description_clear"&gt;Clear query&lt;/string&gt;
+    &lt;string name="abc_searchview_description_query"&gt;Search query&lt;/string&gt;
+    &lt;string name="abc_searchview_description_search"&gt;Search&lt;/string&gt;
+    &lt;string name="abc_searchview_description_submit"&gt;Submit query&lt;/string&gt;
+    &lt;string name="abc_searchview_description_voice"&gt;Voice search&lt;/string&gt;
+    &lt;string name="abc_shareactionprovider_share_with"&gt;Share with&lt;/string&gt;
+    &lt;string name="abc_shareactionprovider_share_with_application"&gt;Share with %s&lt;/string&gt;
+    &lt;string name="abc_toolbar_collapse_description"&gt;Collapse&lt;/string&gt;
+    &lt;string name="status_bar_notification_info_overflow"&gt;999+&lt;/string&gt;
+    &lt;string name="aci1_intro"&gt;Objective: You are able to access the API credentials when you click the button. Now, try to access the API credentials from outside the app.\n Hint:Components of an app can be accessed from other apps or users if they are not properly protected. Components such as activities, services, content providers are prone to this.&lt;/string&gt;
+    &lt;string name="aci1_view"&gt;VIEW API CREDENTIALS&lt;/string&gt;
+    &lt;string name="aci2_alreadyreg"&gt;Already Registered.&lt;/string&gt;
+    &lt;string name="aci2_intro"&gt;Objective: You are able to access the Third Party app TVEETER API credentials after you have registered with Tveeter. The App requests you to register online and the vendor gives you a pin, which you can use to register with the app. Now, try to access the API credentials from outside the app without knowing the PIN. This is a business logic problem so you may need to see the code.\n Hint:Components of an app can be accessed from other apps or users if they are not properly protected and some may also accept external inputs. Components such as activities, services, content providers are prone to this.&lt;/string&gt;
+    &lt;string name="aci2_regnow"&gt;Register Now.&lt;/string&gt;
+    &lt;string name="aci2_view"&gt;VIEW TVEETER API CREDENTIALS&lt;/string&gt;
+    &lt;string name="aci3_accessnotes"&gt;ACCESS PRIVATE NOTES&lt;/string&gt;
+    &lt;string name="aci3_createpin"&gt;CREATE/CHANGE PIN&lt;/string&gt;
+    &lt;string name="aci3_enterpin"&gt;Enter 4 Digit PIN&lt;/string&gt;
+    &lt;string name="aci3_gotonotes"&gt;GO TO PRIVATE NOTES&lt;/string&gt;
+    &lt;string name="aci3_intro"&gt;Objective: This is a private notes application. You can create a PIN once and access your notes after entering the correct pin. Now, try to access the private notes from outside the app without knowing the PIN.\n Hint:Components of an app can be accessed from other apps or users if they are not properly protected and some may also accept external inputs. Components such as activities, services, content providers are prone to this.&lt;/string&gt;
+    &lt;string name="action_settings"&gt;Settings&lt;/string&gt;
+    &lt;string name="apic2_enter"&gt;Enter PIN received from Tveeter&lt;/string&gt;
+    &lt;string name="apic2_label"&gt;Tveeter API Credentials&lt;/string&gt;
+    &lt;string name="apic_label"&gt;Vendor API Credentials&lt;/string&gt;
+    &lt;string name="app_name"&gt;Diva&lt;/string&gt;
+    &lt;string name="appbar_scrolling_view_behavior"&gt;android.support.design.widget.AppBarLayout$ScrollingViewBehavior&lt;/string&gt;
+    &lt;string name="character_counter_pattern"&gt;%1$d/%2$d&lt;/string&gt;
+    &lt;string name="chk_pin"&gt;check_pin&lt;/string&gt;
+    &lt;string name="d1"&gt;1. Insecure Logging&lt;/string&gt;
+    &lt;string name="d10"&gt;10. Access Control Issues - Part 2&lt;/string&gt;
+    &lt;string name="d11"&gt;11. Access Control Issues - Part 3&lt;/string&gt;
+    &lt;string name="d12"&gt;12. Hardcoding Issues - Part 2&lt;/string&gt;
+    &lt;string name="d13"&gt;13. Input Validation Issues - Part 3&lt;/string&gt;
+    &lt;string name="d2"&gt;2. Hardcoding Issues - Part 1&lt;/string&gt;
+    &lt;string name="d3"&gt;3. Insecure Data Storage - Part 1&lt;/string&gt;
+    &lt;string name="d4"&gt;4. Insecure Data Storage - Part 2&lt;/string&gt;
+    &lt;string name="d5"&gt;5. Insecure Data Storage - Part 3&lt;/string&gt;
+    &lt;string name="d6"&gt;6. Insecure Data Storage - Part 4&lt;/string&gt;
+    &lt;string name="d7"&gt;7. Input Validation Issues - Part 1&lt;/string&gt;
+    &lt;string name="d8"&gt;8. Input Validation Issues - Part 2&lt;/string&gt;
+    &lt;string name="d9"&gt;9. Access Control Issues - Part 1&lt;/string&gt;
+    &lt;string name="dintro"&gt;DIVA (Damn insecure and vulnerable App) is an App intentionally designed to be insecure. The aim of the App is to teach developers/QA/security professionals, flaws that are generally present in the Apps due poor or insecure coding practices. If you are reading this you want to either learn App pentesting or secure coding and I sincerely hope that DIVA solves your purpose. So, sit back and enjoy the ride.&lt;/string&gt;
+    &lt;string name="dwelcome"&gt;Welcome to DIVA!&lt;/string&gt;
+    &lt;string name="hardcode_access"&gt;ACCESS&lt;/string&gt;
+    &lt;string name="hardcode_enter"&gt;Enter the vendor key&lt;/string&gt;
+    &lt;string name="hardcode_intro"&gt;Objective: Find out what is hardcoded and where.\n Hint: Developers sometimes will hardcode sensitive information for ease.&lt;/string&gt;
+    &lt;string name="ids1_intro"&gt;Objective: Find out where/how the credentials are being stored and the vulnerable code.\n Hint: Insecure data storage is the result of storing confidential information insecurely on the system i.e. poor encryption, plain text, access control issues etc. &lt;/string&gt;
+    &lt;string name="ids1_password"&gt;Enter 3rd party service password&lt;/string&gt;
+    &lt;string name="ids1_save"&gt;SAVE&lt;/string&gt;
+    &lt;string name="ids1_user"&gt;Enter 3rd party service user name&lt;/string&gt;
+    &lt;string name="ivi1_enter"&gt;Enter user name to search&lt;/string&gt;
+    &lt;string name="ivi1_intro"&gt;Objective: Try to access all user data without knowing any user name. There are three users by default and your task is to output data of all the three users with a single malicious search.\n Hint: Improper or no input validation issue arise when the input is not filtered or validated before using it. When developing components that take input from outside, always validate it. For ease of testing there are three users already present in the database, for example one of them is admin, you can try searching for admin to test the output.&lt;/string&gt;
+    &lt;string name="ivi1_search"&gt;SEARCH&lt;/string&gt;
+    &lt;string name="ivi2_enter"&gt;Enter the URL to view&lt;/string&gt;
+    &lt;string name="ivi2_intro"&gt;Objective: Try accessing any sensitive information apart from a web URL.\n Hint: Improper or no input validation issue arise when the input is not filtered or validated before using it. When developing components that take input from outside, always validate it. &lt;/string&gt;
+    &lt;string name="ivi2_view"&gt;VIEW&lt;/string&gt;
+    &lt;string name="ivi3_enter"&gt;Enter Launch Code for WOMD&lt;/string&gt;
+    &lt;string name="ivi3_intro"&gt;Objective: This is a Missile Launch App. Spread love not War! DOS the Damn thing! Your objective here is to NOT find the code and then launch the missiles, rather it is to crash the app (and then find the root cause the crash).\n Hint: Improper or no input validation issue arise when the input is not filtered or validated before using it. When developing components that take input from outside, always validate it. This is a classic memory corruption vulnerability. If you can get code execution, I would love to hear from you. I dont expect anyone to go that far though.&lt;/string&gt;
+    &lt;string name="ivi3_stop"&gt;PUSH THE RED BUTTON&lt;/string&gt;
+    &lt;string name="log_checkout"&gt;Check out&lt;/string&gt;
+    &lt;string name="log_enter"&gt;Enter your credit card number&lt;/string&gt;
+    &lt;string name="log_intro"&gt;Objective: Find out what is being logged where/how and the vulnerable code.\n Hint: Insecure logging occurs when developers intentionally or unintentionally log sensitive information such as credentials, session IDs, financial details etc.&lt;/string&gt;
+    &lt;string name="notesprovider_url"&gt;content://jakhar.aseem.diva.provider.notesprovider/notes&lt;/string&gt;
+    &lt;string name="pkey"&gt;notespin&lt;/string&gt;
+    &lt;string name="pnotes"&gt;Diva Private Notes&lt;/string&gt;
+&lt;/resources&gt;
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:42 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

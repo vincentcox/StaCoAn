@@ -1,0 +1,449 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v7\app\ActionBarDrawerToggle.java" target="_blank">\test-apk\jadx_source_code\android\support\v7\app\ActionBarDrawerToggle.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="ActionBarDrawerToggle.java" data-line="" class="code line-numbers"><code>package android.support.v7.app;
+
+import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.DrawerLayout.DrawerListener;
+import android.support.v7.graphics.drawable.DrawerArrowDrawable;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+
+public class ActionBarDrawerToggle implements DrawerListener {
+    private final Delegate mActivityImpl;
+    private final int mCloseDrawerContentDescRes;
+    private boolean mDrawerIndicatorEnabled;
+    private final DrawerLayout mDrawerLayout;
+    private boolean mHasCustomUpIndicator;
+    private Drawable mHomeAsUpIndicator;
+    private final int mOpenDrawerContentDescRes;
+    private DrawerToggle mSlider;
+    private OnClickListener mToolbarNavigationClickListener;
+    private boolean mWarnedForDisplayHomeAsUp;
+
+    public interface Delegate {
+        Context getActionBarThemedContext();
+
+        Drawable getThemeUpIndicator();
+
+        boolean isNavigationVisible();
+
+        void setActionBarDescription(@StringRes int i);
+
+        void setActionBarUpIndicator(Drawable drawable, @StringRes int i);
+    }
+
+    public interface DelegateProvider {
+        @Nullable
+        Delegate getDrawerToggleDelegate();
+    }
+
+    interface DrawerToggle {
+        float getPosition();
+
+        void setPosition(float f);
+    }
+
+    static class DrawerArrowDrawableToggle extends DrawerArrowDrawable implements DrawerToggle {
+        private final Activity mActivity;
+
+        public DrawerArrowDrawableToggle(Activity activity, Context themedContext) {
+            super(themedContext);
+            this.mActivity = activity;
+        }
+
+        public void setPosition(float position) {
+            if (position == 1.0f) {
+                setVerticalMirror(true);
+            } else if (position == 0.0f) {
+                setVerticalMirror(false);
+            }
+            setProgress(position);
+        }
+
+        public float getPosition() {
+            return getProgress();
+        }
+    }
+
+    static class DummyDelegate implements Delegate {
+        final Activity mActivity;
+
+        DummyDelegate(Activity activity) {
+            this.mActivity = activity;
+        }
+
+        public void setActionBarUpIndicator(Drawable upDrawable, @StringRes int contentDescRes) {
+        }
+
+        public void setActionBarDescription(@StringRes int contentDescRes) {
+        }
+
+        public Drawable getThemeUpIndicator() {
+            return null;
+        }
+
+        public Context getActionBarThemedContext() {
+            return this.mActivity;
+        }
+
+        public boolean isNavigationVisible() {
+            return true;
+        }
+    }
+
+    private static class HoneycombDelegate implements Delegate {
+        final Activity mActivity;
+        SetIndicatorInfo mSetIndicatorInfo;
+
+        private HoneycombDelegate(Activity activity) {
+            this.mActivity = activity;
+        }
+
+        public Drawable getThemeUpIndicator() {
+            return ActionBarDrawerToggleHoneycomb.getThemeUpIndicator(this.mActivity);
+        }
+
+        public Context getActionBarThemedContext() {
+            ActionBar actionBar = this.mActivity.getActionBar();
+            if (actionBar != null) {
+                return actionBar.getThemedContext();
+            }
+            return this.mActivity;
+        }
+
+        public boolean isNavigationVisible() {
+            ActionBar actionBar = this.mActivity.getActionBar();
+            return (actionBar == null || (actionBar.getDisplayOptions() &amp; 4) == 0) ? false : true;
+        }
+
+        public void setActionBarUpIndicator(Drawable themeImage, int contentDescRes) {
+            this.mActivity.getActionBar().setDisplayShowHomeEnabled(true);
+            this.mSetIndicatorInfo = ActionBarDrawerToggleHoneycomb.setActionBarUpIndicator(this.mSetIndicatorInfo, this.mActivity, themeImage, contentDescRes);
+            this.mActivity.getActionBar().setDisplayShowHomeEnabled(false);
+        }
+
+        public void setActionBarDescription(int contentDescRes) {
+            this.mSetIndicatorInfo = ActionBarDrawerToggleHoneycomb.setActionBarDescription(this.mSetIndicatorInfo, this.mActivity, contentDescRes);
+        }
+    }
+
+    private static class JellybeanMr2Delegate implements Delegate {
+        final Activity mActivity;
+
+        private JellybeanMr2Delegate(Activity activity) {
+            this.mActivity = activity;
+        }
+
+        public Drawable getThemeUpIndicator() {
+            TypedArray a = getActionBarThemedContext().obtainStyledAttributes(null, new int[]{16843531}, 16843470, 0);
+            Drawable result = a.getDrawable(0);
+            a.recycle();
+            return result;
+        }
+
+        public Context getActionBarThemedContext() {
+            ActionBar actionBar = this.mActivity.getActionBar();
+            if (actionBar != null) {
+                return actionBar.getThemedContext();
+            }
+            return this.mActivity;
+        }
+
+        public boolean isNavigationVisible() {
+            ActionBar actionBar = this.mActivity.getActionBar();
+            return (actionBar == null || (actionBar.getDisplayOptions() &amp; 4) == 0) ? false : true;
+        }
+
+        public void setActionBarUpIndicator(Drawable drawable, int contentDescRes) {
+            ActionBar actionBar = this.mActivity.getActionBar();
+            if (actionBar != null) {
+                actionBar.setHomeAsUpIndicator(drawable);
+                actionBar.setHomeActionContentDescription(contentDescRes);
+            }
+        }
+
+        public void setActionBarDescription(int contentDescRes) {
+            ActionBar actionBar = this.mActivity.getActionBar();
+            if (actionBar != null) {
+                actionBar.setHomeActionContentDescription(contentDescRes);
+            }
+        }
+    }
+
+    static class ToolbarCompatDelegate implements Delegate {
+        final CharSequence mDefaultContentDescription;
+        final Drawable mDefaultUpIndicator;
+        final Toolbar mToolbar;
+
+        ToolbarCompatDelegate(Toolbar toolbar) {
+            this.mToolbar = toolbar;
+            this.mDefaultUpIndicator = toolbar.getNavigationIcon();
+            this.mDefaultContentDescription = toolbar.getNavigationContentDescription();
+        }
+
+        public void setActionBarUpIndicator(Drawable upDrawable, @StringRes int contentDescRes) {
+            this.mToolbar.setNavigationIcon(upDrawable);
+            setActionBarDescription(contentDescRes);
+        }
+
+        public void setActionBarDescription(@StringRes int contentDescRes) {
+            if (contentDescRes == 0) {
+                this.mToolbar.setNavigationContentDescription(this.mDefaultContentDescription);
+            } else {
+                this.mToolbar.setNavigationContentDescription(contentDescRes);
+            }
+        }
+
+        public Drawable getThemeUpIndicator() {
+            return this.mDefaultUpIndicator;
+        }
+
+        public Context getActionBarThemedContext() {
+            return this.mToolbar.getContext();
+        }
+
+        public boolean isNavigationVisible() {
+            return true;
+        }
+    }
+
+    public ActionBarDrawerToggle(Activity activity, DrawerLayout drawerLayout, @StringRes int openDrawerContentDescRes, @StringRes int closeDrawerContentDescRes) {
+        this(activity, null, drawerLayout, null, openDrawerContentDescRes, closeDrawerContentDescRes);
+    }
+
+    public ActionBarDrawerToggle(Activity activity, DrawerLayout drawerLayout, Toolbar toolbar, @StringRes int openDrawerContentDescRes, @StringRes int closeDrawerContentDescRes) {
+        this(activity, toolbar, drawerLayout, null, openDrawerContentDescRes, closeDrawerContentDescRes);
+    }
+
+    &lt;T extends Drawable &amp; DrawerToggle&gt; ActionBarDrawerToggle(Activity activity, Toolbar toolbar, DrawerLayout drawerLayout, T slider, @StringRes int openDrawerContentDescRes, @StringRes int closeDrawerContentDescRes) {
+        this.mDrawerIndicatorEnabled = true;
+        this.mWarnedForDisplayHomeAsUp = false;
+        if (toolbar != null) {
+            this.mActivityImpl = new ToolbarCompatDelegate(toolbar);
+            toolbar.setNavigationOnClickListener(new OnClickListener() {
+                public void onClick(View v) {
+                    if (ActionBarDrawerToggle.this.mDrawerIndicatorEnabled) {
+                        ActionBarDrawerToggle.this.toggle();
+                    } else if (ActionBarDrawerToggle.this.mToolbarNavigationClickListener != null) {
+                        ActionBarDrawerToggle.this.mToolbarNavigationClickListener.onClick(v);
+                    }
+                }
+            });
+        } else if (activity instanceof DelegateProvider) {
+            this.mActivityImpl = ((DelegateProvider) activity).getDrawerToggleDelegate();
+        } else if (VERSION.SDK_INT &gt;= 18) {
+            this.mActivityImpl = new JellybeanMr2Delegate(activity);
+        } else if (VERSION.SDK_INT &gt;= 11) {
+            this.mActivityImpl = new HoneycombDelegate(activity);
+        } else {
+            this.mActivityImpl = new DummyDelegate(activity);
+        }
+        this.mDrawerLayout = drawerLayout;
+        this.mOpenDrawerContentDescRes = openDrawerContentDescRes;
+        this.mCloseDrawerContentDescRes = closeDrawerContentDescRes;
+        if (slider == null) {
+            this.mSlider = new DrawerArrowDrawableToggle(activity, this.mActivityImpl.getActionBarThemedContext());
+        } else {
+            this.mSlider = (DrawerToggle) slider;
+        }
+        this.mHomeAsUpIndicator = getThemeUpIndicator();
+    }
+
+    public void syncState() {
+        if (this.mDrawerLayout.isDrawerOpen(8388611)) {
+            this.mSlider.setPosition(1.0f);
+        } else {
+            this.mSlider.setPosition(0.0f);
+        }
+        if (this.mDrawerIndicatorEnabled) {
+            setActionBarUpIndicator((Drawable) this.mSlider, this.mDrawerLayout.isDrawerOpen(8388611) ? this.mCloseDrawerContentDescRes : this.mOpenDrawerContentDescRes);
+        }
+    }
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (!this.mHasCustomUpIndicator) {
+            this.mHomeAsUpIndicator = getThemeUpIndicator();
+        }
+        syncState();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item == null || item.getItemId() != 16908332 || !this.mDrawerIndicatorEnabled) {
+            return false;
+        }
+        toggle();
+        return true;
+    }
+
+    private void toggle() {
+        if (this.mDrawerLayout.isDrawerVisible(8388611)) {
+            this.mDrawerLayout.closeDrawer(8388611);
+        } else {
+            this.mDrawerLayout.openDrawer(8388611);
+        }
+    }
+
+    public void setHomeAsUpIndicator(Drawable indicator) {
+        if (indicator == null) {
+            this.mHomeAsUpIndicator = getThemeUpIndicator();
+            this.mHasCustomUpIndicator = false;
+        } else {
+            this.mHomeAsUpIndicator = indicator;
+            this.mHasCustomUpIndicator = true;
+        }
+        if (!this.mDrawerIndicatorEnabled) {
+            setActionBarUpIndicator(this.mHomeAsUpIndicator, 0);
+        }
+    }
+
+    public void setHomeAsUpIndicator(int resId) {
+        Drawable indicator = null;
+        if (resId != 0) {
+            indicator = this.mDrawerLayout.getResources().getDrawable(resId);
+        }
+        setHomeAsUpIndicator(indicator);
+    }
+
+    public boolean isDrawerIndicatorEnabled() {
+        return this.mDrawerIndicatorEnabled;
+    }
+
+    public void setDrawerIndicatorEnabled(boolean enable) {
+        if (enable != this.mDrawerIndicatorEnabled) {
+            if (enable) {
+                setActionBarUpIndicator((Drawable) this.mSlider, this.mDrawerLayout.isDrawerOpen(8388611) ? this.mCloseDrawerContentDescRes : this.mOpenDrawerContentDescRes);
+            } else {
+                setActionBarUpIndicator(this.mHomeAsUpIndicator, 0);
+            }
+            this.mDrawerIndicatorEnabled = enable;
+        }
+    }
+
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+        this.mSlider.setPosition(Math.min(1.0f, Math.max(0.0f, slideOffset)));
+    }
+
+    public void onDrawerOpened(View drawerView) {
+        this.mSlider.setPosition(1.0f);
+        if (this.mDrawerIndicatorEnabled) {
+            setActionBarDescription(this.mCloseDrawerContentDescRes);
+        }
+    }
+
+    public void onDrawerClosed(View drawerView) {
+        this.mSlider.setPosition(0.0f);
+        if (this.mDrawerIndicatorEnabled) {
+            setActionBarDescription(this.mOpenDrawerContentDescRes);
+        }
+    }
+
+    public void onDrawerStateChanged(int newState) {
+    }
+
+    public OnClickListener getToolbarNavigationClickListener() {
+        return this.mToolbarNavigationClickListener;
+    }
+
+    public void setToolbarNavigationClickListener(OnClickListener onToolbarNavigationClickListener) {
+        this.mToolbarNavigationClickListener = onToolbarNavigationClickListener;
+    }
+
+    void setActionBarUpIndicator(Drawable upDrawable, int contentDescRes) {
+        if (!(this.mWarnedForDisplayHomeAsUp || this.mActivityImpl.isNavigationVisible())) {
+            Log.w("ActionBarDrawerToggle", "DrawerToggle may not show up because NavigationIcon is not visible. You may need to call actionbar.setDisplayHomeAsUpEnabled(true);");
+            this.mWarnedForDisplayHomeAsUp = true;
+        }
+        this.mActivityImpl.setActionBarUpIndicator(upDrawable, contentDescRes);
+    }
+
+    void setActionBarDescription(int contentDescRes) {
+        this.mActivityImpl.setActionBarDescription(contentDescRes);
+    }
+
+    Drawable getThemeUpIndicator() {
+        return this.mActivityImpl.getThemeUpIndicator();
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:41 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

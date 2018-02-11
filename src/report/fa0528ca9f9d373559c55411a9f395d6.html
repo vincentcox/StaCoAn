@@ -1,0 +1,313 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v4\app\FragmentHostCallback.java" target="_blank">\test-apk\jadx_source_code\android\support\v4\app\FragmentHostCallback.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="FragmentHostCallback.java" data-line="" class="code line-numbers"><code>package android.support.v4.app;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.util.SimpleArrayMap;
+import android.view.LayoutInflater;
+import android.view.View;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+
+public abstract class FragmentHostCallback&lt;E&gt; extends FragmentContainer {
+    private final Activity mActivity;
+    private SimpleArrayMap&lt;String, LoaderManager&gt; mAllLoaderManagers;
+    private boolean mCheckedForLoaderManager;
+    final Context mContext;
+    final FragmentManagerImpl mFragmentManager;
+    private final Handler mHandler;
+    private LoaderManagerImpl mLoaderManager;
+    private boolean mLoadersStarted;
+    final int mWindowAnimations;
+
+    @Nullable
+    public abstract E onGetHost();
+
+    public FragmentHostCallback(Context context, Handler handler, int windowAnimations) {
+        this(null, context, handler, windowAnimations);
+    }
+
+    FragmentHostCallback(FragmentActivity activity) {
+        this(activity, activity, activity.mHandler, 0);
+    }
+
+    FragmentHostCallback(Activity activity, Context context, Handler handler, int windowAnimations) {
+        this.mFragmentManager = new FragmentManagerImpl();
+        this.mActivity = activity;
+        this.mContext = context;
+        this.mHandler = handler;
+        this.mWindowAnimations = windowAnimations;
+    }
+
+    public void onDump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args) {
+    }
+
+    public boolean onShouldSaveFragmentState(Fragment fragment) {
+        return true;
+    }
+
+    public LayoutInflater onGetLayoutInflater() {
+        return (LayoutInflater) this.mContext.getSystemService("layout_inflater");
+    }
+
+    public void onSupportInvalidateOptionsMenu() {
+    }
+
+    public void onStartActivityFromFragment(Fragment fragment, Intent intent, int requestCode) {
+        if (requestCode != -1) {
+            throw new IllegalStateException("Starting activity with a requestCode requires a FragmentActivity host");
+        }
+        this.mContext.startActivity(intent);
+    }
+
+    public void onRequestPermissionsFromFragment(@NonNull Fragment fragment, @NonNull String[] permissions, int requestCode) {
+    }
+
+    public boolean onShouldShowRequestPermissionRationale(@NonNull String permission) {
+        return false;
+    }
+
+    public boolean onHasWindowAnimations() {
+        return true;
+    }
+
+    public int onGetWindowAnimations() {
+        return this.mWindowAnimations;
+    }
+
+    @Nullable
+    public View onFindViewById(int id) {
+        return null;
+    }
+
+    public boolean onHasView() {
+        return true;
+    }
+
+    Activity getActivity() {
+        return this.mActivity;
+    }
+
+    Context getContext() {
+        return this.mContext;
+    }
+
+    Handler getHandler() {
+        return this.mHandler;
+    }
+
+    FragmentManagerImpl getFragmentManagerImpl() {
+        return this.mFragmentManager;
+    }
+
+    LoaderManagerImpl getLoaderManagerImpl() {
+        if (this.mLoaderManager != null) {
+            return this.mLoaderManager;
+        }
+        this.mCheckedForLoaderManager = true;
+        this.mLoaderManager = getLoaderManager("(root)", this.mLoadersStarted, true);
+        return this.mLoaderManager;
+    }
+
+    void inactivateFragment(String who) {
+        if (this.mAllLoaderManagers != null) {
+            LoaderManagerImpl lm = (LoaderManagerImpl) this.mAllLoaderManagers.get(who);
+            if (lm != null &amp;&amp; !lm.mRetaining) {
+                lm.doDestroy();
+                this.mAllLoaderManagers.remove(who);
+            }
+        }
+    }
+
+    void onAttachFragment(Fragment fragment) {
+    }
+
+    void doLoaderStart() {
+        if (!this.mLoadersStarted) {
+            this.mLoadersStarted = true;
+            if (this.mLoaderManager != null) {
+                this.mLoaderManager.doStart();
+            } else if (!this.mCheckedForLoaderManager) {
+                this.mLoaderManager = getLoaderManager("(root)", this.mLoadersStarted, false);
+                if (!(this.mLoaderManager == null || this.mLoaderManager.mStarted)) {
+                    this.mLoaderManager.doStart();
+                }
+            }
+            this.mCheckedForLoaderManager = true;
+        }
+    }
+
+    void doLoaderStop(boolean retain) {
+        if (this.mLoaderManager != null &amp;&amp; this.mLoadersStarted) {
+            this.mLoadersStarted = false;
+            if (retain) {
+                this.mLoaderManager.doRetain();
+            } else {
+                this.mLoaderManager.doStop();
+            }
+        }
+    }
+
+    void doLoaderRetain() {
+        if (this.mLoaderManager != null) {
+            this.mLoaderManager.doRetain();
+        }
+    }
+
+    void doLoaderDestroy() {
+        if (this.mLoaderManager != null) {
+            this.mLoaderManager.doDestroy();
+        }
+    }
+
+    void reportLoaderStart() {
+        if (this.mAllLoaderManagers != null) {
+            int i;
+            int N = this.mAllLoaderManagers.size();
+            LoaderManagerImpl[] loaders = new LoaderManagerImpl[N];
+            for (i = N - 1; i &gt;= 0; i--) {
+                loaders[i] = (LoaderManagerImpl) this.mAllLoaderManagers.valueAt(i);
+            }
+            for (i = 0; i &lt; N; i++) {
+                LoaderManagerImpl lm = loaders[i];
+                lm.finishRetain();
+                lm.doReportStart();
+            }
+        }
+    }
+
+    LoaderManagerImpl getLoaderManager(String who, boolean started, boolean create) {
+        if (this.mAllLoaderManagers == null) {
+            this.mAllLoaderManagers = new SimpleArrayMap();
+        }
+        LoaderManagerImpl lm = (LoaderManagerImpl) this.mAllLoaderManagers.get(who);
+        if (lm != null) {
+            lm.updateHostController(this);
+            return lm;
+        } else if (!create) {
+            return lm;
+        } else {
+            lm = new LoaderManagerImpl(who, this, started);
+            this.mAllLoaderManagers.put(who, lm);
+            return lm;
+        }
+    }
+
+    SimpleArrayMap&lt;String, LoaderManager&gt; retainLoaderNonConfig() {
+        boolean retainLoaders = false;
+        if (this.mAllLoaderManagers != null) {
+            int i;
+            int N = this.mAllLoaderManagers.size();
+            LoaderManagerImpl[] loaders = new LoaderManagerImpl[N];
+            for (i = N - 1; i &gt;= 0; i--) {
+                loaders[i] = (LoaderManagerImpl) this.mAllLoaderManagers.valueAt(i);
+            }
+            for (i = 0; i &lt; N; i++) {
+                LoaderManagerImpl lm = loaders[i];
+                if (lm.mRetaining) {
+                    retainLoaders = true;
+                } else {
+                    lm.doDestroy();
+                    this.mAllLoaderManagers.remove(lm.mWho);
+                }
+            }
+        }
+        if (retainLoaders) {
+            return this.mAllLoaderManagers;
+        }
+        return null;
+    }
+
+    void restoreLoaderNonConfig(SimpleArrayMap&lt;String, LoaderManager&gt; loaderManagers) {
+        this.mAllLoaderManagers = loaderManagers;
+    }
+
+    void dumpLoaders(String prefix, FileDescriptor fd, PrintWriter writer, String[] args) {
+        writer.print(prefix);
+        writer.print("mLoadersStarted=");
+        writer.println(this.mLoadersStarted);
+        if (this.mLoaderManager != null) {
+            writer.print(prefix);
+            writer.print("Loader Manager ");
+            writer.print(Integer.toHexString(System.identityHashCode(this.mLoaderManager)));
+            writer.println(":");
+            this.mLoaderManager.dump(prefix + "  ", fd, writer, args);
+        }
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:40 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

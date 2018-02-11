@@ -1,0 +1,333 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v7\util\MessageThreadUtil.java" target="_blank">\test-apk\jadx_source_code\android\support\v7\util\MessageThreadUtil.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="MessageThreadUtil.java" data-line="" class="code line-numbers"><code>package android.support.v7.util;
+
+import android.os.Handler;
+import android.os.Looper;
+import android.support.v4.content.ParallelExecutorCompat;
+import android.support.v7.util.ThreadUtil.BackgroundCallback;
+import android.support.v7.util.ThreadUtil.MainThreadCallback;
+import android.support.v7.util.TileList.Tile;
+import android.util.Log;
+import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+class MessageThreadUtil&lt;T&gt; implements ThreadUtil&lt;T&gt; {
+
+    static class MessageQueue {
+        private SyncQueueItem mRoot;
+
+        MessageQueue() {
+        }
+
+        synchronized SyncQueueItem next() {
+            SyncQueueItem syncQueueItem;
+            if (this.mRoot == null) {
+                syncQueueItem = null;
+            } else {
+                syncQueueItem = this.mRoot;
+                this.mRoot = this.mRoot.next;
+            }
+            return syncQueueItem;
+        }
+
+        synchronized void sendMessageAtFrontOfQueue(SyncQueueItem item) {
+            item.next = this.mRoot;
+            this.mRoot = item;
+        }
+
+        synchronized void sendMessage(SyncQueueItem item) {
+            if (this.mRoot == null) {
+                this.mRoot = item;
+            } else {
+                SyncQueueItem last = this.mRoot;
+                while (last.next != null) {
+                    last = last.next;
+                }
+                last.next = item;
+            }
+        }
+
+        synchronized void removeMessages(int what) {
+            while (this.mRoot != null &amp;&amp; this.mRoot.what == what) {
+                SyncQueueItem item = this.mRoot;
+                this.mRoot = this.mRoot.next;
+                item.recycle();
+            }
+            if (this.mRoot != null) {
+                SyncQueueItem prev = this.mRoot;
+                item = prev.next;
+                while (item != null) {
+                    SyncQueueItem next = item.next;
+                    if (item.what == what) {
+                        prev.next = next;
+                        item.recycle();
+                    } else {
+                        prev = item;
+                    }
+                    item = next;
+                }
+            }
+        }
+    }
+
+    static class SyncQueueItem {
+        private static SyncQueueItem sPool;
+        private static final Object sPoolLock = new Object();
+        public int arg1;
+        public int arg2;
+        public int arg3;
+        public int arg4;
+        public int arg5;
+        public Object data;
+        private SyncQueueItem next;
+        public int what;
+
+        SyncQueueItem() {
+        }
+
+        void recycle() {
+            this.next = null;
+            this.arg5 = 0;
+            this.arg4 = 0;
+            this.arg3 = 0;
+            this.arg2 = 0;
+            this.arg1 = 0;
+            this.what = 0;
+            this.data = null;
+            synchronized (sPoolLock) {
+                if (sPool != null) {
+                    this.next = sPool;
+                }
+                sPool = this;
+            }
+        }
+
+        static SyncQueueItem obtainMessage(int what, int arg1, int arg2, int arg3, int arg4, int arg5, Object data) {
+            SyncQueueItem item;
+            synchronized (sPoolLock) {
+                if (sPool == null) {
+                    item = new SyncQueueItem();
+                } else {
+                    item = sPool;
+                    sPool = sPool.next;
+                    item.next = null;
+                }
+                item.what = what;
+                item.arg1 = arg1;
+                item.arg2 = arg2;
+                item.arg3 = arg3;
+                item.arg4 = arg4;
+                item.arg5 = arg5;
+                item.data = data;
+            }
+            return item;
+        }
+
+        static SyncQueueItem obtainMessage(int what, int arg1, int arg2) {
+            return obtainMessage(what, arg1, arg2, 0, 0, 0, null);
+        }
+
+        static SyncQueueItem obtainMessage(int what, int arg1, Object data) {
+            return obtainMessage(what, arg1, 0, 0, 0, 0, data);
+        }
+    }
+
+    MessageThreadUtil() {
+    }
+
+    public MainThreadCallback&lt;T&gt; getMainThreadProxy(final MainThreadCallback&lt;T&gt; callback) {
+        return new MainThreadCallback&lt;T&gt;() {
+            private static final int ADD_TILE = 2;
+            private static final int REMOVE_TILE = 3;
+            private static final int UPDATE_ITEM_COUNT = 1;
+            private final Handler mMainThreadHandler = new Handler(Looper.getMainLooper());
+            private Runnable mMainThreadRunnable = new Runnable() {
+                public void run() {
+                    SyncQueueItem msg = AnonymousClass1.this.mQueue.next();
+                    while (msg != null) {
+                        switch (msg.what) {
+                            case 1:
+                                callback.updateItemCount(msg.arg1, msg.arg2);
+                                break;
+                            case 2:
+                                callback.addTile(msg.arg1, (Tile) msg.data);
+                                break;
+                            case 3:
+                                callback.removeTile(msg.arg1, msg.arg2);
+                                break;
+                            default:
+                                Log.e("ThreadUtil", "Unsupported message, what=" + msg.what);
+                                break;
+                        }
+                        msg = AnonymousClass1.this.mQueue.next();
+                    }
+                }
+            };
+            private final MessageQueue mQueue = new MessageQueue();
+
+            public void updateItemCount(int generation, int itemCount) {
+                sendMessage(SyncQueueItem.obtainMessage(1, generation, itemCount));
+            }
+
+            public void addTile(int generation, Tile&lt;T&gt; tile) {
+                sendMessage(SyncQueueItem.obtainMessage(2, generation, (Object) tile));
+            }
+
+            public void removeTile(int generation, int position) {
+                sendMessage(SyncQueueItem.obtainMessage(3, generation, position));
+            }
+
+            private void sendMessage(SyncQueueItem msg) {
+                this.mQueue.sendMessage(msg);
+                this.mMainThreadHandler.post(this.mMainThreadRunnable);
+            }
+        };
+    }
+
+    public BackgroundCallback&lt;T&gt; getBackgroundProxy(final BackgroundCallback&lt;T&gt; callback) {
+        return new BackgroundCallback&lt;T&gt;() {
+            private static final int LOAD_TILE = 3;
+            private static final int RECYCLE_TILE = 4;
+            private static final int REFRESH = 1;
+            private static final int UPDATE_RANGE = 2;
+            private Runnable mBackgroundRunnable = new Runnable() {
+                public void run() {
+                    while (true) {
+                        SyncQueueItem msg = AnonymousClass2.this.mQueue.next();
+                        if (msg != null) {
+                            switch (msg.what) {
+                                case 1:
+                                    AnonymousClass2.this.mQueue.removeMessages(1);
+                                    callback.refresh(msg.arg1);
+                                    break;
+                                case 2:
+                                    AnonymousClass2.this.mQueue.removeMessages(2);
+                                    AnonymousClass2.this.mQueue.removeMessages(3);
+                                    callback.updateRange(msg.arg1, msg.arg2, msg.arg3, msg.arg4, msg.arg5);
+                                    break;
+                                case 3:
+                                    callback.loadTile(msg.arg1, msg.arg2);
+                                    break;
+                                case 4:
+                                    callback.recycleTile((Tile) msg.data);
+                                    break;
+                                default:
+                                    Log.e("ThreadUtil", "Unsupported message, what=" + msg.what);
+                                    break;
+                            }
+                        }
+                        AnonymousClass2.this.mBackgroundRunning.set(false);
+                        return;
+                    }
+                }
+            };
+            AtomicBoolean mBackgroundRunning = new AtomicBoolean(false);
+            private final Executor mExecutor = ParallelExecutorCompat.getParallelExecutor();
+            private final MessageQueue mQueue = new MessageQueue();
+
+            public void refresh(int generation) {
+                sendMessageAtFrontOfQueue(SyncQueueItem.obtainMessage(1, generation, null));
+            }
+
+            public void updateRange(int rangeStart, int rangeEnd, int extRangeStart, int extRangeEnd, int scrollHint) {
+                sendMessageAtFrontOfQueue(SyncQueueItem.obtainMessage(2, rangeStart, rangeEnd, extRangeStart, extRangeEnd, scrollHint, null));
+            }
+
+            public void loadTile(int position, int scrollHint) {
+                sendMessage(SyncQueueItem.obtainMessage(3, position, scrollHint));
+            }
+
+            public void recycleTile(Tile&lt;T&gt; tile) {
+                sendMessage(SyncQueueItem.obtainMessage(4, 0, (Object) tile));
+            }
+
+            private void sendMessage(SyncQueueItem msg) {
+                this.mQueue.sendMessage(msg);
+                maybeExecuteBackgroundRunnable();
+            }
+
+            private void sendMessageAtFrontOfQueue(SyncQueueItem msg) {
+                this.mQueue.sendMessageAtFrontOfQueue(msg);
+                maybeExecuteBackgroundRunnable();
+            }
+
+            private void maybeExecuteBackgroundRunnable() {
+                if (this.mBackgroundRunning.compareAndSet(false, true)) {
+                    this.mExecutor.execute(this.mBackgroundRunnable);
+                }
+            }
+        };
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:41 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

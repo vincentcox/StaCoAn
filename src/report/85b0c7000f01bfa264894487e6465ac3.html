@@ -1,0 +1,263 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v7\widget\OpReorderer.java" target="_blank">\test-apk\jadx_source_code\android\support\v7\widget\OpReorderer.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="OpReorderer.java" data-line="" class="code line-numbers"><code>package android.support.v7.widget;
+
+import java.util.List;
+
+class OpReorderer {
+    final Callback mCallback;
+
+    interface Callback {
+        UpdateOp obtainUpdateOp(int i, int i2, int i3, Object obj);
+
+        void recycleUpdateOp(UpdateOp updateOp);
+    }
+
+    public OpReorderer(Callback callback) {
+        this.mCallback = callback;
+    }
+
+    void reorderOps(List&lt;UpdateOp&gt; ops) {
+        while (true) {
+            int badMove = getLastMoveOutOfOrder(ops);
+            if (badMove != -1) {
+                swapMoveOp(ops, badMove, badMove + 1);
+            } else {
+                return;
+            }
+        }
+    }
+
+    private void swapMoveOp(List&lt;UpdateOp&gt; list, int badMove, int next) {
+        UpdateOp moveOp = (UpdateOp) list.get(badMove);
+        UpdateOp nextOp = (UpdateOp) list.get(next);
+        switch (nextOp.cmd) {
+            case 1:
+                swapMoveAdd(list, badMove, moveOp, next, nextOp);
+                return;
+            case 2:
+                swapMoveRemove(list, badMove, moveOp, next, nextOp);
+                return;
+            case 4:
+                swapMoveUpdate(list, badMove, moveOp, next, nextOp);
+                return;
+            default:
+                return;
+        }
+    }
+
+    void swapMoveRemove(List&lt;UpdateOp&gt; list, int movePos, UpdateOp moveOp, int removePos, UpdateOp removeOp) {
+        boolean moveIsBackwards;
+        UpdateOp extraRm = null;
+        boolean revertedMove = false;
+        if (moveOp.positionStart &lt; moveOp.itemCount) {
+            moveIsBackwards = false;
+            if (removeOp.positionStart == moveOp.positionStart &amp;&amp; removeOp.itemCount == moveOp.itemCount - moveOp.positionStart) {
+                revertedMove = true;
+            }
+        } else {
+            moveIsBackwards = true;
+            if (removeOp.positionStart == moveOp.itemCount + 1 &amp;&amp; removeOp.itemCount == moveOp.positionStart - moveOp.itemCount) {
+                revertedMove = true;
+            }
+        }
+        if (moveOp.itemCount &lt; removeOp.positionStart) {
+            removeOp.positionStart--;
+        } else if (moveOp.itemCount &lt; removeOp.positionStart + removeOp.itemCount) {
+            removeOp.itemCount--;
+            moveOp.cmd = 2;
+            moveOp.itemCount = 1;
+            if (removeOp.itemCount == 0) {
+                list.remove(removePos);
+                this.mCallback.recycleUpdateOp(removeOp);
+                return;
+            }
+            return;
+        }
+        if (moveOp.positionStart &lt;= removeOp.positionStart) {
+            removeOp.positionStart++;
+        } else if (moveOp.positionStart &lt; removeOp.positionStart + removeOp.itemCount) {
+            extraRm = this.mCallback.obtainUpdateOp(2, moveOp.positionStart + 1, (removeOp.positionStart + removeOp.itemCount) - moveOp.positionStart, null);
+            removeOp.itemCount = moveOp.positionStart - removeOp.positionStart;
+        }
+        if (revertedMove) {
+            list.set(movePos, removeOp);
+            list.remove(removePos);
+            this.mCallback.recycleUpdateOp(moveOp);
+            return;
+        }
+        if (moveIsBackwards) {
+            if (extraRm != null) {
+                if (moveOp.positionStart &gt; extraRm.positionStart) {
+                    moveOp.positionStart -= extraRm.itemCount;
+                }
+                if (moveOp.itemCount &gt; extraRm.positionStart) {
+                    moveOp.itemCount -= extraRm.itemCount;
+                }
+            }
+            if (moveOp.positionStart &gt; removeOp.positionStart) {
+                moveOp.positionStart -= removeOp.itemCount;
+            }
+            if (moveOp.itemCount &gt; removeOp.positionStart) {
+                moveOp.itemCount -= removeOp.itemCount;
+            }
+        } else {
+            if (extraRm != null) {
+                if (moveOp.positionStart &gt;= extraRm.positionStart) {
+                    moveOp.positionStart -= extraRm.itemCount;
+                }
+                if (moveOp.itemCount &gt;= extraRm.positionStart) {
+                    moveOp.itemCount -= extraRm.itemCount;
+                }
+            }
+            if (moveOp.positionStart &gt;= removeOp.positionStart) {
+                moveOp.positionStart -= removeOp.itemCount;
+            }
+            if (moveOp.itemCount &gt;= removeOp.positionStart) {
+                moveOp.itemCount -= removeOp.itemCount;
+            }
+        }
+        list.set(movePos, removeOp);
+        if (moveOp.positionStart != moveOp.itemCount) {
+            list.set(removePos, moveOp);
+        } else {
+            list.remove(removePos);
+        }
+        if (extraRm != null) {
+            list.add(movePos, extraRm);
+        }
+    }
+
+    private void swapMoveAdd(List&lt;UpdateOp&gt; list, int move, UpdateOp moveOp, int add, UpdateOp addOp) {
+        int offset = 0;
+        if (moveOp.itemCount &lt; addOp.positionStart) {
+            offset = 0 - 1;
+        }
+        if (moveOp.positionStart &lt; addOp.positionStart) {
+            offset++;
+        }
+        if (addOp.positionStart &lt;= moveOp.positionStart) {
+            moveOp.positionStart += addOp.itemCount;
+        }
+        if (addOp.positionStart &lt;= moveOp.itemCount) {
+            moveOp.itemCount += addOp.itemCount;
+        }
+        addOp.positionStart += offset;
+        list.set(move, addOp);
+        list.set(add, moveOp);
+    }
+
+    void swapMoveUpdate(List&lt;UpdateOp&gt; list, int move, UpdateOp moveOp, int update, UpdateOp updateOp) {
+        UpdateOp extraUp1 = null;
+        UpdateOp extraUp2 = null;
+        if (moveOp.itemCount &lt; updateOp.positionStart) {
+            updateOp.positionStart--;
+        } else if (moveOp.itemCount &lt; updateOp.positionStart + updateOp.itemCount) {
+            updateOp.itemCount--;
+            extraUp1 = this.mCallback.obtainUpdateOp(4, moveOp.positionStart, 1, updateOp.payload);
+        }
+        if (moveOp.positionStart &lt;= updateOp.positionStart) {
+            updateOp.positionStart++;
+        } else if (moveOp.positionStart &lt; updateOp.positionStart + updateOp.itemCount) {
+            int remaining = (updateOp.positionStart + updateOp.itemCount) - moveOp.positionStart;
+            extraUp2 = this.mCallback.obtainUpdateOp(4, moveOp.positionStart + 1, remaining, updateOp.payload);
+            updateOp.itemCount -= remaining;
+        }
+        list.set(update, moveOp);
+        if (updateOp.itemCount &gt; 0) {
+            list.set(move, updateOp);
+        } else {
+            list.remove(move);
+            this.mCallback.recycleUpdateOp(updateOp);
+        }
+        if (extraUp1 != null) {
+            list.add(move, extraUp1);
+        }
+        if (extraUp2 != null) {
+            list.add(move, extraUp2);
+        }
+    }
+
+    private int getLastMoveOutOfOrder(List&lt;UpdateOp&gt; list) {
+        boolean foundNonMove = false;
+        for (int i = list.size() - 1; i &gt;= 0; i--) {
+            if (((UpdateOp) list.get(i)).cmd != 8) {
+                foundNonMove = true;
+            } else if (foundNonMove) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:41 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

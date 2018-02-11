@@ -1,0 +1,253 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v4\content\CursorLoader.java" target="_blank">\test-apk\jadx_source_code\android\support\v4\content\CursorLoader.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="CursorLoader.java" data-line="" class="code line-numbers"><code>package android.support.v4.content;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.support.v4.content.Loader.ForceLoadContentObserver;
+import android.support.v4.os.CancellationSignal;
+import android.support.v4.os.OperationCanceledException;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+import java.util.Arrays;
+
+public class CursorLoader extends AsyncTaskLoader&lt;Cursor&gt; {
+    CancellationSignal mCancellationSignal;
+    Cursor mCursor;
+    final ForceLoadContentObserver mObserver = new ForceLoadContentObserver();
+    String[] mProjection;
+    String mSelection;
+    String[] mSelectionArgs;
+    String mSortOrder;
+    Uri mUri;
+
+    public Cursor loadInBackground() {
+        Cursor cursor;
+        synchronized (this) {
+            if (isLoadInBackgroundCanceled()) {
+                throw new OperationCanceledException();
+            }
+            this.mCancellationSignal = new CancellationSignal();
+        }
+        try {
+            cursor = ContentResolverCompat.query(getContext().getContentResolver(), this.mUri, this.mProjection, this.mSelection, this.mSelectionArgs, this.mSortOrder, this.mCancellationSignal);
+            if (cursor != null) {
+                cursor.getCount();
+                cursor.registerContentObserver(this.mObserver);
+            }
+            synchronized (this) {
+                this.mCancellationSignal = null;
+            }
+            return cursor;
+        } catch (RuntimeException ex) {
+            cursor.close();
+            throw ex;
+        } catch (Throwable th) {
+            synchronized (this) {
+                this.mCancellationSignal = null;
+            }
+        }
+    }
+
+    public void cancelLoadInBackground() {
+        super.cancelLoadInBackground();
+        synchronized (this) {
+            if (this.mCancellationSignal != null) {
+                this.mCancellationSignal.cancel();
+            }
+        }
+    }
+
+    public void deliverResult(Cursor cursor) {
+        if (!isReset()) {
+            Cursor oldCursor = this.mCursor;
+            this.mCursor = cursor;
+            if (isStarted()) {
+                super.deliverResult(cursor);
+            }
+            if (oldCursor != null &amp;&amp; oldCursor != cursor &amp;&amp; !oldCursor.isClosed()) {
+                oldCursor.close();
+            }
+        } else if (cursor != null) {
+            cursor.close();
+        }
+    }
+
+    public CursorLoader(Context context) {
+        super(context);
+    }
+
+    public CursorLoader(Context context, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        super(context);
+        this.mUri = uri;
+        this.mProjection = projection;
+        this.mSelection = selection;
+        this.mSelectionArgs = selectionArgs;
+        this.mSortOrder = sortOrder;
+    }
+
+    protected void onStartLoading() {
+        if (this.mCursor != null) {
+            deliverResult(this.mCursor);
+        }
+        if (takeContentChanged() || this.mCursor == null) {
+            forceLoad();
+        }
+    }
+
+    protected void onStopLoading() {
+        cancelLoad();
+    }
+
+    public void onCanceled(Cursor cursor) {
+        if (cursor != null &amp;&amp; !cursor.isClosed()) {
+            cursor.close();
+        }
+    }
+
+    protected void onReset() {
+        super.onReset();
+        onStopLoading();
+        if (!(this.mCursor == null || this.mCursor.isClosed())) {
+            this.mCursor.close();
+        }
+        this.mCursor = null;
+    }
+
+    public Uri getUri() {
+        return this.mUri;
+    }
+
+    public void setUri(Uri uri) {
+        this.mUri = uri;
+    }
+
+    public String[] getProjection() {
+        return this.mProjection;
+    }
+
+    public void setProjection(String[] projection) {
+        this.mProjection = projection;
+    }
+
+    public String getSelection() {
+        return this.mSelection;
+    }
+
+    public void setSelection(String selection) {
+        this.mSelection = selection;
+    }
+
+    public String[] getSelectionArgs() {
+        return this.mSelectionArgs;
+    }
+
+    public void setSelectionArgs(String[] selectionArgs) {
+        this.mSelectionArgs = selectionArgs;
+    }
+
+    public String getSortOrder() {
+        return this.mSortOrder;
+    }
+
+    public void setSortOrder(String sortOrder) {
+        this.mSortOrder = sortOrder;
+    }
+
+    public void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args) {
+        super.dump(prefix, fd, writer, args);
+        writer.print(prefix);
+        writer.print("mUri=");
+        writer.println(this.mUri);
+        writer.print(prefix);
+        writer.print("mProjection=");
+        writer.println(Arrays.toString(this.mProjection));
+        writer.print(prefix);
+        writer.print("mSelection=");
+        writer.println(this.mSelection);
+        writer.print(prefix);
+        writer.print("mSelectionArgs=");
+        writer.println(Arrays.toString(this.mSelectionArgs));
+        writer.print(prefix);
+        writer.print("mSortOrder=");
+        writer.println(this.mSortOrder);
+        writer.print(prefix);
+        writer.print("mCursor=");
+        writer.println(this.mCursor);
+        writer.print(prefix);
+        writer.print("mContentChanged=");
+        writer.println(this.mContentChanged);
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:40 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

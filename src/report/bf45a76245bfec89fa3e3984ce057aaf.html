@@ -1,0 +1,207 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\design\widget\ValueAnimatorCompatImplEclairMr1.java" target="_blank">\test-apk\jadx_source_code\android\support\design\widget\ValueAnimatorCompatImplEclairMr1.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="ValueAnimatorCompatImplEclairMr1.java" data-line="" class="code line-numbers"><code>package android.support.design.widget;
+
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
+
+class ValueAnimatorCompatImplEclairMr1 extends Impl {
+    private static final int DEFAULT_DURATION = 200;
+    private static final int HANDLER_DELAY = 10;
+    private static final Handler sHandler = new Handler(Looper.getMainLooper());
+    private float mAnimatedFraction;
+    private int mDuration = 200;
+    private final float[] mFloatValues = new float[2];
+    private final int[] mIntValues = new int[2];
+    private Interpolator mInterpolator;
+    private boolean mIsRunning;
+    private AnimatorListenerProxy mListener;
+    private final Runnable mRunnable = new Runnable() {
+        public void run() {
+            ValueAnimatorCompatImplEclairMr1.this.update();
+        }
+    };
+    private long mStartTime;
+    private AnimatorUpdateListenerProxy mUpdateListener;
+
+    ValueAnimatorCompatImplEclairMr1() {
+    }
+
+    public void start() {
+        if (!this.mIsRunning) {
+            if (this.mInterpolator == null) {
+                this.mInterpolator = new AccelerateDecelerateInterpolator();
+            }
+            this.mStartTime = SystemClock.uptimeMillis();
+            this.mIsRunning = true;
+            if (this.mListener != null) {
+                this.mListener.onAnimationStart();
+            }
+            sHandler.postDelayed(this.mRunnable, 10);
+        }
+    }
+
+    public boolean isRunning() {
+        return this.mIsRunning;
+    }
+
+    public void setInterpolator(Interpolator interpolator) {
+        this.mInterpolator = interpolator;
+    }
+
+    public void setListener(AnimatorListenerProxy listener) {
+        this.mListener = listener;
+    }
+
+    public void setUpdateListener(AnimatorUpdateListenerProxy updateListener) {
+        this.mUpdateListener = updateListener;
+    }
+
+    public void setIntValues(int from, int to) {
+        this.mIntValues[0] = from;
+        this.mIntValues[1] = to;
+    }
+
+    public int getAnimatedIntValue() {
+        return AnimationUtils.lerp(this.mIntValues[0], this.mIntValues[1], getAnimatedFraction());
+    }
+
+    public void setFloatValues(float from, float to) {
+        this.mFloatValues[0] = from;
+        this.mFloatValues[1] = to;
+    }
+
+    public float getAnimatedFloatValue() {
+        return AnimationUtils.lerp(this.mFloatValues[0], this.mFloatValues[1], getAnimatedFraction());
+    }
+
+    public void setDuration(int duration) {
+        this.mDuration = duration;
+    }
+
+    public void cancel() {
+        this.mIsRunning = false;
+        sHandler.removeCallbacks(this.mRunnable);
+        if (this.mListener != null) {
+            this.mListener.onAnimationCancel();
+        }
+    }
+
+    public float getAnimatedFraction() {
+        return this.mAnimatedFraction;
+    }
+
+    public void end() {
+        if (this.mIsRunning) {
+            this.mIsRunning = false;
+            sHandler.removeCallbacks(this.mRunnable);
+            this.mAnimatedFraction = 1.0f;
+            if (this.mUpdateListener != null) {
+                this.mUpdateListener.onAnimationUpdate();
+            }
+            if (this.mListener != null) {
+                this.mListener.onAnimationEnd();
+            }
+        }
+    }
+
+    public long getDuration() {
+        return (long) this.mDuration;
+    }
+
+    private void update() {
+        if (this.mIsRunning) {
+            float linearFraction = ((float) (SystemClock.uptimeMillis() - this.mStartTime)) / ((float) this.mDuration);
+            if (this.mInterpolator != null) {
+                linearFraction = this.mInterpolator.getInterpolation(linearFraction);
+            }
+            this.mAnimatedFraction = linearFraction;
+            if (this.mUpdateListener != null) {
+                this.mUpdateListener.onAnimationUpdate();
+            }
+            if (SystemClock.uptimeMillis() &gt;= this.mStartTime + ((long) this.mDuration)) {
+                this.mIsRunning = false;
+                if (this.mListener != null) {
+                    this.mListener.onAnimationEnd();
+                }
+            }
+        }
+        if (this.mIsRunning) {
+            sHandler.postDelayed(this.mRunnable, 10);
+        }
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:40 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

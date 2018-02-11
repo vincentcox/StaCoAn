@@ -1,0 +1,682 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v7\widget\ActionMenuView.java" target="_blank">\test-apk\jadx_source_code\android\support\v7\widget\ActionMenuView.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="ActionMenuView.java" data-line="" class="code line-numbers"><code>package android.support.v7.widget;
+
+import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
+import android.support.v7.internal.view.menu.ActionMenuItemView;
+import android.support.v7.internal.view.menu.MenuBuilder;
+import android.support.v7.internal.view.menu.MenuBuilder.ItemInvoker;
+import android.support.v7.internal.view.menu.MenuItemImpl;
+import android.support.v7.internal.view.menu.MenuPresenter.Callback;
+import android.support.v7.internal.view.menu.MenuView;
+import android.support.v7.internal.widget.ViewUtils;
+import android.util.AttributeSet;
+import android.view.ContextThemeWrapper;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.MeasureSpec;
+import android.view.ViewDebug.ExportedProperty;
+import android.view.accessibility.AccessibilityEvent;
+
+public class ActionMenuView extends LinearLayoutCompat implements ItemInvoker, MenuView {
+    static final int GENERATED_ITEM_PADDING = 4;
+    static final int MIN_CELL_SIZE = 56;
+    private static final String TAG = "ActionMenuView";
+    private Callback mActionMenuPresenterCallback;
+    private boolean mFormatItems;
+    private int mFormatItemsWidth;
+    private int mGeneratedItemPadding;
+    private MenuBuilder mMenu;
+    private MenuBuilder.Callback mMenuBuilderCallback;
+    private int mMinCellSize;
+    private OnMenuItemClickListener mOnMenuItemClickListener;
+    private Context mPopupContext;
+    private int mPopupTheme;
+    private ActionMenuPresenter mPresenter;
+    private boolean mReserveOverflow;
+
+    public interface ActionMenuChildView {
+        boolean needsDividerAfter();
+
+        boolean needsDividerBefore();
+    }
+
+    public interface OnMenuItemClickListener {
+        boolean onMenuItemClick(MenuItem menuItem);
+    }
+
+    private class ActionMenuPresenterCallback implements Callback {
+        private ActionMenuPresenterCallback() {
+        }
+
+        public void onCloseMenu(MenuBuilder menu, boolean allMenusAreClosing) {
+        }
+
+        public boolean onOpenSubMenu(MenuBuilder subMenu) {
+            return false;
+        }
+    }
+
+    public static class LayoutParams extends android.support.v7.widget.LinearLayoutCompat.LayoutParams {
+        @ExportedProperty
+        public int cellsUsed;
+        @ExportedProperty
+        public boolean expandable;
+        boolean expanded;
+        @ExportedProperty
+        public int extraPixels;
+        @ExportedProperty
+        public boolean isOverflowButton;
+        @ExportedProperty
+        public boolean preventEdgeOffset;
+
+        public LayoutParams(Context c, AttributeSet attrs) {
+            super(c, attrs);
+        }
+
+        public LayoutParams(android.view.ViewGroup.LayoutParams other) {
+            super(other);
+        }
+
+        public LayoutParams(LayoutParams other) {
+            super((android.view.ViewGroup.LayoutParams) other);
+            this.isOverflowButton = other.isOverflowButton;
+        }
+
+        public LayoutParams(int width, int height) {
+            super(width, height);
+            this.isOverflowButton = false;
+        }
+
+        LayoutParams(int width, int height, boolean isOverflowButton) {
+            super(width, height);
+            this.isOverflowButton = isOverflowButton;
+        }
+    }
+
+    private class MenuBuilderCallback implements MenuBuilder.Callback {
+        private MenuBuilderCallback() {
+        }
+
+        public boolean onMenuItemSelected(MenuBuilder menu, MenuItem item) {
+            return ActionMenuView.this.mOnMenuItemClickListener != null &amp;&amp; ActionMenuView.this.mOnMenuItemClickListener.onMenuItemClick(item);
+        }
+
+        public void onMenuModeChange(MenuBuilder menu) {
+            if (ActionMenuView.this.mMenuBuilderCallback != null) {
+                ActionMenuView.this.mMenuBuilderCallback.onMenuModeChange(menu);
+            }
+        }
+    }
+
+    public ActionMenuView(Context context) {
+        this(context, null);
+    }
+
+    public ActionMenuView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setBaselineAligned(false);
+        float density = context.getResources().getDisplayMetrics().density;
+        this.mMinCellSize = (int) (56.0f * density);
+        this.mGeneratedItemPadding = (int) (4.0f * density);
+        this.mPopupContext = context;
+        this.mPopupTheme = 0;
+    }
+
+    public void setPopupTheme(@StyleRes int resId) {
+        if (this.mPopupTheme != resId) {
+            this.mPopupTheme = resId;
+            if (resId == 0) {
+                this.mPopupContext = getContext();
+            } else {
+                this.mPopupContext = new ContextThemeWrapper(getContext(), resId);
+            }
+        }
+    }
+
+    public int getPopupTheme() {
+        return this.mPopupTheme;
+    }
+
+    public void setPresenter(ActionMenuPresenter presenter) {
+        this.mPresenter = presenter;
+        this.mPresenter.setMenuView(this);
+    }
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (VERSION.SDK_INT &gt;= 8) {
+            super.onConfigurationChanged(newConfig);
+        }
+        if (this.mPresenter != null) {
+            this.mPresenter.updateMenuView(false);
+            if (this.mPresenter.isOverflowMenuShowing()) {
+                this.mPresenter.hideOverflowMenu();
+                this.mPresenter.showOverflowMenu();
+            }
+        }
+    }
+
+    public void setOnMenuItemClickListener(OnMenuItemClickListener listener) {
+        this.mOnMenuItemClickListener = listener;
+    }
+
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        boolean z;
+        boolean wasFormatted = this.mFormatItems;
+        if (MeasureSpec.getMode(widthMeasureSpec) == 1073741824) {
+            z = true;
+        } else {
+            z = false;
+        }
+        this.mFormatItems = z;
+        if (wasFormatted != this.mFormatItems) {
+            this.mFormatItemsWidth = 0;
+        }
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        if (!(!this.mFormatItems || this.mMenu == null || widthSize == this.mFormatItemsWidth)) {
+            this.mFormatItemsWidth = widthSize;
+            this.mMenu.onItemsChanged(true);
+        }
+        int childCount = getChildCount();
+        if (!this.mFormatItems || childCount &lt;= 0) {
+            for (int i = 0; i &lt; childCount; i++) {
+                LayoutParams lp = (LayoutParams) getChildAt(i).getLayoutParams();
+                lp.rightMargin = 0;
+                lp.leftMargin = 0;
+            }
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            return;
+        }
+        onMeasureExactFormat(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    private void onMeasureExactFormat(int widthMeasureSpec, int heightMeasureSpec) {
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+        int widthPadding = getPaddingLeft() + getPaddingRight();
+        int heightPadding = getPaddingTop() + getPaddingBottom();
+        int itemHeightSpec = getChildMeasureSpec(heightMeasureSpec, heightPadding, -2);
+        widthSize -= widthPadding;
+        int cellCount = widthSize / this.mMinCellSize;
+        int cellSizeRemaining = widthSize % this.mMinCellSize;
+        if (cellCount == 0) {
+            setMeasuredDimension(widthSize, 0);
+            return;
+        }
+        int i;
+        LayoutParams lp;
+        int cellSize = this.mMinCellSize + (cellSizeRemaining / cellCount);
+        int cellsRemaining = cellCount;
+        int maxChildHeight = 0;
+        int maxCellsUsed = 0;
+        int expandableItemCount = 0;
+        int visibleItemCount = 0;
+        boolean hasOverflow = false;
+        long smallestItemsAt = 0;
+        int childCount = getChildCount();
+        for (i = 0; i &lt; childCount; i++) {
+            View child = getChildAt(i);
+            if (child.getVisibility() != 8) {
+                int cellsAvailable;
+                boolean isGeneratedItem = child instanceof ActionMenuItemView;
+                visibleItemCount++;
+                if (isGeneratedItem) {
+                    child.setPadding(this.mGeneratedItemPadding, 0, this.mGeneratedItemPadding, 0);
+                }
+                lp = (LayoutParams) child.getLayoutParams();
+                lp.expanded = false;
+                lp.extraPixels = 0;
+                lp.cellsUsed = 0;
+                lp.expandable = false;
+                lp.leftMargin = 0;
+                lp.rightMargin = 0;
+                boolean z = isGeneratedItem &amp;&amp; ((ActionMenuItemView) child).hasText();
+                lp.preventEdgeOffset = z;
+                if (lp.isOverflowButton) {
+                    cellsAvailable = 1;
+                } else {
+                    cellsAvailable = cellsRemaining;
+                }
+                int cellsUsed = measureChildForCells(child, cellSize, cellsAvailable, itemHeightSpec, heightPadding);
+                maxCellsUsed = Math.max(maxCellsUsed, cellsUsed);
+                if (lp.expandable) {
+                    expandableItemCount++;
+                }
+                if (lp.isOverflowButton) {
+                    hasOverflow = true;
+                }
+                cellsRemaining -= cellsUsed;
+                maxChildHeight = Math.max(maxChildHeight, child.getMeasuredHeight());
+                if (cellsUsed == 1) {
+                    smallestItemsAt |= (long) (1 &lt;&lt; i);
+                }
+            }
+        }
+        boolean centerSingleExpandedItem = hasOverflow &amp;&amp; visibleItemCount == 2;
+        boolean needsExpansion = false;
+        while (expandableItemCount &gt; 0 &amp;&amp; cellsRemaining &gt; 0) {
+            int minCells = ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED;
+            long minCellsAt = 0;
+            int minCellsItemCount = 0;
+            for (i = 0; i &lt; childCount; i++) {
+                lp = (LayoutParams) getChildAt(i).getLayoutParams();
+                if (lp.expandable) {
+                    if (lp.cellsUsed &lt; minCells) {
+                        minCells = lp.cellsUsed;
+                        minCellsAt = (long) (1 &lt;&lt; i);
+                        minCellsItemCount = 1;
+                    } else if (lp.cellsUsed == minCells) {
+                        minCellsAt |= (long) (1 &lt;&lt; i);
+                        minCellsItemCount++;
+                    }
+                }
+            }
+            smallestItemsAt |= minCellsAt;
+            if (minCellsItemCount &gt; cellsRemaining) {
+                break;
+            }
+            minCells++;
+            for (i = 0; i &lt; childCount; i++) {
+                child = getChildAt(i);
+                lp = (LayoutParams) child.getLayoutParams();
+                if ((((long) (1 &lt;&lt; i)) &amp; minCellsAt) != 0) {
+                    if (centerSingleExpandedItem &amp;&amp; lp.preventEdgeOffset &amp;&amp; cellsRemaining == 1) {
+                        child.setPadding(this.mGeneratedItemPadding + cellSize, 0, this.mGeneratedItemPadding, 0);
+                    }
+                    lp.cellsUsed++;
+                    lp.expanded = true;
+                    cellsRemaining--;
+                } else if (lp.cellsUsed == minCells) {
+                    smallestItemsAt |= (long) (1 &lt;&lt; i);
+                }
+            }
+            needsExpansion = true;
+        }
+        boolean singleItem = !hasOverflow &amp;&amp; visibleItemCount == 1;
+        if (cellsRemaining &gt; 0 &amp;&amp; smallestItemsAt != 0 &amp;&amp; (cellsRemaining &lt; visibleItemCount - 1 || singleItem || maxCellsUsed &gt; 1)) {
+            float expandCount = (float) Long.bitCount(smallestItemsAt);
+            if (!singleItem) {
+                if (!((1 &amp; smallestItemsAt) == 0 || ((LayoutParams) getChildAt(0).getLayoutParams()).preventEdgeOffset)) {
+                    expandCount -= 0.5f;
+                }
+                if (!((((long) (1 &lt;&lt; (childCount - 1))) &amp; smallestItemsAt) == 0 || ((LayoutParams) getChildAt(childCount - 1).getLayoutParams()).preventEdgeOffset)) {
+                    expandCount -= 0.5f;
+                }
+            }
+            int extraPixels = expandCount &gt; 0.0f ? (int) (((float) (cellsRemaining * cellSize)) / expandCount) : 0;
+            for (i = 0; i &lt; childCount; i++) {
+                if ((((long) (1 &lt;&lt; i)) &amp; smallestItemsAt) != 0) {
+                    child = getChildAt(i);
+                    lp = (LayoutParams) child.getLayoutParams();
+                    if (child instanceof ActionMenuItemView) {
+                        lp.extraPixels = extraPixels;
+                        lp.expanded = true;
+                        if (i == 0 &amp;&amp; !lp.preventEdgeOffset) {
+                            lp.leftMargin = (-extraPixels) / 2;
+                        }
+                        needsExpansion = true;
+                    } else if (lp.isOverflowButton) {
+                        lp.extraPixels = extraPixels;
+                        lp.expanded = true;
+                        lp.rightMargin = (-extraPixels) / 2;
+                        needsExpansion = true;
+                    } else {
+                        if (i != 0) {
+                            lp.leftMargin = extraPixels / 2;
+                        }
+                        if (i != childCount - 1) {
+                            lp.rightMargin = extraPixels / 2;
+                        }
+                    }
+                }
+            }
+        }
+        if (needsExpansion) {
+            for (i = 0; i &lt; childCount; i++) {
+                child = getChildAt(i);
+                lp = (LayoutParams) child.getLayoutParams();
+                if (lp.expanded) {
+                    child.measure(MeasureSpec.makeMeasureSpec((lp.cellsUsed * cellSize) + lp.extraPixels, 1073741824), itemHeightSpec);
+                }
+            }
+        }
+        if (heightMode != 1073741824) {
+            heightSize = maxChildHeight;
+        }
+        setMeasuredDimension(widthSize, heightSize);
+    }
+
+    static int measureChildForCells(View child, int cellSize, int cellsRemaining, int parentHeightMeasureSpec, int parentHeightPadding) {
+        LayoutParams lp = (LayoutParams) child.getLayoutParams();
+        int childHeightSpec = MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(parentHeightMeasureSpec) - parentHeightPadding, MeasureSpec.getMode(parentHeightMeasureSpec));
+        ActionMenuItemView itemView = child instanceof ActionMenuItemView ? (ActionMenuItemView) child : null;
+        boolean hasText = itemView != null &amp;&amp; itemView.hasText();
+        int cellsUsed = 0;
+        if (cellsRemaining &gt; 0 &amp;&amp; (!hasText || cellsRemaining &gt;= 2)) {
+            child.measure(MeasureSpec.makeMeasureSpec(cellSize * cellsRemaining, Integer.MIN_VALUE), childHeightSpec);
+            int measuredWidth = child.getMeasuredWidth();
+            cellsUsed = measuredWidth / cellSize;
+            if (measuredWidth % cellSize != 0) {
+                cellsUsed++;
+            }
+            if (hasText &amp;&amp; cellsUsed &lt; 2) {
+                cellsUsed = 2;
+            }
+        }
+        boolean expandable = !lp.isOverflowButton &amp;&amp; hasText;
+        lp.expandable = expandable;
+        lp.cellsUsed = cellsUsed;
+        child.measure(MeasureSpec.makeMeasureSpec(cellsUsed * cellSize, 1073741824), childHeightSpec);
+        return cellsUsed;
+    }
+
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        if (this.mFormatItems) {
+            int i;
+            View v;
+            int height;
+            int l;
+            int t;
+            int childCount = getChildCount();
+            int midVertical = (bottom - top) / 2;
+            int dividerWidth = getDividerWidth();
+            int nonOverflowWidth = 0;
+            int nonOverflowCount = 0;
+            int widthRemaining = ((right - left) - getPaddingRight()) - getPaddingLeft();
+            boolean hasOverflow = false;
+            boolean isLayoutRtl = ViewUtils.isLayoutRtl(this);
+            for (i = 0; i &lt; childCount; i++) {
+                v = getChildAt(i);
+                if (v.getVisibility() != 8) {
+                    LayoutParams p = (LayoutParams) v.getLayoutParams();
+                    if (p.isOverflowButton) {
+                        int r;
+                        int overflowWidth = v.getMeasuredWidth();
+                        if (hasSupportDividerBeforeChildAt(i)) {
+                            overflowWidth += dividerWidth;
+                        }
+                        height = v.getMeasuredHeight();
+                        if (isLayoutRtl) {
+                            l = getPaddingLeft() + p.leftMargin;
+                            r = l + overflowWidth;
+                        } else {
+                            r = (getWidth() - getPaddingRight()) - p.rightMargin;
+                            l = r - overflowWidth;
+                        }
+                        t = midVertical - (height / 2);
+                        v.layout(l, t, r, t + height);
+                        widthRemaining -= overflowWidth;
+                        hasOverflow = true;
+                    } else {
+                        int size = (v.getMeasuredWidth() + p.leftMargin) + p.rightMargin;
+                        nonOverflowWidth += size;
+                        widthRemaining -= size;
+                        if (hasSupportDividerBeforeChildAt(i)) {
+                            nonOverflowWidth += dividerWidth;
+                        }
+                        nonOverflowCount++;
+                    }
+                }
+            }
+            int width;
+            if (childCount != 1 || hasOverflow) {
+                int spacerCount = nonOverflowCount - (hasOverflow ? 0 : 1);
+                int spacerSize = Math.max(0, spacerCount &gt; 0 ? widthRemaining / spacerCount : 0);
+                LayoutParams lp;
+                if (isLayoutRtl) {
+                    int startRight = getWidth() - getPaddingRight();
+                    for (i = 0; i &lt; childCount; i++) {
+                        v = getChildAt(i);
+                        lp = (LayoutParams) v.getLayoutParams();
+                        if (!(v.getVisibility() == 8 || lp.isOverflowButton)) {
+                            startRight -= lp.rightMargin;
+                            width = v.getMeasuredWidth();
+                            height = v.getMeasuredHeight();
+                            t = midVertical - (height / 2);
+                            v.layout(startRight - width, t, startRight, t + height);
+                            startRight -= (lp.leftMargin + width) + spacerSize;
+                        }
+                    }
+                    return;
+                }
+                int startLeft = getPaddingLeft();
+                for (i = 0; i &lt; childCount; i++) {
+                    v = getChildAt(i);
+                    lp = (LayoutParams) v.getLayoutParams();
+                    if (!(v.getVisibility() == 8 || lp.isOverflowButton)) {
+                        startLeft += lp.leftMargin;
+                        width = v.getMeasuredWidth();
+                        height = v.getMeasuredHeight();
+                        t = midVertical - (height / 2);
+                        v.layout(startLeft, t, startLeft + width, t + height);
+                        startLeft += (lp.rightMargin + width) + spacerSize;
+                    }
+                }
+                return;
+            }
+            v = getChildAt(0);
+            width = v.getMeasuredWidth();
+            height = v.getMeasuredHeight();
+            l = ((right - left) / 2) - (width / 2);
+            t = midVertical - (height / 2);
+            v.layout(l, t, l + width, t + height);
+            return;
+        }
+        super.onLayout(changed, left, top, right, bottom);
+    }
+
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        dismissPopupMenus();
+    }
+
+    public void setOverflowIcon(@Nullable Drawable icon) {
+        getMenu();
+        this.mPresenter.setOverflowIcon(icon);
+    }
+
+    @Nullable
+    public Drawable getOverflowIcon() {
+        getMenu();
+        return this.mPresenter.getOverflowIcon();
+    }
+
+    public boolean isOverflowReserved() {
+        return this.mReserveOverflow;
+    }
+
+    public void setOverflowReserved(boolean reserveOverflow) {
+        this.mReserveOverflow = reserveOverflow;
+    }
+
+    protected LayoutParams generateDefaultLayoutParams() {
+        LayoutParams params = new LayoutParams(-2, -2);
+        params.gravity = 16;
+        return params;
+    }
+
+    public LayoutParams generateLayoutParams(AttributeSet attrs) {
+        return new LayoutParams(getContext(), attrs);
+    }
+
+    protected LayoutParams generateLayoutParams(android.view.ViewGroup.LayoutParams p) {
+        if (p == null) {
+            return generateDefaultLayoutParams();
+        }
+        LayoutParams result = p instanceof LayoutParams ? new LayoutParams((LayoutParams) p) : new LayoutParams(p);
+        if (result.gravity &gt; 0) {
+            return result;
+        }
+        result.gravity = 16;
+        return result;
+    }
+
+    protected boolean checkLayoutParams(android.view.ViewGroup.LayoutParams p) {
+        return p != null &amp;&amp; (p instanceof LayoutParams);
+    }
+
+    public LayoutParams generateOverflowButtonLayoutParams() {
+        LayoutParams result = generateDefaultLayoutParams();
+        result.isOverflowButton = true;
+        return result;
+    }
+
+    public boolean invokeItem(MenuItemImpl item) {
+        return this.mMenu.performItemAction(item, 0);
+    }
+
+    public int getWindowAnimations() {
+        return 0;
+    }
+
+    public void initialize(MenuBuilder menu) {
+        this.mMenu = menu;
+    }
+
+    public Menu getMenu() {
+        if (this.mMenu == null) {
+            Context context = getContext();
+            this.mMenu = new MenuBuilder(context);
+            this.mMenu.setCallback(new MenuBuilderCallback());
+            this.mPresenter = new ActionMenuPresenter(context);
+            this.mPresenter.setReserveOverflow(true);
+            this.mPresenter.setCallback(this.mActionMenuPresenterCallback != null ? this.mActionMenuPresenterCallback : new ActionMenuPresenterCallback());
+            this.mMenu.addMenuPresenter(this.mPresenter, this.mPopupContext);
+            this.mPresenter.setMenuView(this);
+        }
+        return this.mMenu;
+    }
+
+    public void setMenuCallbacks(Callback pcb, MenuBuilder.Callback mcb) {
+        this.mActionMenuPresenterCallback = pcb;
+        this.mMenuBuilderCallback = mcb;
+    }
+
+    public MenuBuilder peekMenu() {
+        return this.mMenu;
+    }
+
+    public boolean showOverflowMenu() {
+        return this.mPresenter != null &amp;&amp; this.mPresenter.showOverflowMenu();
+    }
+
+    public boolean hideOverflowMenu() {
+        return this.mPresenter != null &amp;&amp; this.mPresenter.hideOverflowMenu();
+    }
+
+    public boolean isOverflowMenuShowing() {
+        return this.mPresenter != null &amp;&amp; this.mPresenter.isOverflowMenuShowing();
+    }
+
+    public boolean isOverflowMenuShowPending() {
+        return this.mPresenter != null &amp;&amp; this.mPresenter.isOverflowMenuShowPending();
+    }
+
+    public void dismissPopupMenus() {
+        if (this.mPresenter != null) {
+            this.mPresenter.dismissPopupMenus();
+        }
+    }
+
+    protected boolean hasSupportDividerBeforeChildAt(int childIndex) {
+        if (childIndex == 0) {
+            return false;
+        }
+        View childBefore = getChildAt(childIndex - 1);
+        View child = getChildAt(childIndex);
+        boolean result = false;
+        if (childIndex &lt; getChildCount() &amp;&amp; (childBefore instanceof ActionMenuChildView)) {
+            result = false | ((ActionMenuChildView) childBefore).needsDividerAfter();
+        }
+        if (childIndex &lt;= 0 || !(child instanceof ActionMenuChildView)) {
+            return result;
+        }
+        return result | ((ActionMenuChildView) child).needsDividerBefore();
+    }
+
+    public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
+        return false;
+    }
+
+    public void setExpandedActionViewsExclusive(boolean exclusive) {
+        this.mPresenter.setExpandedActionViewsExclusive(exclusive);
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:41 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

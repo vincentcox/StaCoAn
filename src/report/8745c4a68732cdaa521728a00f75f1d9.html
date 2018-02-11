@@ -1,0 +1,648 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v7\widget\AppCompatSpinner.java" target="_blank">\test-apk\jadx_source_code\android\support\v7\widget\AppCompatSpinner.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="AppCompatSpinner.java" data-line="" class="code line-numbers"><code>package android.support.v7.widget;
+
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources.Theme;
+import android.content.res.TypedArray;
+import android.database.DataSetObserver;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.Nullable;
+import android.support.v4.view.TintableBackgroundView;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.appcompat.R;
+import android.support.v7.internal.view.ContextThemeWrapper;
+import android.support.v7.internal.widget.TintManager;
+import android.support.v7.internal.widget.TintTypedArray;
+import android.support.v7.internal.widget.ViewUtils;
+import android.support.v7.widget.ListPopupWindow.ForwardingListener;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.MeasureSpec;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListAdapter;
+import android.widget.PopupWindow.OnDismissListener;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+import android.widget.ThemedSpinnerAdapter;
+
+public class AppCompatSpinner extends Spinner implements TintableBackgroundView {
+    private static final int[] ATTRS_ANDROID_SPINNERMODE = new int[]{16843505};
+    private static final boolean IS_AT_LEAST_JB;
+    private static final boolean IS_AT_LEAST_M;
+    private static final int MAX_ITEMS_MEASURED = 15;
+    private static final int MODE_DIALOG = 0;
+    private static final int MODE_DROPDOWN = 1;
+    private static final int MODE_THEME = -1;
+    private static final String TAG = "AppCompatSpinner";
+    private AppCompatBackgroundHelper mBackgroundTintHelper;
+    private int mDropDownWidth;
+    private ForwardingListener mForwardingListener;
+    private DropdownPopup mPopup;
+    private Context mPopupContext;
+    private boolean mPopupSet;
+    private SpinnerAdapter mTempAdapter;
+    private final Rect mTempRect;
+    private TintManager mTintManager;
+
+    private static class DropDownAdapter implements ListAdapter, SpinnerAdapter {
+        private SpinnerAdapter mAdapter;
+        private ListAdapter mListAdapter;
+
+        public DropDownAdapter(@Nullable SpinnerAdapter adapter, @Nullable Theme dropDownTheme) {
+            this.mAdapter = adapter;
+            if (adapter instanceof ListAdapter) {
+                this.mListAdapter = (ListAdapter) adapter;
+            }
+            if (dropDownTheme == null) {
+                return;
+            }
+            if (AppCompatSpinner.IS_AT_LEAST_M &amp;&amp; (adapter instanceof ThemedSpinnerAdapter)) {
+                ThemedSpinnerAdapter themedAdapter = (ThemedSpinnerAdapter) adapter;
+                if (themedAdapter.getDropDownViewTheme() != dropDownTheme) {
+                    themedAdapter.setDropDownViewTheme(dropDownTheme);
+                }
+            } else if (adapter instanceof ThemedSpinnerAdapter) {
+                ThemedSpinnerAdapter themedAdapter2 = (ThemedSpinnerAdapter) adapter;
+                if (themedAdapter2.getDropDownViewTheme() == null) {
+                    themedAdapter2.setDropDownViewTheme(dropDownTheme);
+                }
+            }
+        }
+
+        public int getCount() {
+            return this.mAdapter == null ? 0 : this.mAdapter.getCount();
+        }
+
+        public Object getItem(int position) {
+            return this.mAdapter == null ? null : this.mAdapter.getItem(position);
+        }
+
+        public long getItemId(int position) {
+            return this.mAdapter == null ? -1 : this.mAdapter.getItemId(position);
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getDropDownView(position, convertView, parent);
+        }
+
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            return this.mAdapter == null ? null : this.mAdapter.getDropDownView(position, convertView, parent);
+        }
+
+        public boolean hasStableIds() {
+            return this.mAdapter != null &amp;&amp; this.mAdapter.hasStableIds();
+        }
+
+        public void registerDataSetObserver(DataSetObserver observer) {
+            if (this.mAdapter != null) {
+                this.mAdapter.registerDataSetObserver(observer);
+            }
+        }
+
+        public void unregisterDataSetObserver(DataSetObserver observer) {
+            if (this.mAdapter != null) {
+                this.mAdapter.unregisterDataSetObserver(observer);
+            }
+        }
+
+        public boolean areAllItemsEnabled() {
+            ListAdapter adapter = this.mListAdapter;
+            if (adapter != null) {
+                return adapter.areAllItemsEnabled();
+            }
+            return true;
+        }
+
+        public boolean isEnabled(int position) {
+            ListAdapter adapter = this.mListAdapter;
+            if (adapter != null) {
+                return adapter.isEnabled(position);
+            }
+            return true;
+        }
+
+        public int getItemViewType(int position) {
+            return 0;
+        }
+
+        public int getViewTypeCount() {
+            return 1;
+        }
+
+        public boolean isEmpty() {
+            return getCount() == 0;
+        }
+    }
+
+    private class DropdownPopup extends ListPopupWindow {
+        private ListAdapter mAdapter;
+        private CharSequence mHintText;
+        private final Rect mVisibleRect = new Rect();
+
+        public DropdownPopup(Context context, AttributeSet attrs, int defStyleAttr) {
+            super(context, attrs, defStyleAttr);
+            setAnchorView(AppCompatSpinner.this);
+            setModal(true);
+            setPromptPosition(0);
+            setOnItemClickListener(new OnItemClickListener(AppCompatSpinner.this) {
+                public void onItemClick(AdapterView&lt;?&gt; adapterView, View v, int position, long id) {
+                    AppCompatSpinner.this.setSelection(position);
+                    if (AppCompatSpinner.this.getOnItemClickListener() != null) {
+                        AppCompatSpinner.this.performItemClick(v, position, DropdownPopup.this.mAdapter.getItemId(position));
+                    }
+                    DropdownPopup.this.dismiss();
+                }
+            });
+        }
+
+        public void setAdapter(ListAdapter adapter) {
+            super.setAdapter(adapter);
+            this.mAdapter = adapter;
+        }
+
+        public CharSequence getHintText() {
+            return this.mHintText;
+        }
+
+        public void setPromptText(CharSequence hintText) {
+            this.mHintText = hintText;
+        }
+
+        void computeContentWidth() {
+            Drawable background = getBackground();
+            int hOffset = 0;
+            if (background != null) {
+                background.getPadding(AppCompatSpinner.this.mTempRect);
+                hOffset = ViewUtils.isLayoutRtl(AppCompatSpinner.this) ? AppCompatSpinner.this.mTempRect.right : -AppCompatSpinner.this.mTempRect.left;
+            } else {
+                Rect access$300 = AppCompatSpinner.this.mTempRect;
+                AppCompatSpinner.this.mTempRect.right = 0;
+                access$300.left = 0;
+            }
+            int spinnerPaddingLeft = AppCompatSpinner.this.getPaddingLeft();
+            int spinnerPaddingRight = AppCompatSpinner.this.getPaddingRight();
+            int spinnerWidth = AppCompatSpinner.this.getWidth();
+            if (AppCompatSpinner.this.mDropDownWidth == -2) {
+                int contentWidth = AppCompatSpinner.this.compatMeasureContentWidth((SpinnerAdapter) this.mAdapter, getBackground());
+                int contentWidthLimit = (AppCompatSpinner.this.getContext().getResources().getDisplayMetrics().widthPixels - AppCompatSpinner.this.mTempRect.left) - AppCompatSpinner.this.mTempRect.right;
+                if (contentWidth &gt; contentWidthLimit) {
+                    contentWidth = contentWidthLimit;
+                }
+                setContentWidth(Math.max(contentWidth, (spinnerWidth - spinnerPaddingLeft) - spinnerPaddingRight));
+            } else if (AppCompatSpinner.this.mDropDownWidth == -1) {
+                setContentWidth((spinnerWidth - spinnerPaddingLeft) - spinnerPaddingRight);
+            } else {
+                setContentWidth(AppCompatSpinner.this.mDropDownWidth);
+            }
+            if (ViewUtils.isLayoutRtl(AppCompatSpinner.this)) {
+                hOffset += (spinnerWidth - spinnerPaddingRight) - getWidth();
+            } else {
+                hOffset += spinnerPaddingLeft;
+            }
+            setHorizontalOffset(hOffset);
+        }
+
+        public void show() {
+            boolean wasShowing = isShowing();
+            computeContentWidth();
+            setInputMethodMode(2);
+            super.show();
+            getListView().setChoiceMode(1);
+            setSelection(AppCompatSpinner.this.getSelectedItemPosition());
+            if (!wasShowing) {
+                ViewTreeObserver vto = AppCompatSpinner.this.getViewTreeObserver();
+                if (vto != null) {
+                    final OnGlobalLayoutListener layoutListener = new OnGlobalLayoutListener() {
+                        public void onGlobalLayout() {
+                            if (DropdownPopup.this.isVisibleToUser(AppCompatSpinner.this)) {
+                                DropdownPopup.this.computeContentWidth();
+                                super.show();
+                                return;
+                            }
+                            DropdownPopup.this.dismiss();
+                        }
+                    };
+                    vto.addOnGlobalLayoutListener(layoutListener);
+                    setOnDismissListener(new OnDismissListener() {
+                        public void onDismiss() {
+                            ViewTreeObserver vto = AppCompatSpinner.this.getViewTreeObserver();
+                            if (vto != null) {
+                                vto.removeGlobalOnLayoutListener(layoutListener);
+                            }
+                        }
+                    });
+                }
+            }
+        }
+
+        private boolean isVisibleToUser(View view) {
+            return ViewCompat.isAttachedToWindow(view) &amp;&amp; view.getGlobalVisibleRect(this.mVisibleRect);
+        }
+    }
+
+    static {
+        boolean z;
+        if (VERSION.SDK_INT &gt;= 23) {
+            z = true;
+        } else {
+            z = false;
+        }
+        IS_AT_LEAST_M = z;
+        if (VERSION.SDK_INT &gt;= 16) {
+            z = true;
+        } else {
+            z = false;
+        }
+        IS_AT_LEAST_JB = z;
+    }
+
+    public AppCompatSpinner(Context context) {
+        this(context, null);
+    }
+
+    public AppCompatSpinner(Context context, int mode) {
+        this(context, null, R.attr.spinnerStyle, mode);
+    }
+
+    public AppCompatSpinner(Context context, AttributeSet attrs) {
+        this(context, attrs, R.attr.spinnerStyle);
+    }
+
+    public AppCompatSpinner(Context context, AttributeSet attrs, int defStyleAttr) {
+        this(context, attrs, defStyleAttr, -1);
+    }
+
+    public AppCompatSpinner(Context context, AttributeSet attrs, int defStyleAttr, int mode) {
+        this(context, attrs, defStyleAttr, mode, null);
+    }
+
+    public AppCompatSpinner(Context context, AttributeSet attrs, int defStyleAttr, int mode, Theme popupTheme) {
+        super(context, attrs, defStyleAttr);
+        this.mTempRect = new Rect();
+        TintTypedArray a = TintTypedArray.obtainStyledAttributes(context, attrs, R.styleable.Spinner, defStyleAttr, 0);
+        this.mTintManager = a.getTintManager();
+        this.mBackgroundTintHelper = new AppCompatBackgroundHelper(this, this.mTintManager);
+        if (popupTheme != null) {
+            this.mPopupContext = new ContextThemeWrapper(context, popupTheme);
+        } else {
+            int popupThemeResId = a.getResourceId(R.styleable.Spinner_popupTheme, 0);
+            if (popupThemeResId != 0) {
+                this.mPopupContext = new ContextThemeWrapper(context, popupThemeResId);
+            } else {
+                this.mPopupContext = !IS_AT_LEAST_M ? context : null;
+            }
+        }
+        if (this.mPopupContext != null) {
+            if (mode == -1) {
+                if (VERSION.SDK_INT &gt;= 11) {
+                    TypedArray aa = null;
+                    try {
+                        aa = context.obtainStyledAttributes(attrs, ATTRS_ANDROID_SPINNERMODE, defStyleAttr, 0);
+                        if (aa.hasValue(0)) {
+                            mode = aa.getInt(0, 0);
+                        }
+                        if (aa != null) {
+                            aa.recycle();
+                        }
+                    } catch (Exception e) {
+                        Log.i(TAG, "Could not read android:spinnerMode", e);
+                        if (aa != null) {
+                            aa.recycle();
+                        }
+                    } catch (Throwable th) {
+                        if (aa != null) {
+                            aa.recycle();
+                        }
+                    }
+                } else {
+                    mode = 1;
+                }
+            }
+            if (mode == 1) {
+                final DropdownPopup popup = new DropdownPopup(this.mPopupContext, attrs, defStyleAttr);
+                TintTypedArray pa = TintTypedArray.obtainStyledAttributes(this.mPopupContext, attrs, R.styleable.Spinner, defStyleAttr, 0);
+                this.mDropDownWidth = pa.getLayoutDimension(R.styleable.Spinner_android_dropDownWidth, -2);
+                popup.setBackgroundDrawable(pa.getDrawable(R.styleable.Spinner_android_popupBackground));
+                popup.setPromptText(a.getString(R.styleable.Spinner_android_prompt));
+                pa.recycle();
+                this.mPopup = popup;
+                this.mForwardingListener = new ForwardingListener(this) {
+                    public ListPopupWindow getPopup() {
+                        return popup;
+                    }
+
+                    public boolean onForwardingStarted() {
+                        if (!AppCompatSpinner.this.mPopup.isShowing()) {
+                            AppCompatSpinner.this.mPopup.show();
+                        }
+                        return true;
+                    }
+                };
+            }
+        }
+        a.recycle();
+        this.mPopupSet = true;
+        if (this.mTempAdapter != null) {
+            setAdapter(this.mTempAdapter);
+            this.mTempAdapter = null;
+        }
+        this.mBackgroundTintHelper.loadFromAttributes(attrs, defStyleAttr);
+    }
+
+    public Context getPopupContext() {
+        if (this.mPopup != null) {
+            return this.mPopupContext;
+        }
+        if (IS_AT_LEAST_M) {
+            return super.getPopupContext();
+        }
+        return null;
+    }
+
+    public void setPopupBackgroundDrawable(Drawable background) {
+        if (this.mPopup != null) {
+            this.mPopup.setBackgroundDrawable(background);
+        } else if (IS_AT_LEAST_JB) {
+            super.setPopupBackgroundDrawable(background);
+        }
+    }
+
+    public void setPopupBackgroundResource(@DrawableRes int resId) {
+        setPopupBackgroundDrawable(getPopupContext().getDrawable(resId));
+    }
+
+    public Drawable getPopupBackground() {
+        if (this.mPopup != null) {
+            return this.mPopup.getBackground();
+        }
+        if (IS_AT_LEAST_JB) {
+            return super.getPopupBackground();
+        }
+        return null;
+    }
+
+    public void setDropDownVerticalOffset(int pixels) {
+        if (this.mPopup != null) {
+            this.mPopup.setVerticalOffset(pixels);
+        } else if (IS_AT_LEAST_JB) {
+            super.setDropDownVerticalOffset(pixels);
+        }
+    }
+
+    public int getDropDownVerticalOffset() {
+        if (this.mPopup != null) {
+            return this.mPopup.getVerticalOffset();
+        }
+        if (IS_AT_LEAST_JB) {
+            return super.getDropDownVerticalOffset();
+        }
+        return 0;
+    }
+
+    public void setDropDownHorizontalOffset(int pixels) {
+        if (this.mPopup != null) {
+            this.mPopup.setHorizontalOffset(pixels);
+        } else if (IS_AT_LEAST_JB) {
+            super.setDropDownHorizontalOffset(pixels);
+        }
+    }
+
+    public int getDropDownHorizontalOffset() {
+        if (this.mPopup != null) {
+            return this.mPopup.getHorizontalOffset();
+        }
+        if (IS_AT_LEAST_JB) {
+            return super.getDropDownHorizontalOffset();
+        }
+        return 0;
+    }
+
+    public void setDropDownWidth(int pixels) {
+        if (this.mPopup != null) {
+            this.mDropDownWidth = pixels;
+        } else if (IS_AT_LEAST_JB) {
+            super.setDropDownWidth(pixels);
+        }
+    }
+
+    public int getDropDownWidth() {
+        if (this.mPopup != null) {
+            return this.mDropDownWidth;
+        }
+        if (IS_AT_LEAST_JB) {
+            return super.getDropDownWidth();
+        }
+        return 0;
+    }
+
+    public void setAdapter(SpinnerAdapter adapter) {
+        if (this.mPopupSet) {
+            super.setAdapter(adapter);
+            if (this.mPopup != null) {
+                this.mPopup.setAdapter(new DropDownAdapter(adapter, (this.mPopupContext == null ? getContext() : this.mPopupContext).getTheme()));
+                return;
+            }
+            return;
+        }
+        this.mTempAdapter = adapter;
+    }
+
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (this.mPopup != null &amp;&amp; this.mPopup.isShowing()) {
+            this.mPopup.dismiss();
+        }
+    }
+
+    public boolean onTouchEvent(MotionEvent event) {
+        if (this.mForwardingListener == null || !this.mForwardingListener.onTouch(this, event)) {
+            return super.onTouchEvent(event);
+        }
+        return true;
+    }
+
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (this.mPopup != null &amp;&amp; MeasureSpec.getMode(widthMeasureSpec) == Integer.MIN_VALUE) {
+            setMeasuredDimension(Math.min(Math.max(getMeasuredWidth(), compatMeasureContentWidth(getAdapter(), getBackground())), MeasureSpec.getSize(widthMeasureSpec)), getMeasuredHeight());
+        }
+    }
+
+    public boolean performClick() {
+        if (this.mPopup == null || this.mPopup.isShowing()) {
+            return super.performClick();
+        }
+        this.mPopup.show();
+        return true;
+    }
+
+    public void setPrompt(CharSequence prompt) {
+        if (this.mPopup != null) {
+            this.mPopup.setPromptText(prompt);
+        } else {
+            super.setPrompt(prompt);
+        }
+    }
+
+    public CharSequence getPrompt() {
+        return this.mPopup != null ? this.mPopup.getHintText() : super.getPrompt();
+    }
+
+    public void setBackgroundResource(@DrawableRes int resId) {
+        super.setBackgroundResource(resId);
+        if (this.mBackgroundTintHelper != null) {
+            this.mBackgroundTintHelper.onSetBackgroundResource(resId);
+        }
+    }
+
+    public void setBackgroundDrawable(Drawable background) {
+        super.setBackgroundDrawable(background);
+        if (this.mBackgroundTintHelper != null) {
+            this.mBackgroundTintHelper.onSetBackgroundDrawable(background);
+        }
+    }
+
+    public void setSupportBackgroundTintList(@Nullable ColorStateList tint) {
+        if (this.mBackgroundTintHelper != null) {
+            this.mBackgroundTintHelper.setSupportBackgroundTintList(tint);
+        }
+    }
+
+    @Nullable
+    public ColorStateList getSupportBackgroundTintList() {
+        return this.mBackgroundTintHelper != null ? this.mBackgroundTintHelper.getSupportBackgroundTintList() : null;
+    }
+
+    public void setSupportBackgroundTintMode(@Nullable Mode tintMode) {
+        if (this.mBackgroundTintHelper != null) {
+            this.mBackgroundTintHelper.setSupportBackgroundTintMode(tintMode);
+        }
+    }
+
+    @Nullable
+    public Mode getSupportBackgroundTintMode() {
+        return this.mBackgroundTintHelper != null ? this.mBackgroundTintHelper.getSupportBackgroundTintMode() : null;
+    }
+
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+        if (this.mBackgroundTintHelper != null) {
+            this.mBackgroundTintHelper.applySupportBackgroundTint();
+        }
+    }
+
+    private int compatMeasureContentWidth(SpinnerAdapter adapter, Drawable background) {
+        if (adapter == null) {
+            return 0;
+        }
+        int width = 0;
+        View itemView = null;
+        int itemType = 0;
+        int widthMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredWidth(), 0);
+        int heightMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredHeight(), 0);
+        int start = Math.max(0, getSelectedItemPosition());
+        int end = Math.min(adapter.getCount(), start + 15);
+        for (int i = Math.max(0, start - (15 - (end - start))); i &lt; end; i++) {
+            int positionType = adapter.getItemViewType(i);
+            if (positionType != itemType) {
+                itemType = positionType;
+                itemView = null;
+            }
+            itemView = adapter.getView(i, itemView, this);
+            if (itemView.getLayoutParams() == null) {
+                itemView.setLayoutParams(new LayoutParams(-2, -2));
+            }
+            itemView.measure(widthMeasureSpec, heightMeasureSpec);
+            width = Math.max(width, itemView.getMeasuredWidth());
+        }
+        if (background == null) {
+            return width;
+        }
+        background.getPadding(this.mTempRect);
+        return width + (this.mTempRect.left + this.mTempRect.right);
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:41 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

@@ -1,0 +1,296 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v7\internal\view\menu\ListMenuPresenter.java" target="_blank">\test-apk\jadx_source_code\android\support\v7\internal\view\menu\ListMenuPresenter.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="ListMenuPresenter.java" data-line="" class="code line-numbers"><code>package android.support.v7.internal.view.menu;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v7.appcompat.R;
+import android.support.v7.internal.view.menu.MenuPresenter.Callback;
+import android.support.v7.internal.view.menu.MenuView.ItemView;
+import android.util.SparseArray;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
+import java.util.ArrayList;
+
+public class ListMenuPresenter implements MenuPresenter, OnItemClickListener {
+    private static final String TAG = "ListMenuPresenter";
+    public static final String VIEWS_TAG = "android:menu:list";
+    MenuAdapter mAdapter;
+    private Callback mCallback;
+    Context mContext;
+    private int mId;
+    LayoutInflater mInflater;
+    private int mItemIndexOffset;
+    int mItemLayoutRes;
+    MenuBuilder mMenu;
+    ExpandedMenuView mMenuView;
+    int mThemeRes;
+
+    private class MenuAdapter extends BaseAdapter {
+        private int mExpandedIndex = -1;
+
+        public MenuAdapter() {
+            findExpandedIndex();
+        }
+
+        public int getCount() {
+            int count = ListMenuPresenter.this.mMenu.getNonActionItems().size() - ListMenuPresenter.this.mItemIndexOffset;
+            return this.mExpandedIndex &lt; 0 ? count : count - 1;
+        }
+
+        public MenuItemImpl getItem(int position) {
+            ArrayList&lt;MenuItemImpl&gt; items = ListMenuPresenter.this.mMenu.getNonActionItems();
+            position += ListMenuPresenter.this.mItemIndexOffset;
+            if (this.mExpandedIndex &gt;= 0 &amp;&amp; position &gt;= this.mExpandedIndex) {
+                position++;
+            }
+            return (MenuItemImpl) items.get(position);
+        }
+
+        public long getItemId(int position) {
+            return (long) position;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = ListMenuPresenter.this.mInflater.inflate(ListMenuPresenter.this.mItemLayoutRes, parent, false);
+            }
+            ((ItemView) convertView).initialize(getItem(position), 0);
+            return convertView;
+        }
+
+        void findExpandedIndex() {
+            MenuItemImpl expandedItem = ListMenuPresenter.this.mMenu.getExpandedItem();
+            if (expandedItem != null) {
+                ArrayList&lt;MenuItemImpl&gt; items = ListMenuPresenter.this.mMenu.getNonActionItems();
+                int count = items.size();
+                for (int i = 0; i &lt; count; i++) {
+                    if (((MenuItemImpl) items.get(i)) == expandedItem) {
+                        this.mExpandedIndex = i;
+                        return;
+                    }
+                }
+            }
+            this.mExpandedIndex = -1;
+        }
+
+        public void notifyDataSetChanged() {
+            findExpandedIndex();
+            super.notifyDataSetChanged();
+        }
+    }
+
+    public ListMenuPresenter(Context context, int itemLayoutRes) {
+        this(itemLayoutRes, 0);
+        this.mContext = context;
+        this.mInflater = LayoutInflater.from(this.mContext);
+    }
+
+    public ListMenuPresenter(int itemLayoutRes, int themeRes) {
+        this.mItemLayoutRes = itemLayoutRes;
+        this.mThemeRes = themeRes;
+    }
+
+    public void initForMenu(Context context, MenuBuilder menu) {
+        if (this.mThemeRes != 0) {
+            this.mContext = new ContextThemeWrapper(context, this.mThemeRes);
+            this.mInflater = LayoutInflater.from(this.mContext);
+        } else if (this.mContext != null) {
+            this.mContext = context;
+            if (this.mInflater == null) {
+                this.mInflater = LayoutInflater.from(this.mContext);
+            }
+        }
+        this.mMenu = menu;
+        if (this.mAdapter != null) {
+            this.mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public MenuView getMenuView(ViewGroup root) {
+        if (this.mMenuView == null) {
+            this.mMenuView = (ExpandedMenuView) this.mInflater.inflate(R.layout.abc_expanded_menu_layout, root, false);
+            if (this.mAdapter == null) {
+                this.mAdapter = new MenuAdapter();
+            }
+            this.mMenuView.setAdapter(this.mAdapter);
+            this.mMenuView.setOnItemClickListener(this);
+        }
+        return this.mMenuView;
+    }
+
+    public ListAdapter getAdapter() {
+        if (this.mAdapter == null) {
+            this.mAdapter = new MenuAdapter();
+        }
+        return this.mAdapter;
+    }
+
+    public void updateMenuView(boolean cleared) {
+        if (this.mAdapter != null) {
+            this.mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public void setCallback(Callback cb) {
+        this.mCallback = cb;
+    }
+
+    public boolean onSubMenuSelected(SubMenuBuilder subMenu) {
+        if (!subMenu.hasVisibleItems()) {
+            return false;
+        }
+        new MenuDialogHelper(subMenu).show(null);
+        if (this.mCallback != null) {
+            this.mCallback.onOpenSubMenu(subMenu);
+        }
+        return true;
+    }
+
+    public void onCloseMenu(MenuBuilder menu, boolean allMenusAreClosing) {
+        if (this.mCallback != null) {
+            this.mCallback.onCloseMenu(menu, allMenusAreClosing);
+        }
+    }
+
+    int getItemIndexOffset() {
+        return this.mItemIndexOffset;
+    }
+
+    public void setItemIndexOffset(int offset) {
+        this.mItemIndexOffset = offset;
+        if (this.mMenuView != null) {
+            updateMenuView(false);
+        }
+    }
+
+    public void onItemClick(AdapterView&lt;?&gt; adapterView, View view, int position, long id) {
+        this.mMenu.performItemAction(this.mAdapter.getItem(position), this, 0);
+    }
+
+    public boolean flagActionItems() {
+        return false;
+    }
+
+    public boolean expandItemActionView(MenuBuilder menu, MenuItemImpl item) {
+        return false;
+    }
+
+    public boolean collapseItemActionView(MenuBuilder menu, MenuItemImpl item) {
+        return false;
+    }
+
+    public void saveHierarchyState(Bundle outState) {
+        SparseArray&lt;Parcelable&gt; viewStates = new SparseArray();
+        if (this.mMenuView != null) {
+            this.mMenuView.saveHierarchyState(viewStates);
+        }
+        outState.putSparseParcelableArray(VIEWS_TAG, viewStates);
+    }
+
+    public void restoreHierarchyState(Bundle inState) {
+        SparseArray&lt;Parcelable&gt; viewStates = inState.getSparseParcelableArray(VIEWS_TAG);
+        if (viewStates != null) {
+            this.mMenuView.restoreHierarchyState(viewStates);
+        }
+    }
+
+    public void setId(int id) {
+        this.mId = id;
+    }
+
+    public int getId() {
+        return this.mId;
+    }
+
+    public Parcelable onSaveInstanceState() {
+        if (this.mMenuView == null) {
+            return null;
+        }
+        Parcelable state = new Bundle();
+        saveHierarchyState(state);
+        return state;
+    }
+
+    public void onRestoreInstanceState(Parcelable state) {
+        restoreHierarchyState((Bundle) state);
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:41 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

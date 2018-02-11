@@ -1,0 +1,277 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9"><div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\jakhar\aseem\diva\NotesProvider.java" target="_blank">\test-apk\jadx_source_code\jakhar\aseem\diva\NotesProvider.java</a></div><div class="col s12"><div class="card"><div class="valign-wrapper"><i class="material-icons medium grade-40">report</i><h5>regex: INSERT INTO .* VALUES</h5></div><div class="card-tabs"><ul class="tabs tabs-fixed-width" style="background-color: #30363A !important;"><li class="tab"><a style="color: #d82c2b;" href="#NotesProvider_java40INSE" class="active">line 40</a></li><li class="tab"><a style="color: #d82c2b;" href="#NotesProvider_java41INSE">line 41</a></li><li class="tab"><a style="color: #d82c2b;" href="#NotesProvider_java42INSE">line 42</a></li><li class="tab"><a style="color: #d82c2b;" href="#NotesProvider_java43INSE">line 43</a></li><li class="tab"><a style="color: #d82c2b;" href="#NotesProvider_java44INSE">line 44</a></li><li class="tab"><a style="color: #d82c2b;" href="#NotesProvider_java45INSE">line 45</a></li></ul></div><div class="card-content"><div id="NotesProvider_java40INSE">Code @ line 40<pre data-start="37" data-line="40" data-src="NotesProvider.java" class="code line-numbers"><code>        public void onCreate(SQLiteDatabase db) {
+            db.execSQL(NotesProvider.DROP_TBL_QRY);
+            db.execSQL(NotesProvider.CREATE_TBL_QRY);
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('office', '10 Meetings. 5 Calls. Lunch with CEO');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('home', 'Buy toys for baby, Order dinner');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('holiday', 'Either Goa or Amsterdam');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Expense', 'Spent too much on home theater');");
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDAgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQwfHx8Mzc">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDAgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQwfHx8Mzc')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDAgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQwfHx8Mzc').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDAgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQwfHx8Mzc" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDAgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQwfHx8Mzc' , 'ICAgICAgICBwdWJsaWMgdm9pZCBvbkNyZWF0ZShTUUxpdGVEYXRhYmFzZSBkYikgewogICAgICAgICAgICBkYi5leGVjU1FMKE5vdGVzUHJvdmlkZXIuRFJPUF9UQkxfUVJZKTsKICAgICAgICAgICAgZGIuZXhlY1NRTChOb3Rlc1Byb3ZpZGVyLkNSRUFURV9UQkxfUVJZKTsKICAgICAgICAgICAgZGIuZXhlY1NRTCgiSU5TRVJUIElOVE8gbm90ZXModGl0bGUsbm90ZSkgVkFMVUVTICgnb2ZmaWNlJywgJzEwIE1lZXRpbmdzLiA1IENhbGxzLiBMdW5jaCB3aXRoIENFTycpOyIpOwogICAgICAgICAgICBkYi5leGVjU1FMKCJJTlNFUlQgSU5UTyBub3Rlcyh0aXRsZSxub3RlKSBWQUxVRVMgKCdob21lJywgJ0J1eSB0b3lzIGZvciBiYWJ5LCBPcmRlciBkaW5uZXInKTsiKTsKICAgICAgICAgICAgZGIuZXhlY1NRTCgiSU5TRVJUIElOVE8gbm90ZXModGl0bGUsbm90ZSkgVkFMVUVTICgnaG9saWRheScsICdFaXRoZXIgR29hIG9yIEFtc3RlcmRhbScpOyIpOwogICAgICAgICAgICBkYi5leGVjU1FMKCJJTlNFUlQgSU5UTyBub3Rlcyh0aXRsZSxub3RlKSBWQUxVRVMgKCdFeHBlbnNlJywgJ1NwZW50IHRvbyBtdWNoIG9uIGhvbWUgdGhlYXRlcicpOyIpOwo=');  
+                                            });
+                                            </script>
+                                            </div><div id="NotesProvider_java41INSE">Code @ line 41<pre data-start="38" data-line="41" data-src="NotesProvider.java" class="code line-numbers"><code>            db.execSQL(NotesProvider.DROP_TBL_QRY);
+            db.execSQL(NotesProvider.CREATE_TBL_QRY);
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('office', '10 Meetings. 5 Calls. Lunch with CEO');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('home', 'Buy toys for baby, Order dinner');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('holiday', 'Either Goa or Amsterdam');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Expense', 'Spent too much on home theater');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Exercise', 'Alternate days running');");
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDEgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQxfHx8Mzg">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDEgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQxfHx8Mzg')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDEgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQxfHx8Mzg').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDEgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQxfHx8Mzg" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDEgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQxfHx8Mzg' , 'ICAgICAgICAgICAgZGIuZXhlY1NRTChOb3Rlc1Byb3ZpZGVyLkRST1BfVEJMX1FSWSk7CiAgICAgICAgICAgIGRiLmV4ZWNTUUwoTm90ZXNQcm92aWRlci5DUkVBVEVfVEJMX1FSWSk7CiAgICAgICAgICAgIGRiLmV4ZWNTUUwoIklOU0VSVCBJTlRPIG5vdGVzKHRpdGxlLG5vdGUpIFZBTFVFUyAoJ29mZmljZScsICcxMCBNZWV0aW5ncy4gNSBDYWxscy4gTHVuY2ggd2l0aCBDRU8nKTsiKTsKICAgICAgICAgICAgZGIuZXhlY1NRTCgiSU5TRVJUIElOVE8gbm90ZXModGl0bGUsbm90ZSkgVkFMVUVTICgnaG9tZScsICdCdXkgdG95cyBmb3IgYmFieSwgT3JkZXIgZGlubmVyJyk7Iik7CiAgICAgICAgICAgIGRiLmV4ZWNTUUwoIklOU0VSVCBJTlRPIG5vdGVzKHRpdGxlLG5vdGUpIFZBTFVFUyAoJ2hvbGlkYXknLCAnRWl0aGVyIEdvYSBvciBBbXN0ZXJkYW0nKTsiKTsKICAgICAgICAgICAgZGIuZXhlY1NRTCgiSU5TRVJUIElOVE8gbm90ZXModGl0bGUsbm90ZSkgVkFMVUVTICgnRXhwZW5zZScsICdTcGVudCB0b28gbXVjaCBvbiBob21lIHRoZWF0ZXInKTsiKTsKICAgICAgICAgICAgZGIuZXhlY1NRTCgiSU5TRVJUIElOVE8gbm90ZXModGl0bGUsbm90ZSkgVkFMVUVTICgnRXhlcmNpc2UnLCAnQWx0ZXJuYXRlIGRheXMgcnVubmluZycpOyIpOwo=');  
+                                            });
+                                            </script>
+                                            </div><div id="NotesProvider_java42INSE">Code @ line 42<pre data-start="39" data-line="42" data-src="NotesProvider.java" class="code line-numbers"><code>            db.execSQL(NotesProvider.CREATE_TBL_QRY);
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('office', '10 Meetings. 5 Calls. Lunch with CEO');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('home', 'Buy toys for baby, Order dinner');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('holiday', 'Either Goa or Amsterdam');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Expense', 'Spent too much on home theater');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Exercise', 'Alternate days running');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Weekend', 'b333333333333r');");
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDIgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQyfHx8Mzk">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDIgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQyfHx8Mzk')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDIgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQyfHx8Mzk').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDIgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQyfHx8Mzk" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDIgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQyfHx8Mzk' , 'ICAgICAgICAgICAgZGIuZXhlY1NRTChOb3Rlc1Byb3ZpZGVyLkNSRUFURV9UQkxfUVJZKTsKICAgICAgICAgICAgZGIuZXhlY1NRTCgiSU5TRVJUIElOVE8gbm90ZXModGl0bGUsbm90ZSkgVkFMVUVTICgnb2ZmaWNlJywgJzEwIE1lZXRpbmdzLiA1IENhbGxzLiBMdW5jaCB3aXRoIENFTycpOyIpOwogICAgICAgICAgICBkYi5leGVjU1FMKCJJTlNFUlQgSU5UTyBub3Rlcyh0aXRsZSxub3RlKSBWQUxVRVMgKCdob21lJywgJ0J1eSB0b3lzIGZvciBiYWJ5LCBPcmRlciBkaW5uZXInKTsiKTsKICAgICAgICAgICAgZGIuZXhlY1NRTCgiSU5TRVJUIElOVE8gbm90ZXModGl0bGUsbm90ZSkgVkFMVUVTICgnaG9saWRheScsICdFaXRoZXIgR29hIG9yIEFtc3RlcmRhbScpOyIpOwogICAgICAgICAgICBkYi5leGVjU1FMKCJJTlNFUlQgSU5UTyBub3Rlcyh0aXRsZSxub3RlKSBWQUxVRVMgKCdFeHBlbnNlJywgJ1NwZW50IHRvbyBtdWNoIG9uIGhvbWUgdGhlYXRlcicpOyIpOwogICAgICAgICAgICBkYi5leGVjU1FMKCJJTlNFUlQgSU5UTyBub3Rlcyh0aXRsZSxub3RlKSBWQUxVRVMgKCdFeGVyY2lzZScsICdBbHRlcm5hdGUgZGF5cyBydW5uaW5nJyk7Iik7CiAgICAgICAgICAgIGRiLmV4ZWNTUUwoIklOU0VSVCBJTlRPIG5vdGVzKHRpdGxlLG5vdGUpIFZBTFVFUyAoJ1dlZWtlbmQnLCAnYjMzMzMzMzMzMzMzM3InKTsiKTsK');  
+                                            });
+                                            </script>
+                                            </div><div id="NotesProvider_java43INSE">Code @ line 43<pre data-start="40" data-line="43" data-src="NotesProvider.java" class="code line-numbers"><code>            db.execSQL("INSERT INTO notes(title,note) VALUES ('office', '10 Meetings. 5 Calls. Lunch with CEO');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('home', 'Buy toys for baby, Order dinner');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('holiday', 'Either Goa or Amsterdam');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Expense', 'Spent too much on home theater');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Exercise', 'Alternate days running');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Weekend', 'b333333333333r');");
+        }
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDMgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQzfHx8NDA">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDMgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQzfHx8NDA')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDMgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQzfHx8NDA').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDMgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQzfHx8NDA" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDMgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQzfHx8NDA' , 'ICAgICAgICAgICAgZGIuZXhlY1NRTCgiSU5TRVJUIElOVE8gbm90ZXModGl0bGUsbm90ZSkgVkFMVUVTICgnb2ZmaWNlJywgJzEwIE1lZXRpbmdzLiA1IENhbGxzLiBMdW5jaCB3aXRoIENFTycpOyIpOwogICAgICAgICAgICBkYi5leGVjU1FMKCJJTlNFUlQgSU5UTyBub3Rlcyh0aXRsZSxub3RlKSBWQUxVRVMgKCdob21lJywgJ0J1eSB0b3lzIGZvciBiYWJ5LCBPcmRlciBkaW5uZXInKTsiKTsKICAgICAgICAgICAgZGIuZXhlY1NRTCgiSU5TRVJUIElOVE8gbm90ZXModGl0bGUsbm90ZSkgVkFMVUVTICgnaG9saWRheScsICdFaXRoZXIgR29hIG9yIEFtc3RlcmRhbScpOyIpOwogICAgICAgICAgICBkYi5leGVjU1FMKCJJTlNFUlQgSU5UTyBub3Rlcyh0aXRsZSxub3RlKSBWQUxVRVMgKCdFeHBlbnNlJywgJ1NwZW50IHRvbyBtdWNoIG9uIGhvbWUgdGhlYXRlcicpOyIpOwogICAgICAgICAgICBkYi5leGVjU1FMKCJJTlNFUlQgSU5UTyBub3Rlcyh0aXRsZSxub3RlKSBWQUxVRVMgKCdFeGVyY2lzZScsICdBbHRlcm5hdGUgZGF5cyBydW5uaW5nJyk7Iik7CiAgICAgICAgICAgIGRiLmV4ZWNTUUwoIklOU0VSVCBJTlRPIG5vdGVzKHRpdGxlLG5vdGUpIFZBTFVFUyAoJ1dlZWtlbmQnLCAnYjMzMzMzMzMzMzMzM3InKTsiKTsKICAgICAgICB9Cg==');  
+                                            });
+                                            </script>
+                                            </div><div id="NotesProvider_java44INSE">Code @ line 44<pre data-start="41" data-line="44" data-src="NotesProvider.java" class="code line-numbers"><code>            db.execSQL("INSERT INTO notes(title,note) VALUES ('home', 'Buy toys for baby, Order dinner');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('holiday', 'Either Goa or Amsterdam');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Expense', 'Spent too much on home theater');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Exercise', 'Alternate days running');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Weekend', 'b333333333333r');");
+        }
+
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDQgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQ0fHx8NDE">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDQgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQ0fHx8NDE')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDQgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQ0fHx8NDE').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDQgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQ0fHx8NDE" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDQgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQ0fHx8NDE' , 'ICAgICAgICAgICAgZGIuZXhlY1NRTCgiSU5TRVJUIElOVE8gbm90ZXModGl0bGUsbm90ZSkgVkFMVUVTICgnaG9tZScsICdCdXkgdG95cyBmb3IgYmFieSwgT3JkZXIgZGlubmVyJyk7Iik7CiAgICAgICAgICAgIGRiLmV4ZWNTUUwoIklOU0VSVCBJTlRPIG5vdGVzKHRpdGxlLG5vdGUpIFZBTFVFUyAoJ2hvbGlkYXknLCAnRWl0aGVyIEdvYSBvciBBbXN0ZXJkYW0nKTsiKTsKICAgICAgICAgICAgZGIuZXhlY1NRTCgiSU5TRVJUIElOVE8gbm90ZXModGl0bGUsbm90ZSkgVkFMVUVTICgnRXhwZW5zZScsICdTcGVudCB0b28gbXVjaCBvbiBob21lIHRoZWF0ZXInKTsiKTsKICAgICAgICAgICAgZGIuZXhlY1NRTCgiSU5TRVJUIElOVE8gbm90ZXModGl0bGUsbm90ZSkgVkFMVUVTICgnRXhlcmNpc2UnLCAnQWx0ZXJuYXRlIGRheXMgcnVubmluZycpOyIpOwogICAgICAgICAgICBkYi5leGVjU1FMKCJJTlNFUlQgSU5UTyBub3Rlcyh0aXRsZSxub3RlKSBWQUxVRVMgKCdXZWVrZW5kJywgJ2IzMzMzMzMzMzMzMzNyJyk7Iik7CiAgICAgICAgfQoK');  
+                                            });
+                                            </script>
+                                            </div><div id="NotesProvider_java45INSE">Code @ line 45<pre data-start="42" data-line="45" data-src="NotesProvider.java" class="code line-numbers"><code>            db.execSQL("INSERT INTO notes(title,note) VALUES ('holiday', 'Either Goa or Amsterdam');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Expense', 'Spent too much on home theater');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Exercise', 'Alternate days running');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Weekend', 'b333333333333r');");
+        }
+
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDUgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQ1fHx8NDI">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDUgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQ1fHx8NDI')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDUgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQ1fHx8NDI').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDUgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQ1fHx8NDI" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcTm90ZXNQcm92aWRlci5qYXZhfHx8bGluZTogNDUgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDQ1fHx8NDI' , 'ICAgICAgICAgICAgZGIuZXhlY1NRTCgiSU5TRVJUIElOVE8gbm90ZXModGl0bGUsbm90ZSkgVkFMVUVTICgnaG9saWRheScsICdFaXRoZXIgR29hIG9yIEFtc3RlcmRhbScpOyIpOwogICAgICAgICAgICBkYi5leGVjU1FMKCJJTlNFUlQgSU5UTyBub3Rlcyh0aXRsZSxub3RlKSBWQUxVRVMgKCdFeHBlbnNlJywgJ1NwZW50IHRvbyBtdWNoIG9uIGhvbWUgdGhlYXRlcicpOyIpOwogICAgICAgICAgICBkYi5leGVjU1FMKCJJTlNFUlQgSU5UTyBub3Rlcyh0aXRsZSxub3RlKSBWQUxVRVMgKCdFeGVyY2lzZScsICdBbHRlcm5hdGUgZGF5cyBydW5uaW5nJyk7Iik7CiAgICAgICAgICAgIGRiLmV4ZWNTUUwoIklOU0VSVCBJTlRPIG5vdGVzKHRpdGxlLG5vdGUpIFZBTFVFUyAoJ1dlZWtlbmQnLCAnYjMzMzMzMzMzMzMzM3InKTsiKTsKICAgICAgICB9CgogICAgICAgIHB1YmxpYyB2b2lkIG9uVXBncmFkZShTUUxpdGVEYXRhYmFzZSBkYiwgaW50IG9sZFZlcnNpb24sIGludCBuZXdWZXJzaW9uKSB7Cg==');  
+                                            });
+                                            </script>
+                                            </div></div></div></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="NotesProvider.java" data-line="40,41,42,43,44,45," class="code line-numbers"><code>package jakhar.aseem.diva;
+
+import android.content.ContentProvider;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.UriMatcher;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
+import android.net.Uri;
+import android.text.TextUtils;
+
+public class NotesProvider extends ContentProvider {
+    static final String AUTHORITY = "jakhar.aseem.diva.provider.notesprovider";
+    static final Uri CONTENT_URI = Uri.parse("content://jakhar.aseem.diva.provider.notesprovider/notes");
+    static final String CREATE_TBL_QRY = " CREATE TABLE notes (_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, note TEXT NOT NULL);";
+    static final String C_ID = "_id";
+    static final String C_NOTE = "note";
+    static final String C_TITLE = "title";
+    static final String DBNAME = "divanotes.db";
+    static final int DBVERSION = 1;
+    static final String DROP_TBL_QRY = "DROP TABLE IF EXISTS notes";
+    static final int PATH_ID = 2;
+    static final int PATH_TABLE = 1;
+    static final String TABLE = "notes";
+    static final UriMatcher urimatcher = new UriMatcher(-1);
+    SQLiteDatabase mDB;
+
+    private static class DBHelper extends SQLiteOpenHelper {
+        public DBHelper(Context context) {
+            super(context, NotesProvider.DBNAME, null, 1);
+        }
+
+        public void onCreate(SQLiteDatabase db) {
+            db.execSQL(NotesProvider.DROP_TBL_QRY);
+            db.execSQL(NotesProvider.CREATE_TBL_QRY);
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('office', '10 Meetings. 5 Calls. Lunch with CEO');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('home', 'Buy toys for baby, Order dinner');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('holiday', 'Either Goa or Amsterdam');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Expense', 'Spent too much on home theater');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Exercise', 'Alternate days running');");
+            db.execSQL("INSERT INTO notes(title,note) VALUES ('Weekend', 'b333333333333r');");
+        }
+
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            onCreate(db);
+        }
+    }
+
+    static {
+        urimatcher.addURI(AUTHORITY, TABLE, 1);
+        urimatcher.addURI(AUTHORITY, "notes/#", 2);
+    }
+
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        int count;
+        switch (urimatcher.match(uri)) {
+            case 1:
+                count = this.mDB.delete(TABLE, selection, selectionArgs);
+                break;
+            case 2:
+                count = this.mDB.delete(TABLE, "_id = " + uri.getLastPathSegment() + (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException("Divanotes(delete): Unsupported URI " + uri);
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return count;
+    }
+
+    public String getType(Uri uri) {
+        switch (urimatcher.match(uri)) {
+            case 1:
+                return "vnd.android.cursor.dir/vnd.jakhar.notes";
+            case 2:
+                return "vnd.android.cursor.item/vnd.jakhar.notes";
+            default:
+                throw new IllegalArgumentException("Divanotes: Unsupported URI: " + uri);
+        }
+    }
+
+    public Uri insert(Uri uri, ContentValues values) {
+        long row = this.mDB.insert(TABLE, "", values);
+        if (row &gt; 0) {
+            Uri newUri = ContentUris.withAppendedId(CONTENT_URI, row);
+            getContext().getContentResolver().notifyChange(newUri, null);
+            return newUri;
+        }
+        throw new SQLException("Divanotes: Fail to add a new record into " + uri);
+    }
+
+    public boolean onCreate() {
+        this.mDB = new DBHelper(getContext()).getWritableDatabase();
+        if (this.mDB == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        queryBuilder.setTables(TABLE);
+        switch (urimatcher.match(uri)) {
+            case 1:
+                break;
+            case 2:
+                queryBuilder.appendWhere("_id=" + uri.getLastPathSegment());
+                break;
+            default:
+                throw new IllegalArgumentException("Divanotes(query): Unknown URI " + uri);
+        }
+        if (sortOrder == null || sortOrder == "") {
+            sortOrder = C_TITLE;
+        }
+        Cursor cursor = queryBuilder.query(this.mDB, projection, selection, selectionArgs, null, null, sortOrder);
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        return cursor;
+    }
+
+    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        int count;
+        switch (urimatcher.match(uri)) {
+            case 1:
+                count = this.mDB.update(TABLE, values, selection, selectionArgs);
+                break;
+            case 2:
+                count = this.mDB.update(TABLE, values, "_id = " + uri.getLastPathSegment() + (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException("Divanotes(update): Unsupported URI " + uri);
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return count;
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:41 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

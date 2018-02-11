@@ -1,0 +1,634 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v7\internal\app\ToolbarActionBar.java" target="_blank">\test-apk\jadx_source_code\android\support\v7\internal\app\ToolbarActionBar.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="ToolbarActionBar.java" data-line="" class="code line-numbers"><code>package android.support.v7.internal.app;
+
+import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources.Theme;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBar.LayoutParams;
+import android.support.v7.app.ActionBar.OnMenuVisibilityListener;
+import android.support.v7.app.ActionBar.OnNavigationListener;
+import android.support.v7.app.ActionBar.Tab;
+import android.support.v7.appcompat.R;
+import android.support.v7.internal.view.WindowCallbackWrapper;
+import android.support.v7.internal.view.menu.ListMenuPresenter;
+import android.support.v7.internal.view.menu.MenuBuilder;
+import android.support.v7.internal.view.menu.MenuPresenter;
+import android.support.v7.internal.widget.DecorToolbar;
+import android.support.v7.internal.widget.ToolbarWidgetWrapper;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
+import android.util.TypedValue;
+import android.view.ContextThemeWrapper;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window.Callback;
+import android.widget.SpinnerAdapter;
+import java.util.ArrayList;
+
+public class ToolbarActionBar extends ActionBar {
+    private DecorToolbar mDecorToolbar;
+    private boolean mLastMenuVisibility;
+    private ListMenuPresenter mListMenuPresenter;
+    private boolean mMenuCallbackSet;
+    private final OnMenuItemClickListener mMenuClicker = new OnMenuItemClickListener() {
+        public boolean onMenuItemClick(MenuItem item) {
+            return ToolbarActionBar.this.mWindowCallback.onMenuItemSelected(0, item);
+        }
+    };
+    private final Runnable mMenuInvalidator = new Runnable() {
+        public void run() {
+            ToolbarActionBar.this.populateOptionsMenu();
+        }
+    };
+    private ArrayList&lt;OnMenuVisibilityListener&gt; mMenuVisibilityListeners = new ArrayList();
+    private boolean mToolbarMenuPrepared;
+    private Callback mWindowCallback;
+
+    private final class ActionMenuPresenterCallback implements MenuPresenter.Callback {
+        private boolean mClosingActionMenu;
+
+        private ActionMenuPresenterCallback() {
+        }
+
+        public boolean onOpenSubMenu(MenuBuilder subMenu) {
+            if (ToolbarActionBar.this.mWindowCallback == null) {
+                return false;
+            }
+            ToolbarActionBar.this.mWindowCallback.onMenuOpened(108, subMenu);
+            return true;
+        }
+
+        public void onCloseMenu(MenuBuilder menu, boolean allMenusAreClosing) {
+            if (!this.mClosingActionMenu) {
+                this.mClosingActionMenu = true;
+                ToolbarActionBar.this.mDecorToolbar.dismissPopupMenus();
+                if (ToolbarActionBar.this.mWindowCallback != null) {
+                    ToolbarActionBar.this.mWindowCallback.onPanelClosed(108, menu);
+                }
+                this.mClosingActionMenu = false;
+            }
+        }
+    }
+
+    private final class MenuBuilderCallback implements MenuBuilder.Callback {
+        private MenuBuilderCallback() {
+        }
+
+        public boolean onMenuItemSelected(MenuBuilder menu, MenuItem item) {
+            return false;
+        }
+
+        public void onMenuModeChange(MenuBuilder menu) {
+            if (ToolbarActionBar.this.mWindowCallback == null) {
+                return;
+            }
+            if (ToolbarActionBar.this.mDecorToolbar.isOverflowMenuShowing()) {
+                ToolbarActionBar.this.mWindowCallback.onPanelClosed(108, menu);
+            } else if (ToolbarActionBar.this.mWindowCallback.onPreparePanel(0, null, menu)) {
+                ToolbarActionBar.this.mWindowCallback.onMenuOpened(108, menu);
+            }
+        }
+    }
+
+    private final class PanelMenuPresenterCallback implements MenuPresenter.Callback {
+        private PanelMenuPresenterCallback() {
+        }
+
+        public void onCloseMenu(MenuBuilder menu, boolean allMenusAreClosing) {
+            if (ToolbarActionBar.this.mWindowCallback != null) {
+                ToolbarActionBar.this.mWindowCallback.onPanelClosed(0, menu);
+            }
+        }
+
+        public boolean onOpenSubMenu(MenuBuilder subMenu) {
+            if (subMenu == null &amp;&amp; ToolbarActionBar.this.mWindowCallback != null) {
+                ToolbarActionBar.this.mWindowCallback.onMenuOpened(0, subMenu);
+            }
+            return true;
+        }
+    }
+
+    private class ToolbarCallbackWrapper extends WindowCallbackWrapper {
+        public ToolbarCallbackWrapper(Callback wrapped) {
+            super(wrapped);
+        }
+
+        public boolean onPreparePanel(int featureId, View view, Menu menu) {
+            boolean result = super.onPreparePanel(featureId, view, menu);
+            if (result &amp;&amp; !ToolbarActionBar.this.mToolbarMenuPrepared) {
+                ToolbarActionBar.this.mDecorToolbar.setMenuPrepared();
+                ToolbarActionBar.this.mToolbarMenuPrepared = true;
+            }
+            return result;
+        }
+
+        public View onCreatePanelView(int featureId) {
+            switch (featureId) {
+                case 0:
+                    Menu menu = ToolbarActionBar.this.mDecorToolbar.getMenu();
+                    if (onPreparePanel(featureId, null, menu) &amp;&amp; onMenuOpened(featureId, menu)) {
+                        return ToolbarActionBar.this.getListMenuView(menu);
+                    }
+            }
+            return super.onCreatePanelView(featureId);
+        }
+    }
+
+    void populateOptionsMenu() {
+        /* JADX: method processing error */
+/*
+Error: jadx.core.utils.exceptions.JadxRuntimeException: Can't find block by offset: 0x0030 in list [B:12:0x002d]
+	at jadx.core.utils.BlockUtils.getBlockByOffset(BlockUtils.java:42)
+	at jadx.core.dex.instructions.IfNode.initBlocks(IfNode.java:60)
+	at jadx.core.dex.visitors.blocksmaker.BlockFinish.initBlocksInIfNodes(BlockFinish.java:48)
+	at jadx.core.dex.visitors.blocksmaker.BlockFinish.visit(BlockFinish.java:33)
+	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:31)
+	at jadx.core.dex.visitors.DepthTraversal.visit(DepthTraversal.java:17)
+	at jadx.core.ProcessClass.process(ProcessClass.java:37)
+	at jadx.api.JadxDecompiler.processClass(JadxDecompiler.java:306)
+	at jadx.api.JavaClass.decompile(JavaClass.java:62)
+	at jadx.api.JadxDecompiler$1.run(JadxDecompiler.java:199)
+*/
+        /*
+        r5 = this;
+        r0 = 0;
+        r1 = r5.getMenu();
+        r2 = r1 instanceof android.support.v7.internal.view.menu.MenuBuilder;
+        if (r2 == 0) goto L_0x000d;
+    L_0x0009:
+        r2 = r1;
+        r2 = (android.support.v7.internal.view.menu.MenuBuilder) r2;
+        r0 = r2;
+    L_0x000d:
+        if (r0 == 0) goto L_0x0012;
+    L_0x000f:
+        r0.stopDispatchingItemsChanged();
+    L_0x0012:
+        r1.clear();	 Catch:{ all -&gt; 0x0031 }
+        r2 = r5.mWindowCallback;	 Catch:{ all -&gt; 0x0031 }
+        r3 = 0;	 Catch:{ all -&gt; 0x0031 }
+        r2 = r2.onCreatePanelMenu(r3, r1);	 Catch:{ all -&gt; 0x0031 }
+        if (r2 == 0) goto L_0x0028;	 Catch:{ all -&gt; 0x0031 }
+    L_0x001e:
+        r2 = r5.mWindowCallback;	 Catch:{ all -&gt; 0x0031 }
+        r3 = 0;	 Catch:{ all -&gt; 0x0031 }
+        r4 = 0;	 Catch:{ all -&gt; 0x0031 }
+        r2 = r2.onPreparePanel(r3, r4, r1);	 Catch:{ all -&gt; 0x0031 }
+        if (r2 != 0) goto L_0x002b;	 Catch:{ all -&gt; 0x0031 }
+    L_0x0028:
+        r1.clear();	 Catch:{ all -&gt; 0x0031 }
+    L_0x002b:
+        if (r0 == 0) goto L_0x0030;
+    L_0x002d:
+        r0.startDispatchingItemsChanged();
+    L_0x0030:
+        return;
+    L_0x0031:
+        r2 = move-exception;
+        if (r0 == 0) goto L_0x0037;
+    L_0x0034:
+        r0.startDispatchingItemsChanged();
+    L_0x0037:
+        throw r2;
+        */
+        throw new UnsupportedOperationException("Method not decompiled: android.support.v7.internal.app.ToolbarActionBar.populateOptionsMenu():void");
+    }
+
+    public ToolbarActionBar(Toolbar toolbar, CharSequence title, Callback callback) {
+        this.mDecorToolbar = new ToolbarWidgetWrapper(toolbar, false);
+        this.mWindowCallback = new ToolbarCallbackWrapper(callback);
+        this.mDecorToolbar.setWindowCallback(this.mWindowCallback);
+        toolbar.setOnMenuItemClickListener(this.mMenuClicker);
+        this.mDecorToolbar.setWindowTitle(title);
+    }
+
+    public Callback getWrappedWindowCallback() {
+        return this.mWindowCallback;
+    }
+
+    public void setCustomView(View view) {
+        setCustomView(view, new LayoutParams(-2, -2));
+    }
+
+    public void setCustomView(View view, LayoutParams layoutParams) {
+        if (view != null) {
+            view.setLayoutParams(layoutParams);
+        }
+        this.mDecorToolbar.setCustomView(view);
+    }
+
+    public void setCustomView(int resId) {
+        setCustomView(LayoutInflater.from(this.mDecorToolbar.getContext()).inflate(resId, this.mDecorToolbar.getViewGroup(), false));
+    }
+
+    public void setIcon(int resId) {
+        this.mDecorToolbar.setIcon(resId);
+    }
+
+    public void setIcon(Drawable icon) {
+        this.mDecorToolbar.setIcon(icon);
+    }
+
+    public void setLogo(int resId) {
+        this.mDecorToolbar.setLogo(resId);
+    }
+
+    public void setLogo(Drawable logo) {
+        this.mDecorToolbar.setLogo(logo);
+    }
+
+    public void setStackedBackgroundDrawable(Drawable d) {
+    }
+
+    public void setSplitBackgroundDrawable(Drawable d) {
+    }
+
+    public void setHomeButtonEnabled(boolean enabled) {
+    }
+
+    public void setElevation(float elevation) {
+        ViewCompat.setElevation(this.mDecorToolbar.getViewGroup(), elevation);
+    }
+
+    public float getElevation() {
+        return ViewCompat.getElevation(this.mDecorToolbar.getViewGroup());
+    }
+
+    public Context getThemedContext() {
+        return this.mDecorToolbar.getContext();
+    }
+
+    public boolean isTitleTruncated() {
+        return super.isTitleTruncated();
+    }
+
+    public void setHomeAsUpIndicator(Drawable indicator) {
+        this.mDecorToolbar.setNavigationIcon(indicator);
+    }
+
+    public void setHomeAsUpIndicator(int resId) {
+        this.mDecorToolbar.setNavigationIcon(resId);
+    }
+
+    public void setHomeActionContentDescription(CharSequence description) {
+        this.mDecorToolbar.setNavigationContentDescription(description);
+    }
+
+    public void setDefaultDisplayHomeAsUpEnabled(boolean enabled) {
+    }
+
+    public void setHomeActionContentDescription(int resId) {
+        this.mDecorToolbar.setNavigationContentDescription(resId);
+    }
+
+    public void setShowHideAnimationEnabled(boolean enabled) {
+    }
+
+    public void onConfigurationChanged(Configuration config) {
+        super.onConfigurationChanged(config);
+    }
+
+    public void setListNavigationCallbacks(SpinnerAdapter adapter, OnNavigationListener callback) {
+        this.mDecorToolbar.setDropdownParams(adapter, new NavItemSelectedListener(callback));
+    }
+
+    public void setSelectedNavigationItem(int position) {
+        switch (this.mDecorToolbar.getNavigationMode()) {
+            case 1:
+                this.mDecorToolbar.setDropdownSelectedPosition(position);
+                return;
+            default:
+                throw new IllegalStateException("setSelectedNavigationIndex not valid for current navigation mode");
+        }
+    }
+
+    public int getSelectedNavigationIndex() {
+        return -1;
+    }
+
+    public int getNavigationItemCount() {
+        return 0;
+    }
+
+    public void setTitle(CharSequence title) {
+        this.mDecorToolbar.setTitle(title);
+    }
+
+    public void setTitle(int resId) {
+        this.mDecorToolbar.setTitle(resId != 0 ? this.mDecorToolbar.getContext().getText(resId) : null);
+    }
+
+    public void setWindowTitle(CharSequence title) {
+        this.mDecorToolbar.setWindowTitle(title);
+    }
+
+    public void setSubtitle(CharSequence subtitle) {
+        this.mDecorToolbar.setSubtitle(subtitle);
+    }
+
+    public void setSubtitle(int resId) {
+        this.mDecorToolbar.setSubtitle(resId != 0 ? this.mDecorToolbar.getContext().getText(resId) : null);
+    }
+
+    public void setDisplayOptions(int options) {
+        setDisplayOptions(options, -1);
+    }
+
+    public void setDisplayOptions(int options, int mask) {
+        this.mDecorToolbar.setDisplayOptions((options &amp; mask) | ((mask ^ -1) &amp; this.mDecorToolbar.getDisplayOptions()));
+    }
+
+    public void setDisplayUseLogoEnabled(boolean useLogo) {
+        setDisplayOptions(useLogo ? 1 : 0, 1);
+    }
+
+    public void setDisplayShowHomeEnabled(boolean showHome) {
+        setDisplayOptions(showHome ? 2 : 0, 2);
+    }
+
+    public void setDisplayHomeAsUpEnabled(boolean showHomeAsUp) {
+        setDisplayOptions(showHomeAsUp ? 4 : 0, 4);
+    }
+
+    public void setDisplayShowTitleEnabled(boolean showTitle) {
+        setDisplayOptions(showTitle ? 8 : 0, 8);
+    }
+
+    public void setDisplayShowCustomEnabled(boolean showCustom) {
+        setDisplayOptions(showCustom ? 16 : 0, 16);
+    }
+
+    public void setBackgroundDrawable(@Nullable Drawable d) {
+        this.mDecorToolbar.setBackgroundDrawable(d);
+    }
+
+    public View getCustomView() {
+        return this.mDecorToolbar.getCustomView();
+    }
+
+    public CharSequence getTitle() {
+        return this.mDecorToolbar.getTitle();
+    }
+
+    public CharSequence getSubtitle() {
+        return this.mDecorToolbar.getSubtitle();
+    }
+
+    public int getNavigationMode() {
+        return 0;
+    }
+
+    public void setNavigationMode(int mode) {
+        if (mode == 2) {
+            throw new IllegalArgumentException("Tabs not supported in this configuration");
+        }
+        this.mDecorToolbar.setNavigationMode(mode);
+    }
+
+    public int getDisplayOptions() {
+        return this.mDecorToolbar.getDisplayOptions();
+    }
+
+    public Tab newTab() {
+        throw new UnsupportedOperationException("Tabs are not supported in toolbar action bars");
+    }
+
+    public void addTab(Tab tab) {
+        throw new UnsupportedOperationException("Tabs are not supported in toolbar action bars");
+    }
+
+    public void addTab(Tab tab, boolean setSelected) {
+        throw new UnsupportedOperationException("Tabs are not supported in toolbar action bars");
+    }
+
+    public void addTab(Tab tab, int position) {
+        throw new UnsupportedOperationException("Tabs are not supported in toolbar action bars");
+    }
+
+    public void addTab(Tab tab, int position, boolean setSelected) {
+        throw new UnsupportedOperationException("Tabs are not supported in toolbar action bars");
+    }
+
+    public void removeTab(Tab tab) {
+        throw new UnsupportedOperationException("Tabs are not supported in toolbar action bars");
+    }
+
+    public void removeTabAt(int position) {
+        throw new UnsupportedOperationException("Tabs are not supported in toolbar action bars");
+    }
+
+    public void removeAllTabs() {
+        throw new UnsupportedOperationException("Tabs are not supported in toolbar action bars");
+    }
+
+    public void selectTab(Tab tab) {
+        throw new UnsupportedOperationException("Tabs are not supported in toolbar action bars");
+    }
+
+    public Tab getSelectedTab() {
+        throw new UnsupportedOperationException("Tabs are not supported in toolbar action bars");
+    }
+
+    public Tab getTabAt(int index) {
+        throw new UnsupportedOperationException("Tabs are not supported in toolbar action bars");
+    }
+
+    public int getTabCount() {
+        return 0;
+    }
+
+    public int getHeight() {
+        return this.mDecorToolbar.getHeight();
+    }
+
+    public void show() {
+        this.mDecorToolbar.setVisibility(0);
+    }
+
+    public void hide() {
+        this.mDecorToolbar.setVisibility(8);
+    }
+
+    public boolean isShowing() {
+        return this.mDecorToolbar.getVisibility() == 0;
+    }
+
+    public boolean openOptionsMenu() {
+        return this.mDecorToolbar.showOverflowMenu();
+    }
+
+    public boolean invalidateOptionsMenu() {
+        this.mDecorToolbar.getViewGroup().removeCallbacks(this.mMenuInvalidator);
+        ViewCompat.postOnAnimation(this.mDecorToolbar.getViewGroup(), this.mMenuInvalidator);
+        return true;
+    }
+
+    public boolean collapseActionView() {
+        if (!this.mDecorToolbar.hasExpandedActionView()) {
+            return false;
+        }
+        this.mDecorToolbar.collapseActionView();
+        return true;
+    }
+
+    public boolean onMenuKeyEvent(KeyEvent event) {
+        if (event.getAction() == 1) {
+            openOptionsMenu();
+        }
+        return true;
+    }
+
+    public boolean onKeyShortcut(int keyCode, KeyEvent ev) {
+        Menu menu = getMenu();
+        if (menu != null) {
+            boolean z;
+            if (KeyCharacterMap.load(ev != null ? ev.getDeviceId() : -1).getKeyboardType() != 1) {
+                z = true;
+            } else {
+                z = false;
+            }
+            menu.setQwertyMode(z);
+            menu.performShortcut(keyCode, ev, 0);
+        }
+        return true;
+    }
+
+    public void addOnMenuVisibilityListener(OnMenuVisibilityListener listener) {
+        this.mMenuVisibilityListeners.add(listener);
+    }
+
+    public void removeOnMenuVisibilityListener(OnMenuVisibilityListener listener) {
+        this.mMenuVisibilityListeners.remove(listener);
+    }
+
+    public void dispatchMenuVisibilityChanged(boolean isVisible) {
+        if (isVisible != this.mLastMenuVisibility) {
+            this.mLastMenuVisibility = isVisible;
+            int count = this.mMenuVisibilityListeners.size();
+            for (int i = 0; i &lt; count; i++) {
+                ((OnMenuVisibilityListener) this.mMenuVisibilityListeners.get(i)).onMenuVisibilityChanged(isVisible);
+            }
+        }
+    }
+
+    private View getListMenuView(Menu menu) {
+        ensureListMenuPresenter(menu);
+        if (menu == null || this.mListMenuPresenter == null || this.mListMenuPresenter.getAdapter().getCount() &lt;= 0) {
+            return null;
+        }
+        return (View) this.mListMenuPresenter.getMenuView(this.mDecorToolbar.getViewGroup());
+    }
+
+    private void ensureListMenuPresenter(Menu menu) {
+        if (this.mListMenuPresenter == null &amp;&amp; (menu instanceof MenuBuilder)) {
+            MenuBuilder mb = (MenuBuilder) menu;
+            Context context = this.mDecorToolbar.getContext();
+            TypedValue outValue = new TypedValue();
+            Theme widgetTheme = context.getResources().newTheme();
+            widgetTheme.setTo(context.getTheme());
+            widgetTheme.resolveAttribute(R.attr.actionBarPopupTheme, outValue, true);
+            if (outValue.resourceId != 0) {
+                widgetTheme.applyStyle(outValue.resourceId, true);
+            }
+            widgetTheme.resolveAttribute(R.attr.panelMenuListTheme, outValue, true);
+            if (outValue.resourceId != 0) {
+                widgetTheme.applyStyle(outValue.resourceId, true);
+            } else {
+                widgetTheme.applyStyle(R.style.Theme_AppCompat_CompactMenu, true);
+            }
+            Context context2 = new ContextThemeWrapper(context, 0);
+            context2.getTheme().setTo(widgetTheme);
+            this.mListMenuPresenter = new ListMenuPresenter(context2, R.layout.abc_list_menu_item_layout);
+            this.mListMenuPresenter.setCallback(new PanelMenuPresenterCallback());
+            mb.addMenuPresenter(this.mListMenuPresenter);
+        }
+    }
+
+    private Menu getMenu() {
+        if (!this.mMenuCallbackSet) {
+            this.mDecorToolbar.setMenuCallbacks(new ActionMenuPresenterCallback(), new MenuBuilderCallback());
+            this.mMenuCallbackSet = true;
+        }
+        return this.mDecorToolbar.getMenu();
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:41 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

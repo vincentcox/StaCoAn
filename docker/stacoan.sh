@@ -7,10 +7,10 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-python /StaCoAn/main.py $@
+python /StaCoAn/src/main.py $@
 # https://stackoverflow.com/questions/90418/exit-shell-script-based-on-process-exit-code
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 
 # Redirect to start.html
-echo '<meta http-equiv="refresh" content="0; url=/start.html" />' > /StaCoAn/report/index.html
-cd /StaCoAn/report/ && python -m http.server
+echo '<meta http-equiv="refresh" content="0; url=/start.html" />' > /StaCoAn/src/report/index.html
+cd /StaCoAn/src/report/ && python -m http.server

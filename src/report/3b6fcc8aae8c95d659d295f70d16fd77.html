@@ -1,0 +1,238 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v4\widget\SwipeProgressBar.java" target="_blank">\test-apk\jadx_source_code\android\support\v4\widget\SwipeProgressBar.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="SwipeProgressBar.java" data-line="" class="code line-numbers"><code>package android.support.v4.widget;
+
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
+
+final class SwipeProgressBar {
+    private static final int ANIMATION_DURATION_MS = 2000;
+    private static final int COLOR1 = -1291845632;
+    private static final int COLOR2 = Integer.MIN_VALUE;
+    private static final int COLOR3 = 1291845632;
+    private static final int COLOR4 = 436207616;
+    private static final int FINISH_ANIMATION_DURATION_MS = 1000;
+    private static final Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();
+    private Rect mBounds = new Rect();
+    private final RectF mClipRect = new RectF();
+    private int mColor1;
+    private int mColor2;
+    private int mColor3;
+    private int mColor4;
+    private long mFinishTime;
+    private final Paint mPaint = new Paint();
+    private View mParent;
+    private boolean mRunning;
+    private long mStartTime;
+    private float mTriggerPercentage;
+
+    public SwipeProgressBar(View parent) {
+        this.mParent = parent;
+        this.mColor1 = COLOR1;
+        this.mColor2 = Integer.MIN_VALUE;
+        this.mColor3 = COLOR3;
+        this.mColor4 = COLOR4;
+    }
+
+    void setColorScheme(int color1, int color2, int color3, int color4) {
+        this.mColor1 = color1;
+        this.mColor2 = color2;
+        this.mColor3 = color3;
+        this.mColor4 = color4;
+    }
+
+    void setTriggerPercentage(float triggerPercentage) {
+        this.mTriggerPercentage = triggerPercentage;
+        this.mStartTime = 0;
+        ViewCompat.postInvalidateOnAnimation(this.mParent, this.mBounds.left, this.mBounds.top, this.mBounds.right, this.mBounds.bottom);
+    }
+
+    void start() {
+        if (!this.mRunning) {
+            this.mTriggerPercentage = 0.0f;
+            this.mStartTime = AnimationUtils.currentAnimationTimeMillis();
+            this.mRunning = true;
+            this.mParent.postInvalidate();
+        }
+    }
+
+    void stop() {
+        if (this.mRunning) {
+            this.mTriggerPercentage = 0.0f;
+            this.mFinishTime = AnimationUtils.currentAnimationTimeMillis();
+            this.mRunning = false;
+            this.mParent.postInvalidate();
+        }
+    }
+
+    boolean isRunning() {
+        return this.mRunning || this.mFinishTime &gt; 0;
+    }
+
+    void draw(Canvas canvas) {
+        int width = this.mBounds.width();
+        int height = this.mBounds.height();
+        int cx = width / 2;
+        int cy = height / 2;
+        boolean drawTriggerWhileFinishing = false;
+        int restoreCount = canvas.save();
+        canvas.clipRect(this.mBounds);
+        if (this.mRunning || this.mFinishTime &gt; 0) {
+            Canvas canvas2;
+            long now = AnimationUtils.currentAnimationTimeMillis();
+            long iterations = (now - this.mStartTime) / 2000;
+            float rawProgress = ((float) ((now - this.mStartTime) % 2000)) / 20.0f;
+            if (!this.mRunning) {
+                if (now - this.mFinishTime &gt;= 1000) {
+                    this.mFinishTime = 0;
+                    return;
+                }
+                float clearRadius = ((float) (width / 2)) * INTERPOLATOR.getInterpolation((((float) ((now - this.mFinishTime) % 1000)) / 10.0f) / 100.0f);
+                this.mClipRect.set(((float) cx) - clearRadius, 0.0f, ((float) cx) + clearRadius, (float) height);
+                canvas.saveLayerAlpha(this.mClipRect, 0, 0);
+                drawTriggerWhileFinishing = true;
+            }
+            if (iterations == 0) {
+                canvas.drawColor(this.mColor1);
+            } else if (rawProgress &gt;= 0.0f &amp;&amp; rawProgress &lt; 25.0f) {
+                canvas.drawColor(this.mColor4);
+            } else if (rawProgress &gt;= 25.0f &amp;&amp; rawProgress &lt; 50.0f) {
+                canvas.drawColor(this.mColor1);
+            } else if (rawProgress &lt; 50.0f || rawProgress &gt;= 75.0f) {
+                canvas.drawColor(this.mColor3);
+            } else {
+                canvas.drawColor(this.mColor2);
+            }
+            if (rawProgress &gt;= 0.0f &amp;&amp; rawProgress &lt;= 25.0f) {
+                canvas2 = canvas;
+                drawCircle(canvas2, (float) cx, (float) cy, this.mColor1, ((25.0f + rawProgress) * 2.0f) / 100.0f);
+            }
+            if (rawProgress &gt;= 0.0f &amp;&amp; rawProgress &lt;= 50.0f) {
+                canvas2 = canvas;
+                drawCircle(canvas2, (float) cx, (float) cy, this.mColor2, (2.0f * rawProgress) / 100.0f);
+            }
+            if (rawProgress &gt;= 25.0f &amp;&amp; rawProgress &lt;= 75.0f) {
+                canvas2 = canvas;
+                drawCircle(canvas2, (float) cx, (float) cy, this.mColor3, ((rawProgress - 25.0f) * 2.0f) / 100.0f);
+            }
+            if (rawProgress &gt;= 50.0f &amp;&amp; rawProgress &lt;= 100.0f) {
+                canvas2 = canvas;
+                drawCircle(canvas2, (float) cx, (float) cy, this.mColor4, ((rawProgress - 50.0f) * 2.0f) / 100.0f);
+            }
+            if (rawProgress &gt;= 75.0f &amp;&amp; rawProgress &lt;= 100.0f) {
+                canvas2 = canvas;
+                drawCircle(canvas2, (float) cx, (float) cy, this.mColor1, ((rawProgress - 75.0f) * 2.0f) / 100.0f);
+            }
+            if (this.mTriggerPercentage &gt; 0.0f &amp;&amp; drawTriggerWhileFinishing) {
+                canvas.restoreToCount(restoreCount);
+                restoreCount = canvas.save();
+                canvas.clipRect(this.mBounds);
+                drawTrigger(canvas, cx, cy);
+            }
+            ViewCompat.postInvalidateOnAnimation(this.mParent, this.mBounds.left, this.mBounds.top, this.mBounds.right, this.mBounds.bottom);
+        } else if (this.mTriggerPercentage &gt; 0.0f &amp;&amp; ((double) this.mTriggerPercentage) &lt;= 1.0d) {
+            drawTrigger(canvas, cx, cy);
+        }
+        canvas.restoreToCount(restoreCount);
+    }
+
+    private void drawTrigger(Canvas canvas, int cx, int cy) {
+        this.mPaint.setColor(this.mColor1);
+        canvas.drawCircle((float) cx, (float) cy, ((float) cx) * this.mTriggerPercentage, this.mPaint);
+    }
+
+    private void drawCircle(Canvas canvas, float cx, float cy, int color, float pct) {
+        this.mPaint.setColor(color);
+        canvas.save();
+        canvas.translate(cx, cy);
+        float radiusScale = INTERPOLATOR.getInterpolation(pct);
+        canvas.scale(radiusScale, radiusScale);
+        canvas.drawCircle(0.0f, 0.0f, cx, this.mPaint);
+        canvas.restore();
+    }
+
+    void setBounds(int left, int top, int right, int bottom) {
+        this.mBounds.left = left;
+        this.mBounds.top = top;
+        this.mBounds.right = right;
+        this.mBounds.bottom = bottom;
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:41 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

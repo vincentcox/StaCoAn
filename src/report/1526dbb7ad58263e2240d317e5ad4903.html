@@ -1,0 +1,125 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9"><div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\jakhar\aseem\diva\InsecureDataStorage2Activity.java" target="_blank">\test-apk\jadx_source_code\jakhar\aseem\diva\InsecureDataStorage2Activity.java</a></div><div class="col s12"><div class="card"><div class="valign-wrapper"><i class="material-icons medium grade-10">report</i><h5>regex: password</h5></div><div class="card-tabs"><ul class="tabs tabs-fixed-width" style="background-color: #30363A !important;"><li class="tab"><a style="color: #d82c2b;" href="#InsecureDataStorage2Activity_java18pass" class="active">line 18</a></li></ul></div><div class="card-content"><div id="InsecureDataStorage2Activity_java18pass">Code @ line 18<pre data-start="15" data-line="18" data-src="InsecureDataStorage2Activity.java" class="code line-numbers"><code>        super.onCreate(savedInstanceState);
+        try {
+            this.mDB = openOrCreateDatabase("ids2", 0, null);
+            this.mDB.execSQL("CREATE TABLE IF NOT EXISTS myuser(user VARCHAR, password VARCHAR);");
+        } catch (Exception e) {
+            Log.d("Diva", "Error occurred while creating database: " + e.getMessage());
+        }
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcSW5zZWN1cmVEYXRhU3RvcmFnZTJBY3Rpdml0eS5qYXZhfHx8bGluZTogMTggOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwxOHx8fDE1">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcSW5zZWN1cmVEYXRhU3RvcmFnZTJBY3Rpdml0eS5qYXZhfHx8bGluZTogMTggOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwxOHx8fDE1')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcSW5zZWN1cmVEYXRhU3RvcmFnZTJBY3Rpdml0eS5qYXZhfHx8bGluZTogMTggOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwxOHx8fDE1').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcSW5zZWN1cmVEYXRhU3RvcmFnZTJBY3Rpdml0eS5qYXZhfHx8bGluZTogMTggOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwxOHx8fDE1" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcSW5zZWN1cmVEYXRhU3RvcmFnZTJBY3Rpdml0eS5qYXZhfHx8bGluZTogMTggOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwxOHx8fDE1' , 'ICAgICAgICBzdXBlci5vbkNyZWF0ZShzYXZlZEluc3RhbmNlU3RhdGUpOwogICAgICAgIHRyeSB7CiAgICAgICAgICAgIHRoaXMubURCID0gb3Blbk9yQ3JlYXRlRGF0YWJhc2UoImlkczIiLCAwLCBudWxsKTsKICAgICAgICAgICAgdGhpcy5tREIuZXhlY1NRTCgiQ1JFQVRFIFRBQkxFIElGIE5PVCBFWElTVFMgbXl1c2VyKHVzZXIgVkFSQ0hBUiwgcGFzc3dvcmQgVkFSQ0hBUik7Iik7CiAgICAgICAgfSBjYXRjaCAoRXhjZXB0aW9uIGUpIHsKICAgICAgICAgICAgTG9nLmQoIkRpdmEiLCAiRXJyb3Igb2NjdXJyZWQgd2hpbGUgY3JlYXRpbmcgZGF0YWJhc2U6ICIgKyBlLmdldE1lc3NhZ2UoKSk7CiAgICAgICAgfQo=');  
+                                            });
+                                            </script>
+                                            </div></div></div></div><div class="col s12"><div class="card"><div class="valign-wrapper"><i class="material-icons medium grade-40">report</i><h5>regex: INSERT INTO .* VALUES</h5></div><div class="card-tabs"><ul class="tabs tabs-fixed-width" style="background-color: #30363A !important;"><li class="tab"><a style="color: #d82c2b;" href="#InsecureDataStorage2Activity_java27INSE" class="active">line 27</a></li></ul></div><div class="card-content"><div id="InsecureDataStorage2Activity_java27INSE">Code @ line 27<pre data-start="24" data-line="27" data-src="InsecureDataStorage2Activity.java" class="code line-numbers"><code>
+    public void saveCredentials(View view) {
+        try {
+            this.mDB.execSQL("INSERT INTO myuser VALUES ('" + ((EditText) findViewById(R.id.ids2Usr)).getText().toString() + "', '" + ((EditText) findViewById(R.id.ids2Pwd)).getText().toString() + "');");
+            this.mDB.close();
+        } catch (Exception e) {
+            Log.d("Diva", "Error occurred while inserting into database: " + e.getMessage());
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcSW5zZWN1cmVEYXRhU3RvcmFnZTJBY3Rpdml0eS5qYXZhfHx8bGluZTogMjcgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDI3fHx8MjQ">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcSW5zZWN1cmVEYXRhU3RvcmFnZTJBY3Rpdml0eS5qYXZhfHx8bGluZTogMjcgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDI3fHx8MjQ')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcSW5zZWN1cmVEYXRhU3RvcmFnZTJBY3Rpdml0eS5qYXZhfHx8bGluZTogMjcgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDI3fHx8MjQ').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcSW5zZWN1cmVEYXRhU3RvcmFnZTJBY3Rpdml0eS5qYXZhfHx8bGluZTogMjcgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDI3fHx8MjQ" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcamFraGFyXGFzZWVtXGRpdmFcSW5zZWN1cmVEYXRhU3RvcmFnZTJBY3Rpdml0eS5qYXZhfHx8bGluZTogMjcgOiBJTlNFUlQgSU5UTyAuKiBWQUxVRVN8fHw0MHx8fElOU0VSVCBJTlRPIC4qIFZBTFVFU3x8fDI3fHx8MjQ' , 'CiAgICBwdWJsaWMgdm9pZCBzYXZlQ3JlZGVudGlhbHMoVmlldyB2aWV3KSB7CiAgICAgICAgdHJ5IHsKICAgICAgICAgICAgdGhpcy5tREIuZXhlY1NRTCgiSU5TRVJUIElOVE8gbXl1c2VyIFZBTFVFUyAoJyIgKyAoKEVkaXRUZXh0KSBmaW5kVmlld0J5SWQoUi5pZC5pZHMyVXNyKSkuZ2V0VGV4dCgpLnRvU3RyaW5nKCkgKyAiJywgJyIgKyAoKEVkaXRUZXh0KSBmaW5kVmlld0J5SWQoUi5pZC5pZHMyUHdkKSkuZ2V0VGV4dCgpLnRvU3RyaW5nKCkgKyAiJyk7Iik7CiAgICAgICAgICAgIHRoaXMubURCLmNsb3NlKCk7CiAgICAgICAgfSBjYXRjaCAoRXhjZXB0aW9uIGUpIHsKICAgICAgICAgICAgTG9nLmQoIkRpdmEiLCAiRXJyb3Igb2NjdXJyZWQgd2hpbGUgaW5zZXJ0aW5nIGludG8gZGF0YWJhc2U6ICIgKyBlLmdldE1lc3NhZ2UoKSk7Cg==');  
+                                            });
+                                            </script>
+                                            </div></div></div></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="InsecureDataStorage2Activity.java" data-line="18,27," class="code line-numbers"><code>package jakhar.aseem.diva;
+
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class InsecureDataStorage2Activity extends AppCompatActivity {
+    private SQLiteDatabase mDB;
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        try {
+            this.mDB = openOrCreateDatabase("ids2", 0, null);
+            this.mDB.execSQL("CREATE TABLE IF NOT EXISTS myuser(user VARCHAR, password VARCHAR);");
+        } catch (Exception e) {
+            Log.d("Diva", "Error occurred while creating database: " + e.getMessage());
+        }
+        setContentView((int) R.layout.activity_insecure_data_storage2);
+    }
+
+    public void saveCredentials(View view) {
+        try {
+            this.mDB.execSQL("INSERT INTO myuser VALUES ('" + ((EditText) findViewById(R.id.ids2Usr)).getText().toString() + "', '" + ((EditText) findViewById(R.id.ids2Pwd)).getText().toString() + "');");
+            this.mDB.close();
+        } catch (Exception e) {
+            Log.d("Diva", "Error occurred while inserting into database: " + e.getMessage());
+        }
+        Toast.makeText(this, "3rd party credentials saved successfully!", 0).show();
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:41 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

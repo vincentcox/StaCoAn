@@ -1,0 +1,914 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9"><div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v4\view\accessibility\AccessibilityRecordCompat.java" target="_blank">\test-apk\jadx_source_code\android\support\v4\view\accessibility\AccessibilityRecordCompat.java</a></div><div class="col s12"><div class="card"><div class="valign-wrapper"><i class="material-icons medium grade-10">report</i><h5>regex: password</h5></div><div class="card-tabs"><ul class="tabs tabs-fixed-width" style="background-color: #30363A !important;"><li class="tab"><a style="color: #d82c2b;" href="#AccessibilityRecordCompat_java54pass" class="active">line 54</a></li><li class="tab"><a style="color: #d82c2b;" href="#AccessibilityRecordCompat_java90pass">line 90</a></li><li class="tab"><a style="color: #d82c2b;" href="#AccessibilityRecordCompat_java199pass">line 199</a></li><li class="tab"><a style="color: #d82c2b;" href="#AccessibilityRecordCompat_java249pass">line 249</a></li><li class="tab"><a style="color: #d82c2b;" href="#AccessibilityRecordCompat_java358pass">line 358</a></li><li class="tab"><a style="color: #d82c2b;" href="#AccessibilityRecordCompat_java359pass">line 359</a></li><li class="tab"><a style="color: #d82c2b;" href="#AccessibilityRecordCompat_java414pass">line 414</a></li><li class="tab"><a style="color: #d82c2b;" href="#AccessibilityRecordCompat_java415pass">line 415</a></li><li class="tab"><a style="color: #d82c2b;" href="#AccessibilityRecordCompat_java533pass">line 533</a></li><li class="tab"><a style="color: #d82c2b;" href="#AccessibilityRecordCompat_java534pass">line 534</a></li><li class="tab"><a style="color: #d82c2b;" href="#AccessibilityRecordCompat_java537pass">line 537</a></li><li class="tab"><a style="color: #d82c2b;" href="#AccessibilityRecordCompat_java538pass">line 538</a></li></ul></div><div class="card-content"><div id="AccessibilityRecordCompat_java54pass">Code @ line 54<pre data-start="51" data-line="54" data-src="AccessibilityRecordCompat.java" class="code line-numbers"><code>
+        boolean isFullScreen(Object obj);
+
+        boolean isPassword(Object obj);
+
+        boolean isScrollable(Object obj);
+
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1NCA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDU0fHx8NTE">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1NCA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDU0fHx8NTE')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1NCA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDU0fHx8NTE').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1NCA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDU0fHx8NTE" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1NCA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDU0fHx8NTE' , 'CiAgICAgICAgYm9vbGVhbiBpc0Z1bGxTY3JlZW4oT2JqZWN0IG9iaik7CgogICAgICAgIGJvb2xlYW4gaXNQYXNzd29yZChPYmplY3Qgb2JqKTsKCiAgICAgICAgYm9vbGVhbiBpc1Njcm9sbGFibGUoT2JqZWN0IG9iaik7Cgo=');  
+                                            });
+                                            </script>
+                                            </div><div id="AccessibilityRecordCompat_java90pass">Code @ line 90<pre data-start="87" data-line="90" data-src="AccessibilityRecordCompat.java" class="code line-numbers"><code>
+        void setParcelableData(Object obj, Parcelable parcelable);
+
+        void setPassword(Object obj, boolean z);
+
+        void setRemovedCount(Object obj, int i);
+
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA5MCA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDkwfHx8ODc">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA5MCA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDkwfHx8ODc')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA5MCA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDkwfHx8ODc').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA5MCA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDkwfHx8ODc" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA5MCA6IHBhc3N3b3JkfHx8MTB8fHxwYXNzd29yZHx8fDkwfHx8ODc' , 'CiAgICAgICAgdm9pZCBzZXRQYXJjZWxhYmxlRGF0YShPYmplY3Qgb2JqLCBQYXJjZWxhYmxlIHBhcmNlbGFibGUpOwoKICAgICAgICB2b2lkIHNldFBhc3N3b3JkKE9iamVjdCBvYmosIGJvb2xlYW4geik7CgogICAgICAgIHZvaWQgc2V0UmVtb3ZlZENvdW50KE9iamVjdCBvYmosIGludCBpKTsKCg==');  
+                                            });
+                                            </script>
+                                            </div><div id="AccessibilityRecordCompat_java199pass">Code @ line 199<pre data-start="196" data-line="199" data-src="AccessibilityRecordCompat.java" class="code line-numbers"><code>            return false;
+        }
+
+        public boolean isPassword(Object record) {
+            return false;
+        }
+
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAxOTkgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwxOTl8fHwxOTY">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAxOTkgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwxOTl8fHwxOTY')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAxOTkgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwxOTl8fHwxOTY').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAxOTkgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwxOTl8fHwxOTY" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAxOTkgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwxOTl8fHwxOTY' , 'ICAgICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgICAgIH0KCiAgICAgICAgcHVibGljIGJvb2xlYW4gaXNQYXNzd29yZChPYmplY3QgcmVjb3JkKSB7CiAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICB9Cgo=');  
+                                            });
+                                            </script>
+                                            </div><div id="AccessibilityRecordCompat_java249pass">Code @ line 249<pre data-start="246" data-line="249" data-src="AccessibilityRecordCompat.java" class="code line-numbers"><code>        public void setParcelableData(Object record, Parcelable parcelableData) {
+        }
+
+        public void setPassword(Object record, boolean isPassword) {
+        }
+
+        public void setRemovedCount(Object record, int removedCount) {
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAyNDkgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwyNDl8fHwyNDY">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAyNDkgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwyNDl8fHwyNDY')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAyNDkgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwyNDl8fHwyNDY').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAyNDkgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwyNDl8fHwyNDY" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAyNDkgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwyNDl8fHwyNDY' , 'ICAgICAgICBwdWJsaWMgdm9pZCBzZXRQYXJjZWxhYmxlRGF0YShPYmplY3QgcmVjb3JkLCBQYXJjZWxhYmxlIHBhcmNlbGFibGVEYXRhKSB7CiAgICAgICAgfQoKICAgICAgICBwdWJsaWMgdm9pZCBzZXRQYXNzd29yZChPYmplY3QgcmVjb3JkLCBib29sZWFuIGlzUGFzc3dvcmQpIHsKICAgICAgICB9CgogICAgICAgIHB1YmxpYyB2b2lkIHNldFJlbW92ZWRDb3VudChPYmplY3QgcmVjb3JkLCBpbnQgcmVtb3ZlZENvdW50KSB7Cg==');  
+                                            });
+                                            </script>
+                                            </div><div id="AccessibilityRecordCompat_java358pass">Code @ line 358<pre data-start="355" data-line="358" data-src="AccessibilityRecordCompat.java" class="code line-numbers"><code>            return AccessibilityRecordCompatIcs.isFullScreen(record);
+        }
+
+        public boolean isPassword(Object record) {
+            return AccessibilityRecordCompatIcs.isPassword(record);
+        }
+
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAzNTggOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwzNTh8fHwzNTU">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAzNTggOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwzNTh8fHwzNTU')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAzNTggOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwzNTh8fHwzNTU').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAzNTggOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwzNTh8fHwzNTU" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAzNTggOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwzNTh8fHwzNTU' , 'ICAgICAgICAgICAgcmV0dXJuIEFjY2Vzc2liaWxpdHlSZWNvcmRDb21wYXRJY3MuaXNGdWxsU2NyZWVuKHJlY29yZCk7CiAgICAgICAgfQoKICAgICAgICBwdWJsaWMgYm9vbGVhbiBpc1Bhc3N3b3JkKE9iamVjdCByZWNvcmQpIHsKICAgICAgICAgICAgcmV0dXJuIEFjY2Vzc2liaWxpdHlSZWNvcmRDb21wYXRJY3MuaXNQYXNzd29yZChyZWNvcmQpOwogICAgICAgIH0KCg==');  
+                                            });
+                                            </script>
+                                            </div><div id="AccessibilityRecordCompat_java359pass">Code @ line 359<pre data-start="356" data-line="359" data-src="AccessibilityRecordCompat.java" class="code line-numbers"><code>        }
+
+        public boolean isPassword(Object record) {
+            return AccessibilityRecordCompatIcs.isPassword(record);
+        }
+
+        public boolean isScrollable(Object record) {
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAzNTkgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwzNTl8fHwzNTY">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAzNTkgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwzNTl8fHwzNTY')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAzNTkgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwzNTl8fHwzNTY').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAzNTkgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwzNTl8fHwzNTY" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiAzNTkgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHwzNTl8fHwzNTY' , 'ICAgICAgICB9CgogICAgICAgIHB1YmxpYyBib29sZWFuIGlzUGFzc3dvcmQoT2JqZWN0IHJlY29yZCkgewogICAgICAgICAgICByZXR1cm4gQWNjZXNzaWJpbGl0eVJlY29yZENvbXBhdEljcy5pc1Bhc3N3b3JkKHJlY29yZCk7CiAgICAgICAgfQoKICAgICAgICBwdWJsaWMgYm9vbGVhbiBpc1Njcm9sbGFibGUoT2JqZWN0IHJlY29yZCkgewo=');  
+                                            });
+                                            </script>
+                                            </div><div id="AccessibilityRecordCompat_java414pass">Code @ line 414<pre data-start="411" data-line="414" data-src="AccessibilityRecordCompat.java" class="code line-numbers"><code>            AccessibilityRecordCompatIcs.setParcelableData(record, parcelableData);
+        }
+
+        public void setPassword(Object record, boolean isPassword) {
+            AccessibilityRecordCompatIcs.setPassword(record, isPassword);
+        }
+
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA0MTQgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw0MTR8fHw0MTE">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA0MTQgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw0MTR8fHw0MTE')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA0MTQgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw0MTR8fHw0MTE').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA0MTQgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw0MTR8fHw0MTE" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA0MTQgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw0MTR8fHw0MTE' , 'ICAgICAgICAgICAgQWNjZXNzaWJpbGl0eVJlY29yZENvbXBhdEljcy5zZXRQYXJjZWxhYmxlRGF0YShyZWNvcmQsIHBhcmNlbGFibGVEYXRhKTsKICAgICAgICB9CgogICAgICAgIHB1YmxpYyB2b2lkIHNldFBhc3N3b3JkKE9iamVjdCByZWNvcmQsIGJvb2xlYW4gaXNQYXNzd29yZCkgewogICAgICAgICAgICBBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0SWNzLnNldFBhc3N3b3JkKHJlY29yZCwgaXNQYXNzd29yZCk7CiAgICAgICAgfQoK');  
+                                            });
+                                            </script>
+                                            </div><div id="AccessibilityRecordCompat_java415pass">Code @ line 415<pre data-start="412" data-line="415" data-src="AccessibilityRecordCompat.java" class="code line-numbers"><code>        }
+
+        public void setPassword(Object record, boolean isPassword) {
+            AccessibilityRecordCompatIcs.setPassword(record, isPassword);
+        }
+
+        public void setRemovedCount(Object record, int removedCount) {
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA0MTUgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw0MTV8fHw0MTI">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA0MTUgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw0MTV8fHw0MTI')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA0MTUgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw0MTV8fHw0MTI').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA0MTUgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw0MTV8fHw0MTI" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA0MTUgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw0MTV8fHw0MTI' , 'ICAgICAgICB9CgogICAgICAgIHB1YmxpYyB2b2lkIHNldFBhc3N3b3JkKE9iamVjdCByZWNvcmQsIGJvb2xlYW4gaXNQYXNzd29yZCkgewogICAgICAgICAgICBBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0SWNzLnNldFBhc3N3b3JkKHJlY29yZCwgaXNQYXNzd29yZCk7CiAgICAgICAgfQoKICAgICAgICBwdWJsaWMgdm9pZCBzZXRSZW1vdmVkQ291bnQoT2JqZWN0IHJlY29yZCwgaW50IHJlbW92ZWRDb3VudCkgewo=');  
+                                            });
+                                            </script>
+                                            </div><div id="AccessibilityRecordCompat_java533pass">Code @ line 533<pre data-start="530" data-line="533" data-src="AccessibilityRecordCompat.java" class="code line-numbers"><code>        IMPL.setEnabled(this.mRecord, isEnabled);
+    }
+
+    public boolean isPassword() {
+        return IMPL.isPassword(this.mRecord);
+    }
+
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzMgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1MzN8fHw1MzA">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzMgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1MzN8fHw1MzA')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzMgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1MzN8fHw1MzA').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzMgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1MzN8fHw1MzA" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzMgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1MzN8fHw1MzA' , 'ICAgICAgICBJTVBMLnNldEVuYWJsZWQodGhpcy5tUmVjb3JkLCBpc0VuYWJsZWQpOwogICAgfQoKICAgIHB1YmxpYyBib29sZWFuIGlzUGFzc3dvcmQoKSB7CiAgICAgICAgcmV0dXJuIElNUEwuaXNQYXNzd29yZCh0aGlzLm1SZWNvcmQpOwogICAgfQoK');  
+                                            });
+                                            </script>
+                                            </div><div id="AccessibilityRecordCompat_java534pass">Code @ line 534<pre data-start="531" data-line="534" data-src="AccessibilityRecordCompat.java" class="code line-numbers"><code>    }
+
+    public boolean isPassword() {
+        return IMPL.isPassword(this.mRecord);
+    }
+
+    public void setPassword(boolean isPassword) {
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzQgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1MzR8fHw1MzE">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzQgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1MzR8fHw1MzE')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzQgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1MzR8fHw1MzE').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzQgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1MzR8fHw1MzE" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzQgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1MzR8fHw1MzE' , 'ICAgIH0KCiAgICBwdWJsaWMgYm9vbGVhbiBpc1Bhc3N3b3JkKCkgewogICAgICAgIHJldHVybiBJTVBMLmlzUGFzc3dvcmQodGhpcy5tUmVjb3JkKTsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBzZXRQYXNzd29yZChib29sZWFuIGlzUGFzc3dvcmQpIHsK');  
+                                            });
+                                            </script>
+                                            </div><div id="AccessibilityRecordCompat_java537pass">Code @ line 537<pre data-start="534" data-line="537" data-src="AccessibilityRecordCompat.java" class="code line-numbers"><code>        return IMPL.isPassword(this.mRecord);
+    }
+
+    public void setPassword(boolean isPassword) {
+        IMPL.setPassword(this.mRecord, isPassword);
+    }
+
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzcgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1Mzd8fHw1MzQ">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzcgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1Mzd8fHw1MzQ')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzcgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1Mzd8fHw1MzQ').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzcgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1Mzd8fHw1MzQ" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzcgOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1Mzd8fHw1MzQ' , 'ICAgICAgICByZXR1cm4gSU1QTC5pc1Bhc3N3b3JkKHRoaXMubVJlY29yZCk7CiAgICB9CgogICAgcHVibGljIHZvaWQgc2V0UGFzc3dvcmQoYm9vbGVhbiBpc1Bhc3N3b3JkKSB7CiAgICAgICAgSU1QTC5zZXRQYXNzd29yZCh0aGlzLm1SZWNvcmQsIGlzUGFzc3dvcmQpOwogICAgfQoK');  
+                                            });
+                                            </script>
+                                            </div><div id="AccessibilityRecordCompat_java538pass">Code @ line 538<pre data-start="535" data-line="538" data-src="AccessibilityRecordCompat.java" class="code line-numbers"><code>    }
+
+    public void setPassword(boolean isPassword) {
+        IMPL.setPassword(this.mRecord, isPassword);
+    }
+
+    public boolean isFullScreen() {
+</code></pre><a class="waves-effect waves-light btn" style='background-color: #30363A;' id="loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzggOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1Mzh8fHw1MzU">Add to lootbox</a><script>if (localStorage.getItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzggOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1Mzh8fHw1MzU')){$('#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzggOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1Mzh8fHw1MzU').addClass('disabled');}$( "#loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzggOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1Mzh8fHw1MzU" ).click(function() {
+                                            $(this).addClass('disabled');
+                                            localStorage.setItem('loot_QzpcVXNlcnNcVmluY2VudCBDb3hcRG9jdW1lbnRzXEdpdEh1YlxTdGFDb0FuXHRlc3QtYXBrXGphZHhfc291cmNlX2NvZGVcYW5kcm9pZFxzdXBwb3J0XHY0XHZpZXdcYWNjZXNzaWJpbGl0eVxBY2Nlc3NpYmlsaXR5UmVjb3JkQ29tcGF0LmphdmF8fHxsaW5lOiA1MzggOiBwYXNzd29yZHx8fDEwfHx8cGFzc3dvcmR8fHw1Mzh8fHw1MzU' , 'ICAgIH0KCiAgICBwdWJsaWMgdm9pZCBzZXRQYXNzd29yZChib29sZWFuIGlzUGFzc3dvcmQpIHsKICAgICAgICBJTVBMLnNldFBhc3N3b3JkKHRoaXMubVJlY29yZCwgaXNQYXNzd29yZCk7CiAgICB9CgogICAgcHVibGljIGJvb2xlYW4gaXNGdWxsU2NyZWVuKCkgewo=');  
+                                            });
+                                            </script>
+                                            </div></div></div></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="AccessibilityRecordCompat.java" data-line="54,90,199,249,358,359,414,415,533,534,537,538," class="code line-numbers"><code>package android.support.v4.view.accessibility;
+
+import android.os.Build.VERSION;
+import android.os.Parcelable;
+import android.view.View;
+import java.util.Collections;
+import java.util.List;
+
+public class AccessibilityRecordCompat {
+    private static final AccessibilityRecordImpl IMPL;
+    private final Object mRecord;
+
+    interface AccessibilityRecordImpl {
+        int getAddedCount(Object obj);
+
+        CharSequence getBeforeText(Object obj);
+
+        CharSequence getClassName(Object obj);
+
+        CharSequence getContentDescription(Object obj);
+
+        int getCurrentItemIndex(Object obj);
+
+        int getFromIndex(Object obj);
+
+        int getItemCount(Object obj);
+
+        int getMaxScrollX(Object obj);
+
+        int getMaxScrollY(Object obj);
+
+        Parcelable getParcelableData(Object obj);
+
+        int getRemovedCount(Object obj);
+
+        int getScrollX(Object obj);
+
+        int getScrollY(Object obj);
+
+        AccessibilityNodeInfoCompat getSource(Object obj);
+
+        List&lt;CharSequence&gt; getText(Object obj);
+
+        int getToIndex(Object obj);
+
+        int getWindowId(Object obj);
+
+        boolean isChecked(Object obj);
+
+        boolean isEnabled(Object obj);
+
+        boolean isFullScreen(Object obj);
+
+        boolean isPassword(Object obj);
+
+        boolean isScrollable(Object obj);
+
+        Object obtain();
+
+        Object obtain(Object obj);
+
+        void recycle(Object obj);
+
+        void setAddedCount(Object obj, int i);
+
+        void setBeforeText(Object obj, CharSequence charSequence);
+
+        void setChecked(Object obj, boolean z);
+
+        void setClassName(Object obj, CharSequence charSequence);
+
+        void setContentDescription(Object obj, CharSequence charSequence);
+
+        void setCurrentItemIndex(Object obj, int i);
+
+        void setEnabled(Object obj, boolean z);
+
+        void setFromIndex(Object obj, int i);
+
+        void setFullScreen(Object obj, boolean z);
+
+        void setItemCount(Object obj, int i);
+
+        void setMaxScrollX(Object obj, int i);
+
+        void setMaxScrollY(Object obj, int i);
+
+        void setParcelableData(Object obj, Parcelable parcelable);
+
+        void setPassword(Object obj, boolean z);
+
+        void setRemovedCount(Object obj, int i);
+
+        void setScrollX(Object obj, int i);
+
+        void setScrollY(Object obj, int i);
+
+        void setScrollable(Object obj, boolean z);
+
+        void setSource(Object obj, View view);
+
+        void setSource(Object obj, View view, int i);
+
+        void setToIndex(Object obj, int i);
+    }
+
+    static class AccessibilityRecordStubImpl implements AccessibilityRecordImpl {
+        AccessibilityRecordStubImpl() {
+        }
+
+        public Object obtain() {
+            return null;
+        }
+
+        public Object obtain(Object record) {
+            return null;
+        }
+
+        public int getAddedCount(Object record) {
+            return 0;
+        }
+
+        public CharSequence getBeforeText(Object record) {
+            return null;
+        }
+
+        public CharSequence getClassName(Object record) {
+            return null;
+        }
+
+        public CharSequence getContentDescription(Object record) {
+            return null;
+        }
+
+        public int getCurrentItemIndex(Object record) {
+            return 0;
+        }
+
+        public int getFromIndex(Object record) {
+            return 0;
+        }
+
+        public int getItemCount(Object record) {
+            return 0;
+        }
+
+        public int getMaxScrollX(Object record) {
+            return 0;
+        }
+
+        public int getMaxScrollY(Object record) {
+            return 0;
+        }
+
+        public Parcelable getParcelableData(Object record) {
+            return null;
+        }
+
+        public int getRemovedCount(Object record) {
+            return 0;
+        }
+
+        public int getScrollX(Object record) {
+            return 0;
+        }
+
+        public int getScrollY(Object record) {
+            return 0;
+        }
+
+        public AccessibilityNodeInfoCompat getSource(Object record) {
+            return null;
+        }
+
+        public List&lt;CharSequence&gt; getText(Object record) {
+            return Collections.emptyList();
+        }
+
+        public int getToIndex(Object record) {
+            return 0;
+        }
+
+        public int getWindowId(Object record) {
+            return 0;
+        }
+
+        public boolean isChecked(Object record) {
+            return false;
+        }
+
+        public boolean isEnabled(Object record) {
+            return false;
+        }
+
+        public boolean isFullScreen(Object record) {
+            return false;
+        }
+
+        public boolean isPassword(Object record) {
+            return false;
+        }
+
+        public boolean isScrollable(Object record) {
+            return false;
+        }
+
+        public void recycle(Object record) {
+        }
+
+        public void setAddedCount(Object record, int addedCount) {
+        }
+
+        public void setBeforeText(Object record, CharSequence beforeText) {
+        }
+
+        public void setChecked(Object record, boolean isChecked) {
+        }
+
+        public void setClassName(Object record, CharSequence className) {
+        }
+
+        public void setContentDescription(Object record, CharSequence contentDescription) {
+        }
+
+        public void setCurrentItemIndex(Object record, int currentItemIndex) {
+        }
+
+        public void setEnabled(Object record, boolean isEnabled) {
+        }
+
+        public void setFromIndex(Object record, int fromIndex) {
+        }
+
+        public void setFullScreen(Object record, boolean isFullScreen) {
+        }
+
+        public void setItemCount(Object record, int itemCount) {
+        }
+
+        public void setMaxScrollX(Object record, int maxScrollX) {
+        }
+
+        public void setMaxScrollY(Object record, int maxScrollY) {
+        }
+
+        public void setParcelableData(Object record, Parcelable parcelableData) {
+        }
+
+        public void setPassword(Object record, boolean isPassword) {
+        }
+
+        public void setRemovedCount(Object record, int removedCount) {
+        }
+
+        public void setScrollX(Object record, int scrollX) {
+        }
+
+        public void setScrollY(Object record, int scrollY) {
+        }
+
+        public void setScrollable(Object record, boolean scrollable) {
+        }
+
+        public void setSource(Object record, View source) {
+        }
+
+        public void setSource(Object record, View root, int virtualDescendantId) {
+        }
+
+        public void setToIndex(Object record, int toIndex) {
+        }
+    }
+
+    static class AccessibilityRecordIcsImpl extends AccessibilityRecordStubImpl {
+        AccessibilityRecordIcsImpl() {
+        }
+
+        public Object obtain() {
+            return AccessibilityRecordCompatIcs.obtain();
+        }
+
+        public Object obtain(Object record) {
+            return AccessibilityRecordCompatIcs.obtain(record);
+        }
+
+        public int getAddedCount(Object record) {
+            return AccessibilityRecordCompatIcs.getAddedCount(record);
+        }
+
+        public CharSequence getBeforeText(Object record) {
+            return AccessibilityRecordCompatIcs.getBeforeText(record);
+        }
+
+        public CharSequence getClassName(Object record) {
+            return AccessibilityRecordCompatIcs.getClassName(record);
+        }
+
+        public CharSequence getContentDescription(Object record) {
+            return AccessibilityRecordCompatIcs.getContentDescription(record);
+        }
+
+        public int getCurrentItemIndex(Object record) {
+            return AccessibilityRecordCompatIcs.getCurrentItemIndex(record);
+        }
+
+        public int getFromIndex(Object record) {
+            return AccessibilityRecordCompatIcs.getFromIndex(record);
+        }
+
+        public int getItemCount(Object record) {
+            return AccessibilityRecordCompatIcs.getItemCount(record);
+        }
+
+        public Parcelable getParcelableData(Object record) {
+            return AccessibilityRecordCompatIcs.getParcelableData(record);
+        }
+
+        public int getRemovedCount(Object record) {
+            return AccessibilityRecordCompatIcs.getRemovedCount(record);
+        }
+
+        public int getScrollX(Object record) {
+            return AccessibilityRecordCompatIcs.getScrollX(record);
+        }
+
+        public int getScrollY(Object record) {
+            return AccessibilityRecordCompatIcs.getScrollY(record);
+        }
+
+        public AccessibilityNodeInfoCompat getSource(Object record) {
+            return AccessibilityNodeInfoCompat.wrapNonNullInstance(AccessibilityRecordCompatIcs.getSource(record));
+        }
+
+        public List&lt;CharSequence&gt; getText(Object record) {
+            return AccessibilityRecordCompatIcs.getText(record);
+        }
+
+        public int getToIndex(Object record) {
+            return AccessibilityRecordCompatIcs.getToIndex(record);
+        }
+
+        public int getWindowId(Object record) {
+            return AccessibilityRecordCompatIcs.getWindowId(record);
+        }
+
+        public boolean isChecked(Object record) {
+            return AccessibilityRecordCompatIcs.isChecked(record);
+        }
+
+        public boolean isEnabled(Object record) {
+            return AccessibilityRecordCompatIcs.isEnabled(record);
+        }
+
+        public boolean isFullScreen(Object record) {
+            return AccessibilityRecordCompatIcs.isFullScreen(record);
+        }
+
+        public boolean isPassword(Object record) {
+            return AccessibilityRecordCompatIcs.isPassword(record);
+        }
+
+        public boolean isScrollable(Object record) {
+            return AccessibilityRecordCompatIcs.isScrollable(record);
+        }
+
+        public void recycle(Object record) {
+            AccessibilityRecordCompatIcs.recycle(record);
+        }
+
+        public void setAddedCount(Object record, int addedCount) {
+            AccessibilityRecordCompatIcs.setAddedCount(record, addedCount);
+        }
+
+        public void setBeforeText(Object record, CharSequence beforeText) {
+            AccessibilityRecordCompatIcs.setBeforeText(record, beforeText);
+        }
+
+        public void setChecked(Object record, boolean isChecked) {
+            AccessibilityRecordCompatIcs.setChecked(record, isChecked);
+        }
+
+        public void setClassName(Object record, CharSequence className) {
+            AccessibilityRecordCompatIcs.setClassName(record, className);
+        }
+
+        public void setContentDescription(Object record, CharSequence contentDescription) {
+            AccessibilityRecordCompatIcs.setContentDescription(record, contentDescription);
+        }
+
+        public void setCurrentItemIndex(Object record, int currentItemIndex) {
+            AccessibilityRecordCompatIcs.setCurrentItemIndex(record, currentItemIndex);
+        }
+
+        public void setEnabled(Object record, boolean isEnabled) {
+            AccessibilityRecordCompatIcs.setEnabled(record, isEnabled);
+        }
+
+        public void setFromIndex(Object record, int fromIndex) {
+            AccessibilityRecordCompatIcs.setFromIndex(record, fromIndex);
+        }
+
+        public void setFullScreen(Object record, boolean isFullScreen) {
+            AccessibilityRecordCompatIcs.setFullScreen(record, isFullScreen);
+        }
+
+        public void setItemCount(Object record, int itemCount) {
+            AccessibilityRecordCompatIcs.setItemCount(record, itemCount);
+        }
+
+        public void setParcelableData(Object record, Parcelable parcelableData) {
+            AccessibilityRecordCompatIcs.setParcelableData(record, parcelableData);
+        }
+
+        public void setPassword(Object record, boolean isPassword) {
+            AccessibilityRecordCompatIcs.setPassword(record, isPassword);
+        }
+
+        public void setRemovedCount(Object record, int removedCount) {
+            AccessibilityRecordCompatIcs.setRemovedCount(record, removedCount);
+        }
+
+        public void setScrollX(Object record, int scrollX) {
+            AccessibilityRecordCompatIcs.setScrollX(record, scrollX);
+        }
+
+        public void setScrollY(Object record, int scrollY) {
+            AccessibilityRecordCompatIcs.setScrollY(record, scrollY);
+        }
+
+        public void setScrollable(Object record, boolean scrollable) {
+            AccessibilityRecordCompatIcs.setScrollable(record, scrollable);
+        }
+
+        public void setSource(Object record, View source) {
+            AccessibilityRecordCompatIcs.setSource(record, source);
+        }
+
+        public void setToIndex(Object record, int toIndex) {
+            AccessibilityRecordCompatIcs.setToIndex(record, toIndex);
+        }
+    }
+
+    static class AccessibilityRecordIcsMr1Impl extends AccessibilityRecordIcsImpl {
+        AccessibilityRecordIcsMr1Impl() {
+        }
+
+        public int getMaxScrollX(Object record) {
+            return AccessibilityRecordCompatIcsMr1.getMaxScrollX(record);
+        }
+
+        public int getMaxScrollY(Object record) {
+            return AccessibilityRecordCompatIcsMr1.getMaxScrollY(record);
+        }
+
+        public void setMaxScrollX(Object record, int maxScrollX) {
+            AccessibilityRecordCompatIcsMr1.setMaxScrollX(record, maxScrollX);
+        }
+
+        public void setMaxScrollY(Object record, int maxScrollY) {
+            AccessibilityRecordCompatIcsMr1.setMaxScrollY(record, maxScrollY);
+        }
+    }
+
+    static class AccessibilityRecordJellyBeanImpl extends AccessibilityRecordIcsMr1Impl {
+        AccessibilityRecordJellyBeanImpl() {
+        }
+
+        public void setSource(Object record, View root, int virtualDescendantId) {
+            AccessibilityRecordCompatJellyBean.setSource(record, root, virtualDescendantId);
+        }
+    }
+
+    static {
+        if (VERSION.SDK_INT &gt;= 16) {
+            IMPL = new AccessibilityRecordJellyBeanImpl();
+        } else if (VERSION.SDK_INT &gt;= 15) {
+            IMPL = new AccessibilityRecordIcsMr1Impl();
+        } else if (VERSION.SDK_INT &gt;= 14) {
+            IMPL = new AccessibilityRecordIcsImpl();
+        } else {
+            IMPL = new AccessibilityRecordStubImpl();
+        }
+    }
+
+    public AccessibilityRecordCompat(Object record) {
+        this.mRecord = record;
+    }
+
+    public Object getImpl() {
+        return this.mRecord;
+    }
+
+    public static AccessibilityRecordCompat obtain(AccessibilityRecordCompat record) {
+        return new AccessibilityRecordCompat(IMPL.obtain(record.mRecord));
+    }
+
+    public static AccessibilityRecordCompat obtain() {
+        return new AccessibilityRecordCompat(IMPL.obtain());
+    }
+
+    public void setSource(View source) {
+        IMPL.setSource(this.mRecord, source);
+    }
+
+    public void setSource(View root, int virtualDescendantId) {
+        IMPL.setSource(this.mRecord, root, virtualDescendantId);
+    }
+
+    public AccessibilityNodeInfoCompat getSource() {
+        return IMPL.getSource(this.mRecord);
+    }
+
+    public int getWindowId() {
+        return IMPL.getWindowId(this.mRecord);
+    }
+
+    public boolean isChecked() {
+        return IMPL.isChecked(this.mRecord);
+    }
+
+    public void setChecked(boolean isChecked) {
+        IMPL.setChecked(this.mRecord, isChecked);
+    }
+
+    public boolean isEnabled() {
+        return IMPL.isEnabled(this.mRecord);
+    }
+
+    public void setEnabled(boolean isEnabled) {
+        IMPL.setEnabled(this.mRecord, isEnabled);
+    }
+
+    public boolean isPassword() {
+        return IMPL.isPassword(this.mRecord);
+    }
+
+    public void setPassword(boolean isPassword) {
+        IMPL.setPassword(this.mRecord, isPassword);
+    }
+
+    public boolean isFullScreen() {
+        return IMPL.isFullScreen(this.mRecord);
+    }
+
+    public void setFullScreen(boolean isFullScreen) {
+        IMPL.setFullScreen(this.mRecord, isFullScreen);
+    }
+
+    public boolean isScrollable() {
+        return IMPL.isScrollable(this.mRecord);
+    }
+
+    public void setScrollable(boolean scrollable) {
+        IMPL.setScrollable(this.mRecord, scrollable);
+    }
+
+    public int getItemCount() {
+        return IMPL.getItemCount(this.mRecord);
+    }
+
+    public void setItemCount(int itemCount) {
+        IMPL.setItemCount(this.mRecord, itemCount);
+    }
+
+    public int getCurrentItemIndex() {
+        return IMPL.getCurrentItemIndex(this.mRecord);
+    }
+
+    public void setCurrentItemIndex(int currentItemIndex) {
+        IMPL.setCurrentItemIndex(this.mRecord, currentItemIndex);
+    }
+
+    public int getFromIndex() {
+        return IMPL.getFromIndex(this.mRecord);
+    }
+
+    public void setFromIndex(int fromIndex) {
+        IMPL.setFromIndex(this.mRecord, fromIndex);
+    }
+
+    public int getToIndex() {
+        return IMPL.getToIndex(this.mRecord);
+    }
+
+    public void setToIndex(int toIndex) {
+        IMPL.setToIndex(this.mRecord, toIndex);
+    }
+
+    public int getScrollX() {
+        return IMPL.getScrollX(this.mRecord);
+    }
+
+    public void setScrollX(int scrollX) {
+        IMPL.setScrollX(this.mRecord, scrollX);
+    }
+
+    public int getScrollY() {
+        return IMPL.getScrollY(this.mRecord);
+    }
+
+    public void setScrollY(int scrollY) {
+        IMPL.setScrollY(this.mRecord, scrollY);
+    }
+
+    public int getMaxScrollX() {
+        return IMPL.getMaxScrollX(this.mRecord);
+    }
+
+    public void setMaxScrollX(int maxScrollX) {
+        IMPL.setMaxScrollX(this.mRecord, maxScrollX);
+    }
+
+    public int getMaxScrollY() {
+        return IMPL.getMaxScrollY(this.mRecord);
+    }
+
+    public void setMaxScrollY(int maxScrollY) {
+        IMPL.setMaxScrollY(this.mRecord, maxScrollY);
+    }
+
+    public int getAddedCount() {
+        return IMPL.getAddedCount(this.mRecord);
+    }
+
+    public void setAddedCount(int addedCount) {
+        IMPL.setAddedCount(this.mRecord, addedCount);
+    }
+
+    public int getRemovedCount() {
+        return IMPL.getRemovedCount(this.mRecord);
+    }
+
+    public void setRemovedCount(int removedCount) {
+        IMPL.setRemovedCount(this.mRecord, removedCount);
+    }
+
+    public CharSequence getClassName() {
+        return IMPL.getClassName(this.mRecord);
+    }
+
+    public void setClassName(CharSequence className) {
+        IMPL.setClassName(this.mRecord, className);
+    }
+
+    public List&lt;CharSequence&gt; getText() {
+        return IMPL.getText(this.mRecord);
+    }
+
+    public CharSequence getBeforeText() {
+        return IMPL.getBeforeText(this.mRecord);
+    }
+
+    public void setBeforeText(CharSequence beforeText) {
+        IMPL.setBeforeText(this.mRecord, beforeText);
+    }
+
+    public CharSequence getContentDescription() {
+        return IMPL.getContentDescription(this.mRecord);
+    }
+
+    public void setContentDescription(CharSequence contentDescription) {
+        IMPL.setContentDescription(this.mRecord, contentDescription);
+    }
+
+    public Parcelable getParcelableData() {
+        return IMPL.getParcelableData(this.mRecord);
+    }
+
+    public void setParcelableData(Parcelable parcelableData) {
+        IMPL.setParcelableData(this.mRecord, parcelableData);
+    }
+
+    public void recycle() {
+        IMPL.recycle(this.mRecord);
+    }
+
+    public int hashCode() {
+        return this.mRecord == null ? 0 : this.mRecord.hashCode();
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        AccessibilityRecordCompat other = (AccessibilityRecordCompat) obj;
+        if (this.mRecord == null) {
+            if (other.mRecord != null) {
+                return false;
+            }
+            return true;
+        } else if (this.mRecord.equals(other.mRecord)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:40 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

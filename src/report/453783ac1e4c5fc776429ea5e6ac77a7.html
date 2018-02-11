@@ -1,0 +1,165 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\design\widget\FloatingActionButtonLollipop.java" target="_blank">\test-apk\jadx_source_code\android\support\design\widget\FloatingActionButtonLollipop.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="FloatingActionButtonLollipop.java" data-line="" class="code line-numbers"><code>package android.support.design.widget;
+
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.StateListAnimator;
+import android.annotation.TargetApi;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.RippleDrawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.ViewCompat;
+import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
+
+@TargetApi(21)
+class FloatingActionButtonLollipop extends FloatingActionButtonHoneycombMr1 {
+    private Drawable mBorderDrawable;
+    private Interpolator mInterpolator;
+    private RippleDrawable mRippleDrawable;
+    private Drawable mShapeDrawable;
+
+    FloatingActionButtonLollipop(View view, ShadowViewDelegate shadowViewDelegate) {
+        super(view, shadowViewDelegate);
+        if (!view.isInEditMode()) {
+            this.mInterpolator = AnimationUtils.loadInterpolator(this.mView.getContext(), 17563661);
+        }
+    }
+
+    void setBackgroundDrawable(Drawable originalBackground, ColorStateList backgroundTint, Mode backgroundTintMode, int rippleColor, int borderWidth) {
+        Drawable rippleContent;
+        this.mShapeDrawable = DrawableCompat.wrap(originalBackground.mutate());
+        DrawableCompat.setTintList(this.mShapeDrawable, backgroundTint);
+        if (backgroundTintMode != null) {
+            DrawableCompat.setTintMode(this.mShapeDrawable, backgroundTintMode);
+        }
+        if (borderWidth &gt; 0) {
+            this.mBorderDrawable = createBorderDrawable(borderWidth, backgroundTint);
+            rippleContent = new LayerDrawable(new Drawable[]{this.mBorderDrawable, this.mShapeDrawable});
+        } else {
+            this.mBorderDrawable = null;
+            rippleContent = this.mShapeDrawable;
+        }
+        this.mRippleDrawable = new RippleDrawable(ColorStateList.valueOf(rippleColor), rippleContent, null);
+        this.mShadowViewDelegate.setBackgroundDrawable(this.mRippleDrawable);
+        this.mShadowViewDelegate.setShadowPadding(0, 0, 0, 0);
+    }
+
+    void setBackgroundTintList(ColorStateList tint) {
+        DrawableCompat.setTintList(this.mShapeDrawable, tint);
+        if (this.mBorderDrawable != null) {
+            DrawableCompat.setTintList(this.mBorderDrawable, tint);
+        }
+    }
+
+    void setBackgroundTintMode(Mode tintMode) {
+        DrawableCompat.setTintMode(this.mShapeDrawable, tintMode);
+    }
+
+    void setRippleColor(int rippleColor) {
+        this.mRippleDrawable.setColor(ColorStateList.valueOf(rippleColor));
+    }
+
+    public void setElevation(float elevation) {
+        ViewCompat.setElevation(this.mView, elevation);
+    }
+
+    void setPressedTranslationZ(float translationZ) {
+        StateListAnimator stateListAnimator = new StateListAnimator();
+        stateListAnimator.addState(PRESSED_ENABLED_STATE_SET, setupAnimator(ObjectAnimator.ofFloat(this.mView, "translationZ", new float[]{translationZ})));
+        stateListAnimator.addState(FOCUSED_ENABLED_STATE_SET, setupAnimator(ObjectAnimator.ofFloat(this.mView, "translationZ", new float[]{translationZ})));
+        stateListAnimator.addState(EMPTY_STATE_SET, setupAnimator(ObjectAnimator.ofFloat(this.mView, "translationZ", new float[]{0.0f})));
+        this.mView.setStateListAnimator(stateListAnimator);
+    }
+
+    void onDrawableStateChanged(int[] state) {
+    }
+
+    void jumpDrawableToCurrentState() {
+    }
+
+    private Animator setupAnimator(Animator animator) {
+        animator.setInterpolator(this.mInterpolator);
+        return animator;
+    }
+
+    CircularBorderDrawable newCircularDrawable() {
+        return new CircularBorderDrawableLollipop();
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:40 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

@@ -1,0 +1,587 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v7\util\SortedList.java" target="_blank">\test-apk\jadx_source_code\android\support\v7\util\SortedList.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="SortedList.java" data-line="" class="code line-numbers"><code>package android.support.v7.util;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+
+public class SortedList&lt;T&gt; {
+    private static final int CAPACITY_GROWTH = 10;
+    private static final int DELETION = 2;
+    private static final int INSERTION = 1;
+    public static final int INVALID_POSITION = -1;
+    private static final int LOOKUP = 4;
+    private static final int MIN_CAPACITY = 10;
+    private BatchedCallback mBatchedCallback;
+    private Callback mCallback;
+    T[] mData;
+    private int mMergedSize;
+    private T[] mOldData;
+    private int mOldDataSize;
+    private int mOldDataStart;
+    private int mSize;
+    private final Class&lt;T&gt; mTClass;
+
+    public static abstract class Callback&lt;T2&gt; implements Comparator&lt;T2&gt; {
+        public abstract boolean areContentsTheSame(T2 t2, T2 t22);
+
+        public abstract boolean areItemsTheSame(T2 t2, T2 t22);
+
+        public abstract int compare(T2 t2, T2 t22);
+
+        public abstract void onChanged(int i, int i2);
+
+        public abstract void onInserted(int i, int i2);
+
+        public abstract void onMoved(int i, int i2);
+
+        public abstract void onRemoved(int i, int i2);
+    }
+
+    public static class BatchedCallback&lt;T2&gt; extends Callback&lt;T2&gt; {
+        static final int TYPE_ADD = 1;
+        static final int TYPE_CHANGE = 3;
+        static final int TYPE_MOVE = 4;
+        static final int TYPE_NONE = 0;
+        static final int TYPE_REMOVE = 2;
+        int mLastEventCount = -1;
+        int mLastEventPosition = -1;
+        int mLastEventType = 0;
+        private final Callback&lt;T2&gt; mWrappedCallback;
+
+        public BatchedCallback(Callback&lt;T2&gt; wrappedCallback) {
+            this.mWrappedCallback = wrappedCallback;
+        }
+
+        public int compare(T2 o1, T2 o2) {
+            return this.mWrappedCallback.compare(o1, o2);
+        }
+
+        public void onInserted(int position, int count) {
+            if (this.mLastEventType != 1 || position &lt; this.mLastEventPosition || position &gt; this.mLastEventPosition + this.mLastEventCount) {
+                dispatchLastEvent();
+                this.mLastEventPosition = position;
+                this.mLastEventCount = count;
+                this.mLastEventType = 1;
+                return;
+            }
+            this.mLastEventCount += count;
+            this.mLastEventPosition = Math.min(position, this.mLastEventPosition);
+        }
+
+        public void onRemoved(int position, int count) {
+            if (this.mLastEventType == 2 &amp;&amp; this.mLastEventPosition == position) {
+                this.mLastEventCount += count;
+                return;
+            }
+            dispatchLastEvent();
+            this.mLastEventPosition = position;
+            this.mLastEventCount = count;
+            this.mLastEventType = 2;
+        }
+
+        public void onMoved(int fromPosition, int toPosition) {
+            dispatchLastEvent();
+            this.mWrappedCallback.onMoved(fromPosition, toPosition);
+        }
+
+        public void onChanged(int position, int count) {
+            if (this.mLastEventType != 3 || position &gt; this.mLastEventPosition + this.mLastEventCount || position + count &lt; this.mLastEventPosition) {
+                dispatchLastEvent();
+                this.mLastEventPosition = position;
+                this.mLastEventCount = count;
+                this.mLastEventType = 3;
+                return;
+            }
+            int previousEnd = this.mLastEventPosition + this.mLastEventCount;
+            this.mLastEventPosition = Math.min(position, this.mLastEventPosition);
+            this.mLastEventCount = Math.max(previousEnd, position + count) - this.mLastEventPosition;
+        }
+
+        public boolean areContentsTheSame(T2 oldItem, T2 newItem) {
+            return this.mWrappedCallback.areContentsTheSame(oldItem, newItem);
+        }
+
+        public boolean areItemsTheSame(T2 item1, T2 item2) {
+            return this.mWrappedCallback.areItemsTheSame(item1, item2);
+        }
+
+        public void dispatchLastEvent() {
+            if (this.mLastEventType != 0) {
+                switch (this.mLastEventType) {
+                    case 1:
+                        this.mWrappedCallback.onInserted(this.mLastEventPosition, this.mLastEventCount);
+                        break;
+                    case 2:
+                        this.mWrappedCallback.onRemoved(this.mLastEventPosition, this.mLastEventCount);
+                        break;
+                    case 3:
+                        this.mWrappedCallback.onChanged(this.mLastEventPosition, this.mLastEventCount);
+                        break;
+                }
+                this.mLastEventType = 0;
+            }
+        }
+    }
+
+    public SortedList(Class&lt;T&gt; klass, Callback&lt;T&gt; callback) {
+        this(klass, callback, 10);
+    }
+
+    public SortedList(Class&lt;T&gt; klass, Callback&lt;T&gt; callback, int initialCapacity) {
+        this.mTClass = klass;
+        this.mData = (Object[]) Array.newInstance(klass, initialCapacity);
+        this.mCallback = callback;
+        this.mSize = 0;
+    }
+
+    public int size() {
+        return this.mSize;
+    }
+
+    public int add(T item) {
+        throwIfMerging();
+        return add(item, true);
+    }
+
+    public void addAll(T[] items, boolean mayModifyInput) {
+        throwIfMerging();
+        if (items.length != 0) {
+            if (mayModifyInput) {
+                addAllInternal(items);
+                return;
+            }
+            Object[] copy = (Object[]) ((Object[]) Array.newInstance(this.mTClass, items.length));
+            System.arraycopy(items, 0, copy, 0, items.length);
+            addAllInternal(copy);
+        }
+    }
+
+    public void addAll(T... items) {
+        addAll(items, false);
+    }
+
+    public void addAll(Collection&lt;T&gt; items) {
+        addAll(items.toArray((Object[]) ((Object[]) Array.newInstance(this.mTClass, items.size()))), true);
+    }
+
+    private void addAllInternal(T[] newItems) {
+        boolean forceBatchedUpdates;
+        if (this.mCallback instanceof BatchedCallback) {
+            forceBatchedUpdates = false;
+        } else {
+            forceBatchedUpdates = true;
+        }
+        if (forceBatchedUpdates) {
+            beginBatchedUpdates();
+        }
+        this.mOldData = this.mData;
+        this.mOldDataStart = 0;
+        this.mOldDataSize = this.mSize;
+        Arrays.sort(newItems, this.mCallback);
+        int newSize = deduplicate(newItems);
+        if (this.mSize == 0) {
+            this.mData = newItems;
+            this.mSize = newSize;
+            this.mMergedSize = newSize;
+            this.mCallback.onInserted(0, newSize);
+        } else {
+            merge(newItems, newSize);
+        }
+        this.mOldData = null;
+        if (forceBatchedUpdates) {
+            endBatchedUpdates();
+        }
+    }
+
+    private int deduplicate(T[] items) {
+        if (items.length == 0) {
+            throw new IllegalArgumentException("Input array must be non-empty");
+        }
+        int rangeStart = 0;
+        int rangeEnd = 1;
+        for (int i = 1; i &lt; items.length; i++) {
+            T currentItem = items[i];
+            int compare = this.mCallback.compare(items[rangeStart], currentItem);
+            if (compare &gt; 0) {
+                throw new IllegalArgumentException("Input must be sorted in ascending order.");
+            }
+            if (compare == 0) {
+                int sameItemPos = findSameItem(currentItem, items, rangeStart, rangeEnd);
+                if (sameItemPos != -1) {
+                    items[sameItemPos] = currentItem;
+                } else {
+                    if (rangeEnd != i) {
+                        items[rangeEnd] = currentItem;
+                    }
+                    rangeEnd++;
+                }
+            } else {
+                if (rangeEnd != i) {
+                    items[rangeEnd] = currentItem;
+                }
+                rangeStart = rangeEnd;
+                rangeEnd++;
+            }
+        }
+        return rangeEnd;
+    }
+
+    private int findSameItem(T item, T[] items, int from, int to) {
+        for (int pos = from; pos &lt; to; pos++) {
+            if (this.mCallback.areItemsTheSame(items[pos], item)) {
+                return pos;
+            }
+        }
+        return -1;
+    }
+
+    private void merge(T[] newData, int newDataSize) {
+        this.mData = (Object[]) Array.newInstance(this.mTClass, (this.mSize + newDataSize) + 10);
+        this.mMergedSize = 0;
+        int newDataStart = 0;
+        while (true) {
+            if (this.mOldDataStart &gt;= this.mOldDataSize &amp;&amp; newDataStart &gt;= newDataSize) {
+                return;
+            }
+            int itemCount;
+            if (this.mOldDataStart == this.mOldDataSize) {
+                itemCount = newDataSize - newDataStart;
+                System.arraycopy(newData, newDataStart, this.mData, this.mMergedSize, itemCount);
+                this.mMergedSize += itemCount;
+                this.mSize += itemCount;
+                this.mCallback.onInserted(this.mMergedSize - itemCount, itemCount);
+                return;
+            } else if (newDataStart == newDataSize) {
+                itemCount = this.mOldDataSize - this.mOldDataStart;
+                System.arraycopy(this.mOldData, this.mOldDataStart, this.mData, this.mMergedSize, itemCount);
+                this.mMergedSize += itemCount;
+                return;
+            } else {
+                T oldItem = this.mOldData[this.mOldDataStart];
+                T newItem = newData[newDataStart];
+                int compare = this.mCallback.compare(oldItem, newItem);
+                Object[] objArr;
+                int i;
+                if (compare &gt; 0) {
+                    objArr = this.mData;
+                    i = this.mMergedSize;
+                    this.mMergedSize = i + 1;
+                    objArr[i] = newItem;
+                    this.mSize++;
+                    newDataStart++;
+                    this.mCallback.onInserted(this.mMergedSize - 1, 1);
+                } else if (compare == 0 &amp;&amp; this.mCallback.areItemsTheSame(oldItem, newItem)) {
+                    objArr = this.mData;
+                    i = this.mMergedSize;
+                    this.mMergedSize = i + 1;
+                    objArr[i] = newItem;
+                    newDataStart++;
+                    this.mOldDataStart++;
+                    if (!this.mCallback.areContentsTheSame(oldItem, newItem)) {
+                        this.mCallback.onChanged(this.mMergedSize - 1, 1);
+                    }
+                } else {
+                    objArr = this.mData;
+                    i = this.mMergedSize;
+                    this.mMergedSize = i + 1;
+                    objArr[i] = oldItem;
+                    this.mOldDataStart++;
+                }
+            }
+        }
+    }
+
+    private void throwIfMerging() {
+        if (this.mOldData != null) {
+            throw new IllegalStateException("Cannot call this method from within addAll");
+        }
+    }
+
+    public void beginBatchedUpdates() {
+        throwIfMerging();
+        if (!(this.mCallback instanceof BatchedCallback)) {
+            if (this.mBatchedCallback == null) {
+                this.mBatchedCallback = new BatchedCallback(this.mCallback);
+            }
+            this.mCallback = this.mBatchedCallback;
+        }
+    }
+
+    public void endBatchedUpdates() {
+        throwIfMerging();
+        if (this.mCallback instanceof BatchedCallback) {
+            ((BatchedCallback) this.mCallback).dispatchLastEvent();
+        }
+        if (this.mCallback == this.mBatchedCallback) {
+            this.mCallback = this.mBatchedCallback.mWrappedCallback;
+        }
+    }
+
+    private int add(T item, boolean notify) {
+        int index = findIndexOf(item, this.mData, 0, this.mSize, 1);
+        if (index == -1) {
+            index = 0;
+        } else if (index &lt; this.mSize) {
+            T existing = this.mData[index];
+            if (this.mCallback.areItemsTheSame(existing, item)) {
+                if (this.mCallback.areContentsTheSame(existing, item)) {
+                    this.mData[index] = item;
+                    return index;
+                }
+                this.mData[index] = item;
+                this.mCallback.onChanged(index, 1);
+                return index;
+            }
+        }
+        addToData(index, item);
+        if (notify) {
+            this.mCallback.onInserted(index, 1);
+        }
+        return index;
+    }
+
+    public boolean remove(T item) {
+        throwIfMerging();
+        return remove(item, true);
+    }
+
+    public T removeItemAt(int index) {
+        throwIfMerging();
+        T item = get(index);
+        removeItemAtIndex(index, true);
+        return item;
+    }
+
+    private boolean remove(T item, boolean notify) {
+        int index = findIndexOf(item, this.mData, 0, this.mSize, 2);
+        if (index == -1) {
+            return false;
+        }
+        removeItemAtIndex(index, notify);
+        return true;
+    }
+
+    private void removeItemAtIndex(int index, boolean notify) {
+        System.arraycopy(this.mData, index + 1, this.mData, index, (this.mSize - index) - 1);
+        this.mSize--;
+        this.mData[this.mSize] = null;
+        if (notify) {
+            this.mCallback.onRemoved(index, 1);
+        }
+    }
+
+    public void updateItemAt(int index, T item) {
+        boolean contentsChanged;
+        throwIfMerging();
+        T existing = get(index);
+        if (existing == item || !this.mCallback.areContentsTheSame(existing, item)) {
+            contentsChanged = true;
+        } else {
+            contentsChanged = false;
+        }
+        if (existing == item || this.mCallback.compare(existing, item) != 0) {
+            if (contentsChanged) {
+                this.mCallback.onChanged(index, 1);
+            }
+            removeItemAtIndex(index, false);
+            int newIndex = add(item, false);
+            if (index != newIndex) {
+                this.mCallback.onMoved(index, newIndex);
+                return;
+            }
+            return;
+        }
+        this.mData[index] = item;
+        if (contentsChanged) {
+            this.mCallback.onChanged(index, 1);
+        }
+    }
+
+    public void recalculatePositionOfItemAt(int index) {
+        throwIfMerging();
+        T item = get(index);
+        removeItemAtIndex(index, false);
+        int newIndex = add(item, false);
+        if (index != newIndex) {
+            this.mCallback.onMoved(index, newIndex);
+        }
+    }
+
+    public T get(int index) throws IndexOutOfBoundsException {
+        if (index &gt;= this.mSize || index &lt; 0) {
+            throw new IndexOutOfBoundsException("Asked to get item at " + index + " but size is " + this.mSize);
+        } else if (this.mOldData == null || index &lt; this.mMergedSize) {
+            return this.mData[index];
+        } else {
+            return this.mOldData[(index - this.mMergedSize) + this.mOldDataStart];
+        }
+    }
+
+    public int indexOf(T item) {
+        if (this.mOldData != null) {
+            int index = findIndexOf(item, this.mData, 0, this.mMergedSize, 4);
+            if (index != -1) {
+                return index;
+            }
+            index = findIndexOf(item, this.mOldData, this.mOldDataStart, this.mOldDataSize, 4);
+            return index != -1 ? (index - this.mOldDataStart) + this.mMergedSize : -1;
+        } else {
+            return findIndexOf(item, this.mData, 0, this.mSize, 4);
+        }
+    }
+
+    private int findIndexOf(T item, T[] mData, int left, int right, int reason) {
+        while (left &lt; right) {
+            int middle = (left + right) / 2;
+            T myItem = mData[middle];
+            int cmp = this.mCallback.compare(myItem, item);
+            if (cmp &lt; 0) {
+                left = middle + 1;
+            } else if (cmp != 0) {
+                right = middle;
+            } else if (this.mCallback.areItemsTheSame(myItem, item)) {
+                return middle;
+            } else {
+                int exact = linearEqualitySearch(item, middle, left, right);
+                if (reason != 1) {
+                    return exact;
+                }
+                if (exact != -1) {
+                    return exact;
+                }
+                return middle;
+            }
+        }
+        if (reason != 1) {
+            left = -1;
+        }
+        return left;
+    }
+
+    private int linearEqualitySearch(T item, int middle, int left, int right) {
+        int next = middle - 1;
+        while (next &gt;= left) {
+            T nextItem = this.mData[next];
+            if (this.mCallback.compare(nextItem, item) != 0) {
+                break;
+            } else if (this.mCallback.areItemsTheSame(nextItem, item)) {
+                return next;
+            } else {
+                next--;
+            }
+        }
+        next = middle + 1;
+        while (next &lt; right) {
+            nextItem = this.mData[next];
+            if (this.mCallback.compare(nextItem, item) != 0) {
+                break;
+            } else if (this.mCallback.areItemsTheSame(nextItem, item)) {
+                return next;
+            } else {
+                next++;
+            }
+        }
+        return -1;
+    }
+
+    private void addToData(int index, T item) {
+        if (index &gt; this.mSize) {
+            throw new IndexOutOfBoundsException("cannot add item to " + index + " because size is " + this.mSize);
+        }
+        if (this.mSize == this.mData.length) {
+            Object[] newData = (Object[]) ((Object[]) Array.newInstance(this.mTClass, this.mData.length + 10));
+            System.arraycopy(this.mData, 0, newData, 0, index);
+            newData[index] = item;
+            System.arraycopy(this.mData, index, newData, index + 1, this.mSize - index);
+            this.mData = newData;
+        } else {
+            System.arraycopy(this.mData, index, this.mData, index + 1, this.mSize - index);
+            this.mData[index] = item;
+        }
+        this.mSize++;
+    }
+
+    public void clear() {
+        throwIfMerging();
+        if (this.mSize != 0) {
+            int prevSize = this.mSize;
+            Arrays.fill(this.mData, 0, prevSize, null);
+            this.mSize = 0;
+            this.mCallback.onRemoved(0, prevSize);
+        }
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:41 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>

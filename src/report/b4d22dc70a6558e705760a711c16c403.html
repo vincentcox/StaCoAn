@@ -1,0 +1,252 @@
+<head><script type="text/javascript" src="html/jquery.min.js"></script><link rel="stylesheet" type="text/css" href="html/font-awesome.min.css"></link><link rel="stylesheet" type="text/css" href="html/ui.fancytree.min.css"></link><script type="text/javascript" src="html/jquery.fancytree-all-deps.min.js"></script><script type="text/javascript" src="html/jquery.fancytree.glyph.js"></script><script type="text/javascript" src="html/jquery.fancytree.persist.js"></script><script type="text/javascript" src="html/report.js"></script><link rel="stylesheet" type="text/css" href="html/prism.css"></link><link rel="stylesheet" type="text/css" href="html/report.css"></link><link rel="stylesheet" type="text/css" href="html/fontawesome/fontawesome-all.min.css"></link><link media="screen,projection" rel="stylesheet" type="text/css" href="html/materialise/css/materialize.min.css"></link><meta name="viewport" content="width=device-width, initial-scale=1.0"></meta><meta charset="UTF-8"></meta></head>
+        <ul id="slide-out" class="side-nav">
+             <h5>Settings</h5>
+             <div class="divider"></div>
+             <div class="switch" id="matchless_files">
+                Remove matchless files:
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+            </div>
+            <script>
+                $(function() {
+                    if (localStorage.getItem('matchless_files') === "true"){
+                    removeUnimportantFiles();
+                    $('#matchless_files').find("input[type=checkbox]").prop('checked', true);
+                    }
+                });
+                $("#matchless_files").find("input[type=checkbox]").on("change",function() {
+                    var status = $(this).prop('checked');
+                    if (status==true){
+                        removeUnimportantFiles();
+                        localStorage.setItem('matchless_files', true); 
+                    }else{
+                         Materialize.toast('Refresh page to take effect.', 4000);
+                         localStorage.setItem('matchless_files', false); 
+                    }
+                     console.log(status);
+                });
+            </script>
+            Expand tree: <a id="expand_tree" class="waves-effect waves-light btn" style="background-color: #30363A !important;height: 24px;line-height: 24px;padding: 0 0.5rem;">Expand</a>
+            <script>
+                $( "#expand_tree" ).click(function() {
+                  $("#tree").fancytree("getTree").visit(function(node){
+                    node.setExpanded();
+                  });
+                });
+            </script>
+        </ul>
+        
+            <nav>
+                <div class="nav-wrapper" style="background-color: #30363A !important;">
+                  <a href="start.html" class="brand-logo center" style="position:relative;"><img style="height:100%;" src="html/logo.png"></a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+                            
+                <li><a href="start.html">Treeview</a></li>
+                <li><a href="lootbox.html">Lootbox</a></li>
+                <li><a href="log.html">Logs</a></li>
+                
+                    <li><a href="#" data-activates="slide-out" id="button-collapse" class="button"><i class="material-icons">settings</i></a></li>
+                        <script>
+                        $(function() {
+                            // Initialize collapse button
+                            $("#button-collapse").sideNav();
+                            // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+                            //$('.collapsible').collapsible();
+                        });
+                        </script>
+                    </ul>
+                </div>
+            </nav>
+        <div class="test-apk_div"><h1 class="test-apk_title center-align">Project: test-apk_apk</h1><div class="row"><div id="tree" class="col s12 m12 l3"></div><div id="codeview" class="col s12 m12 l9">
+                <script>
+                $( document ).ready(function() {
+                    Materialize.toast('No matches found in this file', 9000)
+                });
+                </script>
+                <div class="chip col"><i class="material-icons">attach_file</i><a href="html/view_source.html?file=C:\Users\Vincent Cox\Documents\GitHub\StaCoAn\test-apk\jadx_source_code\android\support\v4\graphics\ColorUtils.java" target="_blank">\test-apk\jadx_source_code\android\support\v4\graphics\ColorUtils.java</a></div><div class="row"><div class="col s12"><div class="card"><div class="card-content"><h5>Source code</h5><pre data-src="ColorUtils.java" data-line="" class="code line-numbers"><code>package android.support.v4.graphics;
+
+import android.graphics.Color;
+import android.support.annotation.ColorInt;
+import android.support.annotation.FloatRange;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
+import android.support.v4.view.ViewCompat;
+
+public class ColorUtils {
+    private static final int MIN_ALPHA_SEARCH_MAX_ITERATIONS = 10;
+    private static final int MIN_ALPHA_SEARCH_PRECISION = 1;
+
+    private ColorUtils() {
+    }
+
+    public static int compositeColors(@ColorInt int foreground, @ColorInt int background) {
+        int bgAlpha = Color.alpha(background);
+        int fgAlpha = Color.alpha(foreground);
+        int a = compositeAlpha(fgAlpha, bgAlpha);
+        return Color.argb(a, compositeComponent(Color.red(foreground), fgAlpha, Color.red(background), bgAlpha, a), compositeComponent(Color.green(foreground), fgAlpha, Color.green(background), bgAlpha, a), compositeComponent(Color.blue(foreground), fgAlpha, Color.blue(background), bgAlpha, a));
+    }
+
+    private static int compositeAlpha(int foregroundAlpha, int backgroundAlpha) {
+        return 255 - (((255 - backgroundAlpha) * (255 - foregroundAlpha)) / 255);
+    }
+
+    private static int compositeComponent(int fgC, int fgA, int bgC, int bgA, int a) {
+        if (a == 0) {
+            return 0;
+        }
+        return (((fgC * 255) * fgA) + ((bgC * bgA) * (255 - fgA))) / (a * 255);
+    }
+
+    @FloatRange(from = 0.0d, to = 1.0d)
+    public static double calculateLuminance(@ColorInt int color) {
+        double red = ((double) Color.red(color)) / 255.0d;
+        double green = ((double) Color.green(color)) / 255.0d;
+        double blue = ((double) Color.blue(color)) / 255.0d;
+        return ((0.2126d * (red &lt; 0.03928d ? red / 12.92d : Math.pow((0.055d + red) / 1.055d, 2.4d))) + (0.7152d * (green &lt; 0.03928d ? green / 12.92d : Math.pow((0.055d + green) / 1.055d, 2.4d)))) + (0.0722d * (blue &lt; 0.03928d ? blue / 12.92d : Math.pow((0.055d + blue) / 1.055d, 2.4d)));
+    }
+
+    public static double calculateContrast(@ColorInt int foreground, @ColorInt int background) {
+        if (Color.alpha(background) != 255) {
+            throw new IllegalArgumentException("background can not be translucent: #" + Integer.toHexString(background));
+        }
+        if (Color.alpha(foreground) &lt; 255) {
+            foreground = compositeColors(foreground, background);
+        }
+        double luminance1 = calculateLuminance(foreground) + 0.05d;
+        double luminance2 = calculateLuminance(background) + 0.05d;
+        return Math.max(luminance1, luminance2) / Math.min(luminance1, luminance2);
+    }
+
+    public static int calculateMinimumAlpha(@ColorInt int foreground, @ColorInt int background, float minContrastRatio) {
+        if (Color.alpha(background) != 255) {
+            throw new IllegalArgumentException("background can not be translucent: #" + Integer.toHexString(background));
+        } else if (calculateContrast(setAlphaComponent(foreground, 255), background) &lt; ((double) minContrastRatio)) {
+            return -1;
+        } else {
+            int minAlpha = 0;
+            int maxAlpha = 255;
+            for (int numIterations = 0; numIterations &lt;= 10 &amp;&amp; maxAlpha - minAlpha &gt; 1; numIterations++) {
+                int testAlpha = (minAlpha + maxAlpha) / 2;
+                if (calculateContrast(setAlphaComponent(foreground, testAlpha), background) &lt; ((double) minContrastRatio)) {
+                    minAlpha = testAlpha;
+                } else {
+                    maxAlpha = testAlpha;
+                }
+            }
+            return maxAlpha;
+        }
+    }
+
+    public static void RGBToHSL(@IntRange(from = 0, to = 255) int r, @IntRange(from = 0, to = 255) int g, @IntRange(from = 0, to = 255) int b, @NonNull float[] hsl) {
+        float s;
+        float h;
+        float rf = ((float) r) / 255.0f;
+        float gf = ((float) g) / 255.0f;
+        float bf = ((float) b) / 255.0f;
+        float max = Math.max(rf, Math.max(gf, bf));
+        float min = Math.min(rf, Math.min(gf, bf));
+        float deltaMaxMin = max - min;
+        float l = (max + min) / 2.0f;
+        if (max == min) {
+            s = 0.0f;
+            h = 0.0f;
+        } else {
+            if (max == rf) {
+                h = ((gf - bf) / deltaMaxMin) % 6.0f;
+            } else if (max == gf) {
+                h = ((bf - rf) / deltaMaxMin) + 2.0f;
+            } else {
+                h = ((rf - gf) / deltaMaxMin) + 4.0f;
+            }
+            s = deltaMaxMin / (1.0f - Math.abs((2.0f * l) - 1.0f));
+        }
+        h = (60.0f * h) % 360.0f;
+        if (h &lt; 0.0f) {
+            h += 360.0f;
+        }
+        hsl[0] = constrain(h, 0.0f, 360.0f);
+        hsl[1] = constrain(s, 0.0f, 1.0f);
+        hsl[2] = constrain(l, 0.0f, 1.0f);
+    }
+
+    public static void colorToHSL(@ColorInt int color, @NonNull float[] hsl) {
+        RGBToHSL(Color.red(color), Color.green(color), Color.blue(color), hsl);
+    }
+
+    @ColorInt
+    public static int HSLToColor(@NonNull float[] hsl) {
+        float h = hsl[0];
+        float s = hsl[1];
+        float l = hsl[2];
+        float c = (1.0f - Math.abs((2.0f * l) - 1.0f)) * s;
+        float m = l - (0.5f * c);
+        float x = c * (1.0f - Math.abs(((h / 60.0f) % 2.0f) - 1.0f));
+        int r = 0;
+        int g = 0;
+        int b = 0;
+        switch (((int) h) / 60) {
+            case 0:
+                r = Math.round(255.0f * (c + m));
+                g = Math.round(255.0f * (x + m));
+                b = Math.round(255.0f * m);
+                break;
+            case 1:
+                r = Math.round(255.0f * (x + m));
+                g = Math.round(255.0f * (c + m));
+                b = Math.round(255.0f * m);
+                break;
+            case 2:
+                r = Math.round(255.0f * m);
+                g = Math.round(255.0f * (c + m));
+                b = Math.round(255.0f * (x + m));
+                break;
+            case 3:
+                r = Math.round(255.0f * m);
+                g = Math.round(255.0f * (x + m));
+                b = Math.round(255.0f * (c + m));
+                break;
+            case 4:
+                r = Math.round(255.0f * (x + m));
+                g = Math.round(255.0f * m);
+                b = Math.round(255.0f * (c + m));
+                break;
+            case 5:
+            case 6:
+                r = Math.round(255.0f * (c + m));
+                g = Math.round(255.0f * m);
+                b = Math.round(255.0f * (x + m));
+                break;
+        }
+        return Color.rgb(constrain(r, 0, 255), constrain(g, 0, 255), constrain(b, 0, 255));
+    }
+
+    @ColorInt
+    public static int setAlphaComponent(@ColorInt int color, @IntRange(from = 0, to = 255) int alpha) {
+        if (alpha &gt;= 0 &amp;&amp; alpha &lt;= 255) {
+            return (ViewCompat.MEASURED_SIZE_MASK &amp; color) | (alpha &lt;&lt; 24);
+        }
+        throw new IllegalArgumentException("alpha must be between 0 and 255.");
+    }
+
+    private static float constrain(float amount, float low, float high) {
+        if (amount &lt; low) {
+            return low;
+        }
+        return amount &gt; high ? high : amount;
+    }
+
+    private static int constrain(int amount, int low, int high) {
+        if (amount &lt; low) {
+            return low;
+        }
+        return amount &gt; high ? high : amount;
+    }
+}
+</code></pre></div></div></div></div></div></div>
+            <script src="tree_js_content.js"></script>
+            </div><script data-manual type="text/javascript" src="html/prism.js"></script><script type="text/javascript" src="html/materialise/js/materialize.min.js"></script><footer style="background-color: #30363A !important;" class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">StaCoAn</h5><p class="grey-text text-lighten-4">If you like this project, feel free to give this a star on Github.If you don't and would like to see other features, feel free to make a feature request.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">links</h5><ul><li><a href="https://github.com/vincentcox/StaCoAn" class="grey-text text-lighten-3">StaCoAn Github page</a></li><li><a href="https://github.com/vincentcox/StaCoAn/blob/master/LICENSE" class="grey-text text-lighten-3">License</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">Report generated at 23:52:40 9/2/2018</div></div></footer><script type="text/javascript" src="html/looty.js"></script>
