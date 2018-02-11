@@ -1,0 +1,2 @@
+http:|||"res","layout"||| Suggested by Adi
+(https|http):\/\/.*api.*|||"res","layout"||| Suggested by Adi

@@ -23,6 +23,7 @@ before_install:
   - pip3 -V
 # command to install dependencies
 install:
+  - cd src
   - pip3 install -r requirements.txt
 # command to run tests
 script:
@@ -38,7 +39,7 @@ script:
   - cp -R report/html ./deploy/report
   - cp -R jadx ./deploy/
   - cp -R config ./deploy/
-  - cp README.md ./deploy/README.md
+  - cp ../README.md ./deploy/README.md
   - cp config.ini ./deploy/config.ini
 
   # Create Windows build. 

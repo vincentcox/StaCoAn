@@ -1,4 +1,4 @@
-![StaCoAn header](https://github.com/vincentcox/StaCoAn/blob/resources/header_stacoan-01.png?raw=true)
+![StaCoAn header](resources/header_stacoan-01.png)
 # StaCoAn ![Issues badge](https://img.shields.io/github/issues/vincentcox/StaCoAn.svg) ![License badge](https://img.shields.io/github/license/vincentcox/StaCoAn.svg) ![status](https://img.shields.io/badge/status-alpha-red.svg) ![Travis](https://api.travis-ci.org/vincentcox/StaCoAn.svg?branch=master)
 
 StaCoAn is a __crossplatform__ tool which aids developers, bugbounty hunters and ethical hackers performing [static code analysis](https://en.wikipedia.org/wiki/Static_program_analysis) on mobile applications\*.
@@ -18,14 +18,14 @@ For the impatient ones, grab the download on the [releases page](https://github.
 *: note that currently only apk files are supported, but ipa files will follow very shortly.
 </p>
 
-An example report can be found here: [example report](https://github.com/vincentcox/StaCoAn/raw/master/example-report.zip)
+An example report can be found here: [example report](resources/example-report.zip)
 
 ## Features
 The concept is that you drag and drop your mobile application file (an .apk or .ipa file) on the StaCoAn application and it will generate a visual and portable report for you. You can tweak the settings and wordlists to get a customized experience.
 
 The reports contain a handy tree viewer so you can easily browse trough your decompiled application.
 
-![Mockup  application ](https://github.com/vincentcox/StaCoAn/blob/resources/mockup_screenshot.png?raw=true)
+![Mockup  application ](resources/mockup_screenshot.png)
 
 ### Looting concept
 The _Loot Function_ let you 'loot' (~bookmark) the findings which are of value for you and on the loot-page you will get an overview of your 'loot' raid.
@@ -46,12 +46,12 @@ Any source file will be processed. This contains '.java', '.js', '.html', '.xml'
 
 Database-files are also searched for keywords. The database also has a table viewer.
 
-![database](https://github.com/vincentcox/StaCoAn/blob/resources/screenshot_database.png?raw=true)
+![database](resources/screenshot_database.png)
 
 ### Responsive Design
 The reports are made to fit on all screens.
 
-![](https://github.com/vincentcox/StaCoAn/blob/resources/responsive.gif?raw=true)
+![](resources/responsive.gif)
 
 ## Limitations
 This tool will have trouble with [obfuscated](https://en.wikibooks.org/wiki/Introduction_to_Software_Engineering/Tools/Obfuscation) code. If you are a developer try to compile without obfuscation turned on before running this tool. If you are on the offensive side, good luck bro.
@@ -67,6 +67,8 @@ Drag and drop this file onto the executable. The report will now be generated in
 `git clone https://github.com/vincentcox/StaCoAn/`
 
 `cd StaCoAn`
+
+`cd src`
 
 Make sure that you have pip3 installed:
 
@@ -107,19 +109,18 @@ Wait for it to be analysed and the open your browser in http://localhost:8000
 ## Contributing
 This entire program's value is depending on the wordlists it is using. In the end, the final result is what matters. It is easy to build a wordlist (in comparison to writing actual code), but it has the biggest impact on the end result. You can help the community the most with making wordlists.
 
-If you want an easy way to post your idea's, head over to: http://www.tricider.com/brainstorming/2pdrT7ONVrB. From there you can add ideas for entries in the wordlist. 
+If you want an easy way to post your idea's, head over to: http://www.tricider.com/brainstorming/2pdrT7ONVrB. From there you can add ideas for entries in the wordlist.
 
 Improving the code is also much appreciated.
 
 If the contribution is high enough, you will be mentioned in the `authors` section.
 
 ### Roadmap
-* Make IPA files also work with this program
-* Make DB matches loot-able
-* Use server to upload files (apk's, ipa's) and process them (https://gist.github.com/touilleMan/eb02ea40b93e52604938) 
-* Use an exclusion list
-* Exception list for ignoring findings in certain folders. For example ignoring `http` in `res/layout` and in general `http://schemas.android.com/apk/res/android`
-* Make a cleaner file structure of this project
+- [ ] Make IPA files also work with this program
+- [ ] Make DB matches loot-able
+- [ ] Use server to upload files (apk's, ipa's) and process them (https://gist.github.com/touilleMan/eb02ea40b93e52604938)
+- [x] Exception list for ignoring findings in certain folders. For example ignoring `http` in `res/layout` and in general `http://schemas.android.com/apk/res/android`
+- [x] Make a cleaner file structure of this project
 
 ## Authors & Contributors
 <table>
@@ -161,7 +162,7 @@ All of these projects have their corresponding licenses. Please respect these wh
 <p style ="font-size: 0.6em">*: the binary is included in this project. If the dev's from JADX are not comfortable with this, feel free to contact me about this so we can find a solution. </p>
 
 ## Acknowledgments
-* [Kevin De Koninck](https://github.com/Kevin-De-Koninck): Git master and senpai of patience with my learning process in [pep8](https://www.python.org/dev/peps/pep-0008/). 
+* [Kevin De Koninck](https://github.com/Kevin-De-Koninck): Git master and senpai of patience with my learning process in [pep8](https://www.python.org/dev/peps/pep-0008/).
 * [brakke97](https://twitter.com/skeltavik): He learned me how to hack mobile applications. This project would never exist without him.
 * [Aditya Gupta](https://twitter.com/adi1391): Awesome dude, really. Just keep him away from your IoT fridge or coffeemachine. Check out his [website](https://www.attify-store.com/) if you are into IoT hacking.
 * [Quintenvi](https://twitter.com/quintenvi): He learned me alot, also non-hacking things.
