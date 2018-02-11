@@ -1,8 +1,10 @@
 import os
 import sys
 import configparser
+import time
 from html_page import Htmlpage
 from time import localtime, strftime
+
 
 # This class uses a singleton. http://python-3-patterns-idioms-test.readthedocs.io/en/latest/Singleton.html
 
@@ -61,6 +63,7 @@ class Logger:
             self.cPrint(message, level)
             if int(level) == 1 and int(self.loglevel) >= 1:
                 self.__make_log_entry(message, "red")
+                time.sleep(7)
                 sys.exit(1)
             elif int(level) == 2 and int(self.loglevel) >= 2:
                 self.__make_log_entry(message, "amber")
