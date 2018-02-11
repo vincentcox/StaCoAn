@@ -84,15 +84,15 @@ Install the required python packages:
 
 __Windows__
 
-`pyinstaller main.py --onefile --add-data jadx:jadx -p jadx --icon icon.ico --name stacoan --clean`
+`pyinstaller main.py --onefile --icon icon.ico --name stacoan --clean`
 
 __mac__
 
-`pyinstaller main.py --onefile --add-data jadx:jadx -p jadx --icon icon.ico --name stacoan --clean`
+`pyinstaller main.py --onefile --icon icon.ico --name stacoan --clean`
 
 __Linux__
 
-`python3 -m PyInstaller main.py --onefile --add-data jadx:jadx -p jadx --icon icon.ico --name stacoan --clean`
+`python3 -m PyInstaller main.py --onefile --icon icon.ico --name stacoan --clean`
 
 ### Running the Docker container
 
