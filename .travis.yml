@@ -31,7 +31,7 @@ script:
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 stacoan.py test-apk.apk; fi # or py.test for Python versions 3.5 and below
   # Building the executable for the deployment
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then pip3 install pyinstaller; fi
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 -m PyInstaller stacoan.py --onefile --add-data jadx:jadx -p jadx --icon icon.ico --name stacoan --clean --noupx; fi
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 -m PyInstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean --noupx; fi
   
   # Making directories and add files
   - mkdir deploy
