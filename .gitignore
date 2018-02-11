@@ -3,20 +3,16 @@
 looty.js
 *.apk
 !test-apk.apk
-upx.exe
-upx.1
-css_generator.py
-exif_reader.py
-dist/
-build/
+src/dist/
+src/build/
 .idea/
 __pycache__/
-icon.png
-report/*
-!report/html/
-!report/html/*
+src/icon.png
+src/report/*
+!src/report/html/
+!src/report/html/*
 *.exe
-test-apk/
+src/test-apk/
 
 # OS generated files #
 ######################
@@ -27,4 +23,3 @@ test-apk/
 .Trashes
 ehthumbs.db
 Thumbs.db
-report/html/looty.js
