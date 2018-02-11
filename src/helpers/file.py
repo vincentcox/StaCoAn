@@ -1,11 +1,12 @@
-import configparser
 import os
 import re
 import sqlite3
 
-from logger import Logger
-from match import MatchDatabase, MatchSource
-from searchwords import Searchwords
+import configparser
+
+from helpers.logger import Logger
+from helpers.match import MatchDatabase, MatchSource
+from helpers.searchwords import Searchwords
 
 
 class File:

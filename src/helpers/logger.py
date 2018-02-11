@@ -1,8 +1,12 @@
 import os
 import sys
-import configparser
-from html_page import Htmlpage
+import inspect
 from time import localtime, strftime
+
+import configparser
+
+from helpers.html_page import Htmlpage
+
 
 # This class uses a singleton. http://python-3-patterns-idioms-test.readthedocs.io/en/latest/Singleton.html
 
@@ -15,7 +19,12 @@ class Logger:
 
     class __Logger:
         config = configparser.ConfigParser()
-        config.read("config.ini")
+
+        currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+        parentdir = os.path.dirname(currentdir)
+        configfile = os.path.join(parentdir, "config.ini")
+        config.read(configfile)
+
         loglevel = config.get("ProgramConfig", 'loglevel')
         logpath = os.path.join(config.get("ProgramConfig", 'report_folder'),
                                config.get("ProgramConfig", 'log_file'))

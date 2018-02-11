@@ -1,15 +1,16 @@
 #!/bin/python
-import configparser
+import codecs
 import hashlib
 import os
 import sys
 import webbrowser
-import codecs
 
-from logger import Logger
-from project import Project
-from report_html import Report_html
-from searchwords import Searchwords
+import configparser
+
+from helpers.logger import Logger
+from helpers.project import Project
+from helpers.report_html import Report_html
+from helpers.searchwords import Searchwords
 
 
 def program():

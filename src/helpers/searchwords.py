@@ -1,10 +1,11 @@
-import configparser
 import os
-
+import sys
 from collections import OrderedDict
 from operator import itemgetter
-from logger import Logger
-import sys
+
+import configparser
+
+from helpers.logger import Logger
 
 
 class Searchwords:
