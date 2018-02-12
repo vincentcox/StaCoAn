@@ -7,7 +7,7 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-python /StaCoAn/src/main.py $@
+python /StaCoAn/src/stacoan.py $@
 # https://stackoverflow.com/questions/90418/exit-shell-script-based-on-process-exit-code
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 
