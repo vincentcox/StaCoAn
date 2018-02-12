@@ -102,7 +102,7 @@ __Linux__
 
 `docker build . -t stacoan`
 
-`docker run -p 8000:8000 -v /yourappsfolder:/tmp -i -t stacoan /tmp/com.myapk.apk`
+`docker run -e JAVA_OPTS="-Xms2048m -Xmx2048m" -p 8000:8000 -v /yourappsfolder:/tmp -i -t stacoan /tmp/com.myapk.apk`
 
 Wait for it to be analysed and the open your browser in http://localhost:8000
 
