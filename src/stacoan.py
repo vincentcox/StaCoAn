@@ -54,8 +54,7 @@ def program():
     amount_files = len(all_files)
     i = 0
     for file in all_files:
-        #os.system('cls' if os.name == 'nt' else 'clear')   #  This function is making the program 5000% slower
-        Logger("progress: "+str(format((i/amount_files)*100, '.2f'))+"%")
+        Logger("progress: "+str(format((i/amount_files)*100, '.2f'))+"%", rewriteLine=True)
         i += 1
         hash_object = hashlib.md5(file.encode('utf-8'))
         file_report_file = os.path.join(report_folder, hash_object.hexdigest()+'.html')
@@ -68,6 +67,7 @@ def program():
         f.write(overview_html.gethtml())
         # with open(file_report_file, 'w') as f:
         #     print(overview_html.gethtml(), file=f)
+    Logger("progress: 100%  ")
 
     # Generate the startpage
     file_report_file = os.path.join(report_folder, 'start.html')
