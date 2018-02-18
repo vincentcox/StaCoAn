@@ -78,7 +78,7 @@ Install the required python packages:
 
 Run StaCoAn:
 
-`python3 stacoan.py yourApp.apk`
+`python3 stacoan.py -p yourApp.apk`
 
 ### Building the executable
 
@@ -165,7 +165,7 @@ All of these projects have their corresponding licenses. Please respect these wh
 * [Kevin De Koninck](https://github.com/Kevin-De-Koninck): Git master and senpai of patience with my learning process in [pep8](https://www.python.org/dev/peps/pep-0008/).
 * [brakke97](https://twitter.com/skeltavik): He taught me how to hack mobile applications. This project would never exist without him.
 * [Aditya Gupta](https://twitter.com/adi1391): Awesome dude, really. Just keep him away from your IoT fridge or coffeemachine. Check out his [website](https://www.attify-store.com/) if you are into IoT hacking.
-Also have a look at his course ["Advanced Android and iOS Hands-on Exploitation"](https://courses.securityschool.io/advanced-android-and-ios-hands-on-exploitation). I'm sure many future improvements in this tool will be based on ideas and techniques used during his course. 
+Also have a look at his course ["Advanced Android and iOS Hands-on Exploitation"](https://courses.securityschool.io/advanced-android-and-ios-hands-on-exploitation). I'm sure many future improvements in this tool will be based on ideas and techniques used during his course.
 * [Quintenvi](https://twitter.com/quintenvi): He taught me alot, also non-hacking things.
 * [c4b3rw0lf](https://twitter.com/c4b3rw0lf): The awesome dude behind the [VulnOS series](https://www.vulnhub.com/series/vulnos,36/).
 * [MacJu89](https://twitter.com/MacJu89): infra & XSS senpai
