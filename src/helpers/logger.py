@@ -36,14 +36,14 @@ class Logger:
             with open(self.logpath, 'w') as f:
                 print(Logger.log_html_document.gethtml(), file=f)
 
-        def __init__(self, message, level):
+        def __init__(self, message, level, rewriteLine):
             # First call of the logger, so it builds the title of the log-page
             Logger.log_html_document.header("log")
             Logger.log_html_document.navigation()
             with Logger.log_html_document.tag("h1", klass="center-align"):
                 Logger.log_html_document.text("Log-file")
             self.logmodule.append(self)
-            self.log(message, level)
+            self.log(message, level, rewriteLine)
 
         @staticmethod
         def timeString():
@@ -57,7 +57,7 @@ class Logger:
                             Logger.log_html_document.text("%s: %s" % (self.timeString, message))
 
         @staticmethod
-        def cPrint(message, level):
+        def cPrint(message, level, rewriteLine):
             if level == 1:
                 msg =  "%s[ERROR]" % PrintColors.ERROR
             elif level == 2:
@@ -65,10 +65,13 @@ class Logger:
             else:
                 msg = "%s[INFO]%s" % (PrintColors.INFO, PrintColors.END)
             msg += " %s%s" % (message, PrintColors.END)
-            print(msg)
+            if rewriteLine:
+                print(msg, end='\r')
+            else:
+                print(msg)
 
-        def log(self, message, level=3):
-            self.cPrint(message, level)
+        def log(self, message, level=3, rewriteLine=False):
+            self.cPrint(message, level, rewriteLine)
             if int(level) == 1 and int(self.loglevel) >= 1:
                 self.__make_log_entry(message, "red")
                 sleep(7)
@@ -80,13 +83,12 @@ class Logger:
 
     instance = None
 
-    def __init__(self, message, level=3):
+    def __init__(self, message, level=3, rewriteLine=False):
         if not Logger.instance:
-            Logger.instance = Logger.__Logger(message, level)
+            Logger.instance = Logger.__Logger(message, level, rewriteLine)
         else:
-            Logger.instance.log(message, level)
+            Logger.instance.log(message, level, rewriteLine)
 
     def dump():
         # passing the dump command to the singleton
         Logger.instance.dump()
-

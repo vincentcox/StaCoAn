@@ -102,11 +102,13 @@ class Project:
             # For Android: decompile with JADX
             if self.application_file.lower().endswith("apk"):
                 jadx_folder = os.path.join(new_folder, "jadx_source_code")
+                jadx_path = os.path.join(os.getcwd(), "jadx", "bin", "jadx")
                 Logger(jadx_folder)
                 if not os.path.exists(jadx_folder):
                     os.makedirs(jadx_folder)
-                if not os.access(os.path.join(os.getcwd(), "jadx", "bin", "jadx"), os.X_OK) and not os.name == 'nt':
-                    Logger( "jadx is not executable. Run \"chmod +x jadx/bin/jadx\"", 1)
+                if not os.access(jadx_path, os.X_OK) and not os.name == 'nt':
+                    Logger( "jadx is not executable. Performing automatic fix.", 2)
+                    os.chmod(jadx_path, 0o755)
                 # if i.startswith("'") and i.endswith("'"):
                 if not ((self.application_file.startswith("'") and self.application_file.endswith("'") ) or (self.application_file.startswith("\"") and self.application_file.endswith("\"") )):
                     self.application_file = "\"" + self.application_file + "\""
@@ -123,4 +125,3 @@ class Project:
             elif self.application_file.lower().endswith("ipa"):
                 Logger(".ipa files not implemented yet.", Logger.ERROR)
                 sys.exit()
-
