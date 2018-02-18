@@ -114,8 +114,10 @@ def program():
     Logger.dump()
 
     # Open the webbrowser to the generated start page.
-    url = os.path.join(report_folder, "start.html")
-    webbrowser.open(url)
+    report_folder_start = os.path.join(os.getcwd(), report_folder, "start.html")
+    if sys.platform == "darwin":  # check if on OSX
+        report_folder_start = "file:///" + report_folder_start
+    webbrowser.open(report_folder_start)
 
     # Exit program
     sys.exit()
