@@ -52,10 +52,8 @@ def program():
     all_files.update(Project.projects[project_path].db_files)
     all_files.update(Project.projects[project_path].src_files)
     amount_files = len(all_files)
-    i = 0
-    for file in all_files:
+    for i, file in enumerate(all_files):
         Logger("progress: "+str(format((i/amount_files)*100, '.2f'))+"%", rewriteLine=True)
-        i += 1
         hash_object = hashlib.md5(file.encode('utf-8'))
         file_report_file = os.path.join(report_folder, hash_object.hexdigest()+'.html')
         overview_html = Report_html(Project.projects[project_path])
