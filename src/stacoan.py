@@ -4,8 +4,8 @@ import hashlib
 import os
 import sys
 import webbrowser
-
 import configparser
+from time import time
 
 from helpers.logger import Logger
 from helpers.project import Project
@@ -18,10 +18,14 @@ def program():
     if not os.path.dirname(os.path.abspath(__file__)) == os.getcwd():
         Logger("Script cannot be called outside directory", Logger.ERROR)
 
+    # Keep track of execution time
+    start_time = time()
+
     # Read information from config file
     config = configparser.ConfigParser()
     config.read("config.ini")
     report_folder = config.get("ProgramConfig", 'report_folder')
+    report_folder_start = os.path.join(os.getcwd(), report_folder, "start.html")
     development = config.getint("Development", 'development')
     # Import the searchwords lists
     Searchwords.searchwords_import(Searchwords())
@@ -106,15 +110,19 @@ def program():
     # with open(tree_js_file_path, 'w') as f:
     #     print(Report_html.Tree_builder.tree_js_file(Project.projects[project_path]), file=f)
 
-
     # Generate looty.js file, for the zip creation process at the lootbox page
     Report_html().make_loot_report_content()
 
     # Write all log-events to logfile
     Logger.dump()
 
+    # Log some end results
+    print("\n--------------------\n")
+    Logger("Static code analyzer completed succesfully in %fs." % (time() - start_time))
+    Logger("HTML report is available at: %s" % report_folder_start)
+    Logger("Now automatically opening the HTML report.")
+
     # Open the webbrowser to the generated start page.
-    report_folder_start = os.path.join(os.getcwd(), report_folder, "start.html")
     if sys.platform == "darwin":  # check if on OSX
         report_folder_start = "file:///" + report_folder_start
     webbrowser.open(report_folder_start)
