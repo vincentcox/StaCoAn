@@ -51,6 +51,8 @@ def program(args):
     report_folder = config.get("ProgramConfig", 'report_folder')
     report_folder_start = os.path.join(os.getcwd(), report_folder, "start.html")
     development = config.getint("Development", 'development')
+    server_enabled = config.getboolean("ProgramConfig", 'SERVER_ENABLED')
+
     # Update log level
     if not (args.log_warnings or args.log_errors):
         loglevel = 3
@@ -59,6 +61,7 @@ def program(args):
     config.set('ProgramConfig', 'loglevel', str(loglevel))
     with open("config.ini", "w+") as configfile:
         config.write(configfile)
+
     # Import the searchwords lists
     Searchwords.searchwords_import(Searchwords())
 
