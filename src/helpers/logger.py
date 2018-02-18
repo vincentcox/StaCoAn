@@ -25,8 +25,6 @@ class Logger:
         parentdir = os.path.dirname(currentdir)
         configfile = os.path.join(parentdir, "config.ini")
         config.read(configfile)
-
-        loglevel = config.get("ProgramConfig", 'loglevel')
         logpath = os.path.join(config.get("ProgramConfig", 'report_folder'),
                                config.get("ProgramConfig", 'log_file'))
         logmodule = list()
@@ -71,14 +69,21 @@ class Logger:
                 print(msg)
 
         def log(self, message, level=3, rewriteLine=False):
-            self.cPrint(message, level, rewriteLine)
-            if int(level) == 1 and int(self.loglevel) >= 1:
+            # read the loglevel again, needed because of the singleton design
+            loglevelparser = configparser.ConfigParser()
+            loglevelparser.read(self.configfile)
+            loglevel = loglevelparser.get("ProgramConfig", 'loglevel')
+            
+            if int(level) == 1 and int(loglevel) >= 1:
+                self.cPrint(message, level, rewriteLine)
                 self.__make_log_entry(message, "red")
                 sleep(7)
                 sys.exit(1)
-            elif int(level) == 2 and int(self.loglevel) >= 2:
+            elif int(level) == 2 and int(loglevel) >= 2:
+                self.cPrint(message, level, rewriteLine)
                 self.__make_log_entry(message, "amber")
-            elif int(level) == 3 and int(self.loglevel) >= 3:
+            elif int(level) == 3 and int(loglevel) >= 3:
+                self.cPrint(message, level, rewriteLine)
                 self.__make_log_entry(message, "light-blue")
 
     instance = None

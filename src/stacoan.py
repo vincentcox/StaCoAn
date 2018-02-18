@@ -5,6 +5,7 @@ import os
 import sys
 import webbrowser
 import configparser
+import argparse
 from time import time
 
 from helpers.logger import Logger
@@ -13,7 +14,29 @@ from helpers.report_html import Report_html
 from helpers.searchwords import Searchwords
 
 
-def program():
+def parse_args():
+    # Description
+    argument_width_in_help = 30
+    parser = argparse.ArgumentParser(description='StaCoAn is a crossplatform tool '
+                'which aids developers, bugbounty hunters and ethical hackers performing static '
+                'code analysis on mobile applications.',
+                formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=argument_width_in_help))
+
+    # Arguments: see https://docs.python.org/3/library/argparse.html
+    parser.add_argument('-p', metavar="PATH", dest='project', required=False, nargs='+',
+                        help='Relative path to the project')
+    parser.add_argument('--disable-browser', action='store_true', required=False,
+                        help='Do not automatically open the HTML report in a browser')
+
+    log_group = parser.add_mutually_exclusive_group(required=False)
+    log_group.add_argument('--log-all', action='store_true', help='Log all errors, warnings and info messages (default)')
+    log_group.add_argument('--log-errors', action='store_true', help='Log only errors')
+    log_group.add_argument('--log-warnings', action='store_true', help='Log only errors and warning messages')
+
+    # return aur args, usage: args.argname
+    return parser.parse_args()
+
+def program(args):
     # Script cannot be called outside script directory. It contains a lot of os.getcwd().
     if not os.path.dirname(os.path.abspath(__file__)) == os.getcwd():
         Logger("Script cannot be called outside directory", Logger.ERROR)
@@ -22,21 +45,25 @@ def program():
     start_time = time()
 
     # Read information from config file
+    # ToDo create a settings class that parses the ini file with set and get functions
     config = configparser.ConfigParser()
     config.read("config.ini")
     report_folder = config.get("ProgramConfig", 'report_folder')
     report_folder_start = os.path.join(os.getcwd(), report_folder, "start.html")
     development = config.getint("Development", 'development')
+    # Update log level
+    if not (args.log_warnings or args.log_errors):
+        loglevel = 3
+    else:
+        loglevel = 1 if args.log_errors else 2
+    config.set('ProgramConfig', 'loglevel', str(loglevel))
+    with open("config.ini", "w+") as configfile:
+        config.write(configfile)
     # Import the searchwords lists
     Searchwords.searchwords_import(Searchwords())
 
     # For each project (read .ipa or .apk file), run the scripts.
-    all_project_paths = list()
-    if len(sys.argv) > 1:
-        all_project_paths = sys.argv[1:]
-    else:
-        # No arguments given.
-        Logger("No input file given", Logger.ERROR)
+    all_project_paths = args.project
     for project_path in all_project_paths:
         Project.projects[project_path] = Project(project_path)
         Logger("Decompiling app...")
@@ -115,24 +142,26 @@ def program():
     Logger.dump()
 
     # Log some end results
-    print("\n--------------------\n")
+    if loglevel == 3:
+        print("\n--------------------\n")
     Logger("Static code analyzer completed succesfully in %fs." % (time() - start_time))
     Logger("HTML report is available at: %s" % report_folder_start)
-    Logger("Now automatically opening the HTML report.")
+    if not args.disable_browser:
+        Logger("Now automatically opening the HTML report.")
 
-    # Open the webbrowser to the generated start page.
-    if sys.platform == "darwin":  # check if on OSX
-        report_folder_start = "file:///" + report_folder_start
-    webbrowser.open(report_folder_start)
+        # Open the webbrowser to the generated start page.
+        if sys.platform == "darwin":  # check if on OSX
+            report_folder_start = "file:///" + report_folder_start
+        webbrowser.open(report_folder_start)
 
     # Exit program
     sys.exit()
 
 if __name__ == "__main__":
     if os.environ.get('DEBUG') is not None:
-        program()
+        program(parse_args())
         exit(0)
     try:
-        program()
+        program(parse_args())
     except Exception as e:
         Logger("ERROR: Unknown error: %s." % str(e), Logger.ERROR)
