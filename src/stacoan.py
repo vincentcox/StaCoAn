@@ -45,11 +45,11 @@ def program(args):
     start_time = time()
 
     # Read information from config file
+    # Todo edit dockerfile with new path for report
     # ToDo create a settings class that parses the ini file with set and get functions
     config = configparser.ConfigParser()
     config.read("config.ini")
-    report_folder = config.get("ProgramConfig", 'report_folder')
-    report_folder_start = os.path.join(os.getcwd(), report_folder, "start.html")
+
     development = config.getint("Development", 'development')
     server_enabled = config.getboolean("ProgramConfig", 'SERVER_ENABLED')
 
@@ -69,6 +69,10 @@ def program(args):
     all_project_paths = args.project
     for project_path in all_project_paths:
         Project.projects[project_path] = Project(project_path)
+
+        report_folder = os.path.join(Project.projects[project_path].name, config.get("ProgramConfig", 'report_folder'))
+        report_folder_start = os.path.join(os.getcwd(), report_folder, "start.html")
+
         Logger("Decompiling app...")
         Project.projects[project_path].app_prepper()
         Logger("Decompiling done.")
