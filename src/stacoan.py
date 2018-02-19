@@ -12,6 +12,7 @@ from helpers.logger import Logger
 from helpers.project import Project
 from helpers.report_html import Report_html
 from helpers.searchwords import Searchwords
+from helpers.server import server_wrapper
 
 
 def parse_args():
@@ -27,6 +28,8 @@ def parse_args():
                         help='Relative path to the project')
     parser.add_argument('--disable-browser', action='store_true', required=False,
                         help='Do not automatically open the HTML report in a browser')
+    parser.add_argument('--disable-server', action='store_true', required=False,
+                        help='Do not run the server to drag and drop files to be analysed')
 
     log_group = parser.add_mutually_exclusive_group(required=False)
     log_group.add_argument('--log-all', action='store_true', help='Log all errors, warnings and info messages (default)')
@@ -52,6 +55,29 @@ def program(args):
 
     development = config.getint("Development", 'development')
     server_enabled = config.getboolean("ProgramConfig", 'SERVER_ENABLED')
+
+    if server_enabled == True and not args.disable_server:
+
+        # serverpart:
+        from threading import Thread
+        # This is a "bridge" between the stacoan program and the server. It communicates via this pipe (queue)
+        def serverlistener(in_q):
+            while True:
+                # Get some data
+                data = in_q.get()
+                # Process the data
+                print(data)
+                args = argparse.Namespace(project=[data], disable_server=True, log_warnings=False, log_errors=False)
+                program(args)
+
+        # Create the shared queue and launch both threads
+
+        t1 = Thread(target=serverlistener, args=(server_wrapper.SimpleHTTPRequestHandler.q,))
+        t1.start()
+        server_wrapper.startserver()
+        #
+        exit()
+
 
     # Update log level
     if not (args.log_warnings or args.log_errors):
