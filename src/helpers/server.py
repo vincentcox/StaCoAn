@@ -6,14 +6,19 @@ import cgi
 import shutil
 import mimetypes
 import re
+import json
 from io import BytesIO
 from queue import Queue
 from threading import Thread
-
+import configparser
 
 
 
 class server_wrapper:
+    # Read information from config file
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    apptypes = json.loads(config.get("ProgramConfig", 'apptypes'))
     class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         q = Queue()
 
@@ -70,8 +75,6 @@ class server_wrapper:
                 f.close()
 
         def deal_post_data(self):
-
-
             content_type = self.headers['content-type']
             if not content_type:
                 return (False, "Content-Type header doesn't contain boundary")
@@ -88,6 +91,11 @@ class server_wrapper:
                     break
             if not fn:
                 return (False, "Can't find out file name...")
+
+            # check filetype serverside:
+            if not (str(fn[0]).endswith(tuple(server_wrapper.apptypes))):
+                self.send_error(408, "Filetype not allowed")
+                return (False, "Filetype not allowed.")
             path = self.translate_path(self.path)
             # fn holds an array of files, have to make a for all loop
 
@@ -460,7 +468,11 @@ class server_wrapper:
 		
 		<div class="box__input">
 			<svg class="box__icon" xmlns="http://www.w3.org/2000/svg" width="50" height="43" viewBox="0 0 50 43"><path d="M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z"/></svg>
-			<input type="file" name="file" id="file" class="box__file" data-multiple-caption="{count} files selected" multiple />
+			""")
+            f.write(b"""<input type="file" name="file" id="file" class="box__file" data-multiple-caption="{count} files selected" multiple accept=\"""")
+            for apptype in server_wrapper.apptypes:
+                f.write(bytes(str(apptype)+", ", 'utf-8'))
+            f.write(b"""\" />
 			<label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
 			<button type="submit" class="box__button">Upload</button>
 		</div>
@@ -596,7 +608,11 @@ class server_wrapper:
 					ajax.onload = function()
 					{
 						form.classList.remove( 'is-uploading' );
-						if( ajax.status >= 200 && ajax.status < 400 )
+						if( ajax.status == 408 )
+						{
+						    alert( 'Filetype is not allowed');
+						}
+						else if( ajax.status >= 200 && ajax.status < 400 )
 						{
 							var data = JSON.parse( ajax.responseText );
 							form.classList.add( data.success == true ? 'is-success' : 'is-error' );
