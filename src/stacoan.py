@@ -12,7 +12,7 @@ from helpers.logger import Logger
 from helpers.project import Project
 from helpers.report_html import Report_html
 from helpers.searchwords import Searchwords
-from helpers.server import server_wrapper
+from helpers.server import ServerWrapper
 
 
 def parse_args():
@@ -65,18 +65,22 @@ def program(args):
             while True:
                 # Get some data
                 data = in_q.get()
+                if data == "stop_command":
+                    t1.terminate()
                 # Process the data
                 print(data)
-                args = argparse.Namespace(project=[data], disable_server=True, log_warnings=False, log_errors=False)
+                args = argparse.Namespace(project=[data], disable_server=True, log_warnings=False, log_errors=False, disable_browser=False)
+                print("spawn")
                 program(args)
 
         # Create the shared queue and launch both threads
 
-        t1 = Thread(target=serverlistener, args=(server_wrapper.SimpleHTTPRequestHandler.q,))
+        t1 = Thread(target=serverlistener, args=(ServerWrapper.SimpleHTTPRequestHandler.q,))
+        # t1.daemon = True
         t1.start()
-        server_wrapper.startserver()
+        ServerWrapper.startserver()
         #
-        exit()
+        return()
 
 
     # Update log level
