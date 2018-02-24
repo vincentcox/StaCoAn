@@ -104,17 +104,9 @@ class ServerWrapper:
                         preline = preline[0:-1]
                     out.write(preline)
                     out.close()
+                    # Start stacoan instance (program), by using the queue
+                    ServerWrapper.SimpleHTTPRequestHandler.q.put(fn)
 
-                    # transfer back to main program (stacoan)
-                    def producer(out_q):
-                        # Produce some data
-                        out_q.put(fn)
-
-                    t2 = Thread(target=producer, args=(ServerWrapper.SimpleHTTPRequestHandler.q,))
-                    # t2.daemon = True
-                    t2.start()
-
-                    #
                     return True, "File '%s' upload success!" % fn
 
 

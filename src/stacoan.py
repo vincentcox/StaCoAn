@@ -6,6 +6,7 @@ import sys
 import webbrowser
 import configparser
 import argparse
+from multiprocessing import Process
 from time import time
 
 from helpers.logger import Logger
@@ -70,17 +71,18 @@ def program(args):
                 # Process the data
                 print(data)
                 args = argparse.Namespace(project=[data], disable_server=True, log_warnings=False, log_errors=False, disable_browser=False)
-                print("spawn")
-                program(args)
+                p = Process(target=program, args=(args,))
+                p.start()
 
         # Create the shared queue and launch both threads
-
         t1 = Thread(target=serverlistener, args=(ServerWrapper.SimpleHTTPRequestHandler.q,))
-        # t1.daemon = True
+        t1.daemon = True
         t1.start()
         ServerWrapper.startserver()
         #
-        return()
+
+        ServerWrapper.SimpleHTTPRequestHandler.q.join()
+        # return()
 
 
     # Update log level
