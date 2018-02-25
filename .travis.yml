@@ -11,6 +11,11 @@ matrix:
       language: python
       sudo: required
       python: 3.6.2
+#    - os: docker
+#      env:
+#        - DOCKER=true
+#      services:
+#        - docker
 addons:
   chrome: stable
 before_script:
@@ -27,6 +32,12 @@ install:
   - pip3 install -r requirements.txt
 # command to run tests
 script:
+
+# Docker
+# - if [ "$DOCKER" == true ]; then echo "docker stuff here"; exit 0; fi
+# Docker should quit here
+
+
   - sudo chmod +x jadx/bin/jadx
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 stacoan.py -p test-apk.apk; fi # or py.test for Python versions 3.5 and below
   # Building the executable for the deployment

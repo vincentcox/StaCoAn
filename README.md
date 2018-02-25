@@ -15,7 +15,7 @@ This tool was created with a big focus on usability and graphical guidance in th
 For the impatient ones, grab the download on the [releases page](https://github.com/vincentcox/StaCoAn/releases).
 
 <p style="font-size: 0.6em">
-*: note that currently only apk files are supported, but ipa files will follow very shortly.
+&ast;: note that currently only apk files are supported, but ipa files will follow very shortly.
 </p>
 
 An example report can be found here: [example report](resources/example-report.zip)
@@ -64,47 +64,75 @@ If you have downloaded the release zip file, extract this. Copy the .apk or .ipa
 Drag and drop this file onto the executable. The report will now be generated in the `report` folder.
 
 ### From source
-`git clone https://github.com/vincentcox/StaCoAn/`
+```
+git clone https://github.com/vincentcox/StaCoAn/
+```
 
-`cd StaCoAn/src`
+```
+cd StaCoAn/src
+```
 
 Make sure that you have pip3 installed:
 
-`sudo apt-get install python3-pip`
+```
+sudo apt-get install python3-pip
+```
 
 Install the required python packages:
 
-`pip3 install -r requirements.txt `
+```
+pip3 install -r requirements.txt
+```
 
 Run StaCoAn:
 
-`python3 stacoan.py -p yourApp.apk`
-
+```
+python3 stacoan.py -p yourApp.apk
+```
+__Or__ if you rather use the drag and drop interface:
+```
+python3 stacoan.py -p yourApp.apk --disable-browser --enable-server
+```
 ### Building the executable
 
-`pip3 install pyinstaller`
+```
+pip3 install pyinstaller
+```
 
 __Windows__
 
-`pyinstaller main.py --onefile --icon icon.ico --name stacoan --clean`
+```
+pyinstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean
+```
 
 __mac__
 
-`pyinstaller main.py --onefile --icon icon.ico --name stacoan --clean`
+```
+pyinstaller main.py --onefile --icon icon.ico --name stacoan --clean
+```
 
 __Linux__
 
-`python3 -m PyInstaller main.py --onefile --icon icon.ico --name stacoan --clean`
+```
+python3 -m PyInstaller main.py --onefile --icon icon.ico --name stacoan --clean
+```
 
 ### Running the Docker container
 
-`cd docker`
+```
+cd docker
+```
 
-`docker build . -t stacoan`
+```
+docker build . -t stacoan
+```
+_Make sure that your application is at the location `/yourappsfolder`._
 
-`docker run -e JAVA_OPTS="-Xms2048m -Xmx2048m" -p 8000:8000 -v /yourappsfolder:/tmp -i -t stacoan /tmp/com.myapk.apk`
+```
+docker run -e JAVA_OPTS="-Xms2048m -Xmx2048m" -p 8000:8000 -p 8080:8080 -v /yourappsfolder:/tmp -i -t stacoan /tmp/com.myapk.apk
+```
 
-Wait for it to be analysed and the open your browser in http://localhost:8000
+Drag and drop your application via: http://127.0.0.1:8000.
 
 ## Contributing
 This entire program's value is depending on the wordlists it is using. In the end, the final result is what matters. It is easy to build a wordlist (in comparison to writing actual code), but it has the biggest impact on the end result. You can help the community the most with making wordlists.
@@ -118,7 +146,7 @@ If the contribution is high enough, you will be mentioned in the `authors` secti
 ### Roadmap
 - [ ] Make IPA files also work with this program
 - [ ] Make DB matches loot-able
-- [ ] Use server to upload files (apk's, ipa's) and process them (https://gist.github.com/touilleMan/eb02ea40b93e52604938)
+- [x] Use server to upload files (apk's, ipa's) and process them (https://gist.github.com/touilleMan/eb02ea40b93e52604938)
 - [x] Exception list for ignoring findings in certain folders. For example ignoring `http` in `res/layout` and in general `http://schemas.android.com/apk/res/android`
 - [x] Make a cleaner file structure of this project
 
@@ -159,7 +187,9 @@ The following projects were used in this project:
 
 All of these projects have their corresponding licenses. Please respect these while you are modifying and redistributing this project.
 
-<p style ="font-size: 0.6em">*: the binary is included in this project. If the dev's from JADX are not comfortable with this, feel free to contact me about this so we can find a solution. </p>
+<p style ="font-size: 0.6em">
+&ast;: the binary is included in this project. If the dev's from JADX are not comfortable with this, feel free to contact me about this so we can find a solution.
+</p>
 
 ## Acknowledgments
 * [Kevin De Koninck](https://github.com/Kevin-De-Koninck): Git master and senpai of patience with my learning process in [pep8](https://www.python.org/dev/peps/pep-0008/).

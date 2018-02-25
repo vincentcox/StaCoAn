@@ -439,7 +439,7 @@ class ServerWrapper:
                         <button type="submit" class="box__button">Upload</button>
                     </div>
                     <div class="box__uploading">Uploading&hellip;</div>
-                    <div class="box__success">Done! <a href="https://css-tricks.com/examples/DragAndDropFileUploading//?" class="box__restart" role="button">Upload more?</a></div>
+                    <div class="box__success">Done! <a href="#" class="box__restart2" onclick="javascript:event.target.port=8080" role="button" target="_blank">Open report!</a></div>
                     <div class="box__error">Error! <span></span>. <a href="https://css-tricks.com/examples/DragAndDropFileUploading//?" class="box__restart" role="button">Try again!</a></div>
                 </form>
             </div>

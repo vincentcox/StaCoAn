@@ -29,7 +29,7 @@ def parse_args():
                         help='Relative path to the project')
     parser.add_argument('--disable-browser', action='store_true', required=False,
                         help='Do not automatically open the HTML report in a browser')
-    parser.add_argument('--disable-server', action='store_true', required=False,
+    parser.add_argument('--enable-server', action='store_true', required=False,
                         help='Do not run the server to drag and drop files to be analysed')
 
     log_group = parser.add_mutually_exclusive_group(required=False)
@@ -55,9 +55,9 @@ def program(args):
     config.read("config.ini")
 
     development = config.getint("Development", 'development')
-    server_enabled = config.getboolean("ProgramConfig", 'SERVER_ENABLED')
+    server_enabled = config.getboolean("ProgramConfig", 'server_enabled')
 
-    if server_enabled == True and not args.disable_server:
+    if server_enabled or args.enable_server:
 
         # serverpart:
         from threading import Thread
@@ -70,7 +70,7 @@ def program(args):
                     t1.terminate()
                 # Process the data
                 print(data)
-                args = argparse.Namespace(project=[data], disable_server=True, log_warnings=False, log_errors=False, disable_browser=False)
+                args = argparse.Namespace(project=[data], enable_server=False, log_warnings=False, log_errors=False, disable_browser=False)
                 p = Process(target=program, args=(args,))
                 p.start()
 
