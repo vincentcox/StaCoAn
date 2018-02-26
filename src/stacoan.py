@@ -6,8 +6,11 @@ import sys
 import webbrowser
 import configparser
 import argparse
+import threading
+from threading import Thread
 from multiprocessing import Process
 from time import time
+
 
 from helpers.logger import Logger
 from helpers.project import Project
@@ -57,32 +60,41 @@ def program(args):
     development = config.getint("Development", 'development')
     server_enabled = config.getboolean("ProgramConfig", 'server_enabled')
 
+    # This is the servermode, usefull for running on a server or docker.
     if server_enabled or args.enable_server:
-
-        # serverpart:
-        from threading import Thread
         # This is a "bridge" between the stacoan program and the server. It communicates via this pipe (queue)
         def serverlistener(in_q):
             while True:
                 # Get some data
                 data = in_q.get()
-                if data == "stop_command":
-                    t1.terminate()
+                if data == "KILLSERVERCOMMAND":
+                    t1.isAlive = False
+                    download_thread.isAlive = False
+                    Logger("Server reports killed", Logger.INFO)
+                    Logger("Exiting program! Bye. ", Logger.INFO)
+                    exit(0)
+
                 # Process the data
-                print(data)
                 args = argparse.Namespace(project=[data], enable_server=False, log_warnings=False, log_errors=False, disable_browser=False)
                 p = Process(target=program, args=(args,))
                 p.start()
 
+        # Create report server instance
+        reportserver = ServerWrapper.create_reportserver()
+        download_thread = threading.Thread(target=reportserver.serve_forever)
+        download_thread.daemon = True
+        download_thread.start()
+
         # Create the shared queue and launch both threads
-        t1 = Thread(target=serverlistener, args=(ServerWrapper.SimpleHTTPRequestHandler.q,))
+        t1 = Thread(target=serverlistener, args=(ServerWrapper.dragdropserver.q,))
         t1.daemon = True
         t1.start()
         ServerWrapper.startserver()
-        #
 
-        ServerWrapper.SimpleHTTPRequestHandler.q.join()
-        # return()
+        # Keep waiting until q is gone.
+        ServerWrapper.dragdropserver.q.join()
+
+        # return() # Not needed because it will be killed eventually.
 
 
     # Update log level
@@ -192,7 +204,6 @@ def program(args):
             if sys.platform == "darwin":  # check if on OSX
                 report_folder_start = "file:///" + report_folder_start
             webbrowser.open(report_folder_start)
-
     # Exit program
     sys.exit()
 

@@ -129,7 +129,7 @@ docker build . -t stacoan
 _Make sure that your application is at the location `/yourappsfolder`._
 
 ```
-docker run -e JAVA_OPTS="-Xms2048m -Xmx2048m" -p 8000:8000 -p 8080:8080 -v /yourappsfolder:/tmp -i -t stacoan /tmp/com.myapk.apk
+docker run -e JAVA_OPTS="-Xms2048m -Xmx2048m" -p 8000:8000 -p 8080:8080 -i -t stacoan
 ```
 
 Drag and drop your application via: http://127.0.0.1:8000.

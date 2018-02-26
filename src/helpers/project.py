@@ -91,6 +91,7 @@ class Project:
         root_target_dir = os.path.join(PATH, self.name, "report", "html")
         if not os.path.exists(root_target_dir):
             os.makedirs(root_target_dir)
+        shutil.copy(os.path.join(PATH, "report", "start.html"), os.path.join(PATH, self.name, "report", "start.html"))
         for src_dir, dirs, files in os.walk(root_src_dir):
             dst_dir = src_dir.replace(root_src_dir, root_target_dir)
             if not os.path.exists(dst_dir):

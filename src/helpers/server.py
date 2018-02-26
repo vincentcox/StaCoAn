@@ -10,6 +10,7 @@ import shutil
 import urllib.error
 import urllib.parse
 import urllib.request
+import socketserver
 
 from io import BytesIO
 from queue import Queue
@@ -22,9 +23,47 @@ class ServerWrapper:
     config = configparser.ConfigParser()
     config.read("config.ini")
     apptypes = json.loads(config.get("ProgramConfig", 'apptypes'))
-    class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
+    REPORT_SERVER_PORT = json.loads(config.get("Server", 'REPORT_SERVER_PORT'))
+
+    def create_reportserver():
+        Logger("serving report server at port: " + str(ServerWrapper.REPORT_SERVER_PORT), Logger.INFO)
+        return socketserver.TCPServer(("", ServerWrapper.REPORT_SERVER_PORT), RequestHandlerClass=ServerWrapper.reportserver)
+
+    class reportserver(http.server.SimpleHTTPRequestHandler):
+        def log_request(self, code='-', size='-'):
+            if ".html" in str(self.requestline):
+                Logger(self.requestline + " " + str(code) + " " + str(size), Logger.INFO)
+
+        def log_error(self, format, *args):
+            Logger(("%s - - [%s] %s\n" %
+                    (self.address_string(),
+                     self.log_date_time_string(),
+                     format % args)), Logger.WARNING)
+
+        def log_message(self, format, *args):
+            Logger(("%s - - [%s] %s\n" %
+                    (self.address_string(),
+                     self.log_date_time_string(),
+                     format % args)), Logger.INFO)
+
+    class dragdropserver(http.server.BaseHTTPRequestHandler):
         # The Queue communicates with the stacoan.py file. It's a communication pipe.
         q = Queue()
+
+        def log_request(self, code='-', size='-'):
+            Logger(self.requestline+ " " + str(code) + " " + str(size), Logger.INFO)
+
+        def log_error(self, format, *args):
+            Logger(("%s - - [%s] %s\n" %
+                    (self.address_string(),
+                     self.log_date_time_string(),
+                     format % args)), Logger.WARNING)
+
+        def log_message(self, format, *args):
+            Logger(("%s - - [%s] %s\n" %
+                             (self.address_string(),
+                              self.log_date_time_string(),
+                              format % args)), Logger.INFO)
         def do_GET(self):
             """Serve a GET request."""
             f = self.send_head()
@@ -35,7 +74,7 @@ class ServerWrapper:
         def do_POST(self):
             """Serve a POST request."""
             r, info = self.deal_post_data()
-            print((r, info, "by: ", self.client_address))
+            Logger((str(r) + str(info) + "by: " + str(self.client_address)), Logger.INFO)
             f = BytesIO()
             f.write(b'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">')
             f.write(b"<html>\n<title>Upload Result Page</title>\n")
@@ -69,6 +108,10 @@ class ServerWrapper:
                 return (False, "Content NOT begin with boundary")
             for line in self.rfile:
                 remainbytes -= len(line)
+                if re.findall(r'KILLSERVERCOMMAND', line.decode()):
+                    ServerWrapper.SimpleHTTPRequestHandler.q.put("KILLSERVERCOMMAND")
+                    Logger("Server upload killed", Logger.INFO)
+                    exit(0)
                 fn = re.findall(r'Content-Disposition.*name="file"; filename="(.*\S.*)"', line.decode())
                 if fn:
                     break
@@ -83,7 +126,6 @@ class ServerWrapper:
 
             # fn holds an array of files, have to make a for all loop
             fn = os.path.join(path, fn[0])
-            print(fn)
             line = self.rfile.readline()
             remainbytes -= len(line)
             line = self.rfile.readline()
@@ -106,11 +148,7 @@ class ServerWrapper:
                     out.close()
                     # Start stacoan instance (program), by using the queue
                     ServerWrapper.SimpleHTTPRequestHandler.q.put(fn)
-
                     return True, "File '%s' upload success!" % fn
-
-
-
 
                 else:
                     out.write(preline)
@@ -184,7 +222,6 @@ class ServerWrapper:
                 <title>Drag and Drop File Uploading</title>
                 <link rel="canonical" href="https://css-tricks.com/examples/DragAndDropFileUploading/">
                 <meta name="viewport" content="width=device-width,initial-scale=1" />
-                <link rel="stylesheet" href="main.css" />
                 <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,400" />
                 <style>
                         body
@@ -439,8 +476,8 @@ class ServerWrapper:
                         <button type="submit" class="box__button">Upload</button>
                     </div>
                     <div class="box__uploading">Uploading&hellip;</div>
-                    <div class="box__success">Done! <a href="#" class="box__restart2" onclick="javascript:event.target.port=8080" role="button" target="_blank">Open report! (may need to wait a few moments)</a></div>
-                    <div class="box__error">Error! <span></span>. <a href="https://css-tricks.com/examples/DragAndDropFileUploading//?" class="box__restart" role="button">Try again!</a></div>
+                    <div class="box__success">Done! <a href="/" class="box__restart2" id="done_link" onclick="javascript:event.target.port=8080" role="button" target="_blank">Open report!</a></div>
+                    <div class="box__error">Error! <span></span>. <a href="/?" class="box__restart" role="button">Try again!</a></div>
                 </form>
             </div>
             <script>
@@ -541,6 +578,7 @@ class ServerWrapper:
                                     Array.prototype.forEach.call( droppedFiles, function( file )
                                     {
                                         ajaxData.append( input.getAttribute( 'name' ), file );
+                                        document.getElementById("done_link").setAttribute("href", file.name.replace(".", "_")+"/report/start.html");
                                     });
                                 }
             
@@ -703,6 +741,26 @@ class ServerWrapper:
             '.h': 'text/plain',
         })
 
-    def startserver(HandlerClass=SimpleHTTPRequestHandler,
+
+
+    def startserver(HandlerClass=dragdropserver,
              ServerClass=http.server.HTTPServer):
+
+        # Code to supress the welcoming message from the server. Yes, its a lot of code, but no other way...
+        from contextlib import contextmanager
+        import sys, os
+
+        @contextmanager
+        def suppress_stdout():
+            with open(os.devnull, "w") as devnull:
+                old_stdout = sys.stdout
+                sys.stdout = devnull
+                try:
+                    yield
+                finally:
+                    sys.stdout = old_stdout
+        with suppress_stdout():
+            print("You cannot see this")
+
+            # Start the server
         http.server.test(HandlerClass, ServerClass)
