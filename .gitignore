@@ -9,6 +9,7 @@ src/build/
 __pycache__/
 src/icon.png
 src/report/*
+!src/report/start.html
 !src/report/html/
 !src/report/html/*
 src/report/html/looty.js
