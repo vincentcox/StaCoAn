@@ -23,7 +23,7 @@ class ServerWrapper:
     config = configparser.ConfigParser()
     config.read("config.ini")
     apptypes = json.loads(config.get("ProgramConfig", 'apptypes'))
-    REPORT_SERVER_PORT = json.loads(config.get("Server", 'REPORT_SERVER_PORT'))
+    REPORT_SERVER_PORT = json.loads(config.get("Server", 'report_server_port'))
 
     def create_reportserver():
         Logger("serving report server at port: " + str(ServerWrapper.REPORT_SERVER_PORT), Logger.INFO)
@@ -147,7 +147,7 @@ class ServerWrapper:
                     out.write(preline)
                     out.close()
                     # Start stacoan instance (program), by using the queue
-                    ServerWrapper.SimpleHTTPRequestHandler.q.put(fn)
+                    ServerWrapper.dragdropserver.q.put(fn)
                     return True, "File '%s' upload success!" % fn
 
                 else:
