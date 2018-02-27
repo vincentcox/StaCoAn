@@ -47,7 +47,7 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then sudo apt-get install -qq wine ; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://www.python.org/ftp/python/3.4.4/python-3.4.4.amd64.msi --output-document=python-64.msi; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 msiexec /i  python-64.msi /qn TARGETDIR=c:\\Python-64; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install pyinstaller==3.2.1 --upgrade; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install pyinstaller==3.0 --upgrade; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install setuptools --upgrade; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install -r requirements.txt; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\scripts\\pyinstaller.exe stacoan.py --onefile --icon icon.ico --name stacoan --clean --noupx; fi
