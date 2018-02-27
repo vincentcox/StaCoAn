@@ -578,7 +578,7 @@ class ServerWrapper:
                                     Array.prototype.forEach.call( droppedFiles, function( file )
                                     {
                                         ajaxData.append( input.getAttribute( 'name' ), file );
-                                        document.getElementById("done_link").setAttribute("href", file.name.replace(".", "_")+"/report/start.html");
+                                        document.getElementById("done_link").setAttribute("href", file.name.replace(/\./g, "_")+"/report/start.html");
                                     });
                                 }
             
