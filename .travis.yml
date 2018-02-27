@@ -47,11 +47,7 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then sudo apt-get install -qq wine ; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://www.python.org/ftp/python/3.4.4/python-3.4.4.amd64.msi --output-document=python-64.msi; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 msiexec /i  python-64.msi /qn TARGETDIR=c:\\Python-64; fi
-  # Temp fix
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://pypi.python.org/packages/65/83/0b14690d70bcd193a67c8b0a640129717e37a11d8e6a3e28a01e47910737/pywin32-223-cp27-cp27m-win_amd64.whl#md5=c9d2d260ef87592bb04cbc59f1ffe2d2; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install pywin32-223-cp27-cp27m-win_amd64.whl; fi
-  # /temp fix
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install pyinstaller --upgrade; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install pyinstaller==3.3 --upgrade; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install setuptools --upgrade; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install -r requirements.txt; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\scripts\\pyinstaller.exe stacoan.py --onefile --icon icon.ico --name stacoan --clean --noupx; fi
