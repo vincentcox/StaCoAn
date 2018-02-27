@@ -156,7 +156,9 @@ If the contribution is high enough, you will be mentioned in the `authors` secti
     <th><center>Project Creator</center></th>
   </tr>
   <tr>
-    <td><p align="center"><img src="https://vincentcox.com/wp-content/uploads/IMG_3852-copy.jpg" alt="Drawing" width="200px"/></p> </td>
+    <td>
+    <p align="center"><img src="resources/authors/vincentcox.jpg" alt="Vincent Cox" width="200px"/></p>
+    </td>
   </tr>
   <tr>
     <td>
@@ -174,6 +176,10 @@ If the contribution is high enough, you will be mentioned in the `authors` secti
     </td>
   </tr>
 </table>
+### Top contributors
+<a href="https://github.com/Kevin-De-Koninck"><img src="resources/authors/Kevin-De-Koninck.png" width="100px"></a>
+<a href="https://github.com/BBerastegui"><img src="resources/authors/BBerastegui.png" width="100px"></a>
+<a href="https://github.com/adi0x90"><img src="resources/authors/adi0x90.png" width="100px"></a>
 
 ## License
 The following projects were used in this project:
