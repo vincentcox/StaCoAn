@@ -151,6 +151,7 @@ If the contribution is high enough, you will be mentioned in the `authors` secti
 - [x] Make a cleaner file structure of this project
 
 ## Authors & Contributors
+
 <table>
   <tr>
     <th><center>Project Creator</center></th>
