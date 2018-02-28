@@ -25,8 +25,7 @@ before_script:
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python3 ; fi
   - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker pull cdrx/pyinstaller-linux; fi
-  - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-linux pyinstaller stacoan.py; fi
-  - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-linux; fi
+  - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-linux pyinstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean; fi
   - python3 -V
   - pip3 -V
 # command to install dependencies
