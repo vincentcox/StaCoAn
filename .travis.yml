@@ -24,15 +24,15 @@ before_script:
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sleep 3  ; fi
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python3 ; fi
+  - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker pull cdrx/pyinstaller-linux; fi
+  - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-linux pyinstaller stacoan.py; fi
+  - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-linux; fi
   - python3 -V
   - pip3 -V
 # command to install dependencies
 install:
   - cd src
   - pip3 install -r requirements.txt
-  - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker pull cdrx/pyinstaller-linux; fi
-  - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker run -v "$(pwd):/src/" cdrx/pyinstaller-linux pyinstaller stacoan.py; fi
-  - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker run -v "$(pwd):/src/" cdrx/pyinstaller-linux; fi
 # command to run tests
 script:
   - sudo chmod +x jadx/bin/jadx
