@@ -45,9 +45,11 @@ script:
   # Create Windows build. 
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then rm -rf ./dist; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then sudo apt-get install -qq wine ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://pypi.python.org/packages/d0/1b/2f292bbd742e369a100c91faa0483172cd91a1a422a6692055ac920946c5/pypiwin32-223-py3-none-any.whl#md5=f91a2b1b040ca1254bd09edec7dc1cf7 --output-document=pypywin.whl; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://pypi.python.org/packages/f4/fb/ba9e519d90b63090005bcdee900d318d895d475c627dc1bc0f77b27abad0/pywin32-223-cp37-cp37m-win_amd64.whl#md5=c6e4dcf5042226bd94fb06556572fa57 --output-document=pywin.whl; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://www.python.org/ftp/python/3.4.4/python-3.4.4.amd64.msi --output-document=python-64.msi; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 msiexec /i  python-64.msi /qn TARGETDIR=c:\\Python-64; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install pypywin.whl; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install pywin.whl; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install pyinstaller; fi
 #  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wine64 c:\\Python-64\\python.exe c:\\Python-64\\scripts\\pip.exe install pyinstaller==3.0 --upgrade; fi
