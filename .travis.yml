@@ -24,7 +24,7 @@ before_script:
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sleep 3  ; fi
 before_install:
   - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker pull cdrx/pyinstaller-linux; fi
-  - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker run -v "$(pwd):/src/" cdrx/pyinstaller-linux "apt-get update -y && apt-get install -y wget && pip install -r requirements.txt && pyinstaller --clean -y --dist ./dist/linux --workpath /tmp *.spec"; fi
+#  - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker run -v "$(pwd):/src/" cdrx/pyinstaller-linux "apt-get update -y && apt-get install -y wget && pip install -r requirements.txt && pyinstaller --clean -y --dist ./dist/linux --workpath /tmp *.spec"; fi
   - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker run -v "$(pwd):/src/" cdrx/pyinstaller-linux; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python3 ; fi
   - python3 -V
