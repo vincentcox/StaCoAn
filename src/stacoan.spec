@@ -3,7 +3,8 @@
 block_cipher = None
 
 
-a = Analysis(['/src/stacoan.py'],
+a = Analysis(['stacoan.py'],
+             pathex=['helpers'],
              binaries=[],
              datas=[],
              hiddenimports=[],
