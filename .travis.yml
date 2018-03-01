@@ -28,7 +28,7 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-linux; fi
 #  - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then cp "$(pwd)/src/" cdrx/pyinstaller-linux; fi
   - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; then python3 -V; fi
-  - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; pip3 -V; fi
+  - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; then pip3 -V; fi
 # command to install dependencies
 install:
   - cd src
