@@ -7,11 +7,8 @@ matrix:
       python: 3.6.2
     - os: osx
       sudo: required
-#    - os: windows
-#      language: python
-#      sudo: required
-#      python: 3.6.2
-    - os: docker
+      python: 3.6.2
+    - os: windows
       env:
         - DOCKER=true
       services:
@@ -24,24 +21,22 @@ before_script:
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sleep 3  ; fi
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python3 ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "docker" ]]; then docker pull cdrx/pyinstaller-windows; fi
-  - if [[ "$TRAVIS_OS_NAME" == "docker" ]]; then docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-windows; fi
-#  - if [[ "$TRAVIS_OS_NAME" == "docker" ]]; then cp "$(pwd)/src/" cdrx/pyinstaller-linux; fi
-  - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; then python3 -V; fi
-  - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; then pip3 -V; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then docker pull cdrx/pyinstaller-windows; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-windows; fi
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 -V; fi
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then pip3 -V; fi
 # command to install dependencies
 install:
   - cd src
-
 # command to run tests
 script:
  # Run script
   - sudo chmod +x jadx/bin/jadx
-  - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; then pip3 install -r requirements.txt; fi
-  - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; then python3 stacoan.py -p test-apk.apk; fi # or py.test for Python versions 3.5 and below
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then pip3 install -r requirements.txt; fi
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 stacoan.py -p test-apk.apk; fi # or py.test for Python versions 3.5 and below
  # Building the executable for the deployment
-  - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; then pip3 install pyinstaller; fi
-  - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; then python3 -m PyInstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean --noupx; fi
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then pip3 install pyinstaller; fi
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 -m PyInstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean --noupx; fi
   
   # Making directories and add files
   - mkdir deploy
@@ -53,7 +48,7 @@ script:
   - cp config.ini ./deploy/config.ini
   
   # Create zip
-  - if [[ "$TRAVIS_OS_NAME" == "docker" ]];
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]];
     then cp dist/windows/* ./deploy/;
     else cp dist/* ./deploy/;
     fi
