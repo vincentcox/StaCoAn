@@ -32,12 +32,14 @@ before_install:
 # command to install dependencies
 install:
   - cd src
-  - pip3 install -r requirements.txt
+
 # command to run tests
 script:
+ # Run script
   - sudo chmod +x jadx/bin/jadx
+  - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; then pip3 install -r requirements.txt; fi
   - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; then python3 stacoan.py -p test-apk.apk; fi # or py.test for Python versions 3.5 and below
-  # Building the executable for the deployment
+ # Building the executable for the deployment
   - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; then pip3 install pyinstaller; fi
   - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; then python3 -m PyInstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean --noupx; fi
   
