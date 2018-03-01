@@ -108,13 +108,13 @@ pyinstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean
 __mac__
 
 ```
-pyinstaller main.py --onefile --icon icon.ico --name stacoan --clean
+pyinstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean
 ```
 
 __Linux__
 
 ```
-python3 -m PyInstaller main.py --onefile --icon icon.ico --name stacoan --clean
+python3 -m PyInstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean
 ```
 
 ### Running the Docker container
