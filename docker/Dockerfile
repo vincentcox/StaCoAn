@@ -23,4 +23,5 @@ RUN pip3 install -r requirements.txt && chmod u+rwx /StaCoAn/src/jadx/bin/jadx
 COPY stacoan.sh /stacoan.sh
 
 EXPOSE 8000
+EXPOSE 8080
 ENTRYPOINT ["/bin/bash", "/stacoan.sh"]

@@ -85,28 +85,39 @@ class Project:
         return limited_frequency_words
 
     def app_prepper(self):
+        import os
+        import shutil
+        root_src_dir = os.path.join(PATH, "report", "html")
+        root_target_dir = os.path.join(PATH, self.name, "report", "html")
+        if not os.path.exists(root_target_dir):
+            os.makedirs(root_target_dir)
+        shutil.copy(os.path.join(PATH, "report", "start.html"), os.path.join(PATH, self.name, "report", "start.html"))
+        for src_dir, dirs, files in os.walk(root_src_dir):
+            dst_dir = src_dir.replace(root_src_dir, root_target_dir)
+            if not os.path.exists(dst_dir):
+                os.mkdir(dst_dir)
+            for file_ in files:
+                src_file = os.path.join(src_dir, file_)
+                dst_file = os.path.join(dst_dir, file_)
+                if os.path.exists(dst_file):
+                    os.remove(dst_file)
+                shutil.copy(src_file, dst_dir)
+
         if not self.application_file.lower().endswith(tuple(self.apptypes)):
             Logger("No mobile app detected, exiting! Hgnnnhh", Logger.ERROR)
             sys.exit()
-        if not os.path.exists(os.path.join(PATH,  ntpath.basename(self.application_file))):
-            os.makedirs(os.path.join(PATH,  ntpath.basename(self.application_file)))
-        if Project.development == 1:
-            self.workfolder = os.path.join(PATH, os.path.splitext(os.path.basename(self.application_file))[0])
         else:
-            zip_ref = zipfile.ZipFile(self.application_file, 'r')
-            new_folder = os.path.join(PATH, os.path.splitext(os.path.basename(self.application_file))[0])
-            # Unpacking the .apk or .ipa file (it is just a ZIP archive)
-            zip_ref.extractall(new_folder)
-            zip_ref.close()
-            self.workfolder = new_folder
+            self.workfolder = os.path.join(PATH, self.name, "jadx_source_code")
             # For Android: decompile with JADX
             if self.application_file.lower().endswith("apk"):
-                jadx_folder = os.path.join(new_folder, "jadx_source_code")
+                jadx_folder = self.workfolder
+                jadx_path = os.path.join(os.getcwd(), "jadx", "bin", "jadx")
                 Logger(jadx_folder)
                 if not os.path.exists(jadx_folder):
                     os.makedirs(jadx_folder)
-                if not os.access(os.path.join(os.getcwd(), "jadx", "bin", "jadx"), os.X_OK) and not os.name == 'nt':
-                    Logger( "jadx is not executable. Run \"chmod +x jadx/bin/jadx\"", 1)
+                if not os.access(jadx_path, os.X_OK) and not os.name == 'nt':
+                    Logger( "jadx is not executable. Performing automatic fix.", 2)
+                    os.chmod(jadx_path, 0o755)
                 # if i.startswith("'") and i.endswith("'"):
                 if not ((self.application_file.startswith("'") and self.application_file.endswith("'") ) or (self.application_file.startswith("\"") and self.application_file.endswith("\"") )):
                     self.application_file = "\"" + self.application_file + "\""
@@ -123,4 +134,9 @@ class Project:
             elif self.application_file.lower().endswith("ipa"):
                 Logger(".ipa files not implemented yet.", Logger.ERROR)
                 sys.exit()
-
+                # Unzipping ipa
+                # zip_ref = zipfile.ZipFile(self.application_file, 'r')
+                #
+                # # Unpacking the .apk or .ipa file (it is just a ZIP archive)
+                # zip_ref.extractall(new_folder)
+                # zip_ref.close()

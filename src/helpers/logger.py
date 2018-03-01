@@ -25,8 +25,6 @@ class Logger:
         parentdir = os.path.dirname(currentdir)
         configfile = os.path.join(parentdir, "config.ini")
         config.read(configfile)
-
-        loglevel = config.get("ProgramConfig", 'loglevel')
         logpath = os.path.join(config.get("ProgramConfig", 'report_folder'),
                                config.get("ProgramConfig", 'log_file'))
         logmodule = list()
@@ -36,14 +34,14 @@ class Logger:
             with open(self.logpath, 'w') as f:
                 print(Logger.log_html_document.gethtml(), file=f)
 
-        def __init__(self, message, level):
+        def __init__(self, message, level, rewriteLine):
             # First call of the logger, so it builds the title of the log-page
             Logger.log_html_document.header("log")
             Logger.log_html_document.navigation()
             with Logger.log_html_document.tag("h1", klass="center-align"):
                 Logger.log_html_document.text("Log-file")
             self.logmodule.append(self)
-            self.log(message, level)
+            self.log(message, level, rewriteLine)
 
         @staticmethod
         def timeString():
@@ -57,7 +55,7 @@ class Logger:
                             Logger.log_html_document.text("%s: %s" % (self.timeString, message))
 
         @staticmethod
-        def cPrint(message, level):
+        def cPrint(message, level, rewriteLine):
             if level == 1:
                 msg =  "%s[ERROR]" % PrintColors.ERROR
             elif level == 2:
@@ -65,28 +63,37 @@ class Logger:
             else:
                 msg = "%s[INFO]%s" % (PrintColors.INFO, PrintColors.END)
             msg += " %s%s" % (message, PrintColors.END)
-            print(msg)
+            if rewriteLine:
+                print(msg, end='\r')
+            else:
+                print(msg)
 
-        def log(self, message, level=3):
-            self.cPrint(message, level)
-            if int(level) == 1 and int(self.loglevel) >= 1:
+        def log(self, message, level=3, rewriteLine=False):
+            # read the loglevel again, needed because of the singleton design
+            loglevelparser = configparser.ConfigParser()
+            loglevelparser.read(self.configfile)
+            loglevel = loglevelparser.get("ProgramConfig", 'loglevel')
+            
+            if int(level) == 1 and int(loglevel) >= 1:
+                self.cPrint(message, level, rewriteLine)
                 self.__make_log_entry(message, "red")
                 sleep(7)
                 sys.exit(1)
-            elif int(level) == 2 and int(self.loglevel) >= 2:
+            elif int(level) == 2 and int(loglevel) >= 2:
+                self.cPrint(message, level, rewriteLine)
                 self.__make_log_entry(message, "amber")
-            elif int(level) == 3 and int(self.loglevel) >= 3:
+            elif int(level) == 3 and int(loglevel) >= 3:
+                self.cPrint(message, level, rewriteLine)
                 self.__make_log_entry(message, "light-blue")
 
     instance = None
 
-    def __init__(self, message, level=3):
+    def __init__(self, message, level=3, rewriteLine=False):
         if not Logger.instance:
-            Logger.instance = Logger.__Logger(message, level)
+            Logger.instance = Logger.__Logger(message, level, rewriteLine)
         else:
-            Logger.instance.log(message, level)
+            Logger.instance.log(message, level, rewriteLine)
 
     def dump():
         # passing the dump command to the singleton
         Logger.instance.dump()
-
