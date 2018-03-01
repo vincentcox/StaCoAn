@@ -4,11 +4,10 @@ block_cipher = None
 
 
 a = Analysis(['stacoan.py'],
-             pathex=['helpers'],
              binaries=[],
              datas=[],
              hiddenimports=[],
-             hookspath=[],
+             hookspath=['helpers'],
              runtime_hooks=[],
              excludes=[],
              win_no_prefer_redirects=False,
