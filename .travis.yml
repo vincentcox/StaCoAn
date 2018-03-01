@@ -7,8 +7,10 @@ matrix:
       python: 3.6.2
     - os: osx
       sudo: required
+      language: python
       python: 3.6.2
     - os: windows
+      language: python
       env:
         - DOCKER=true
       services:
