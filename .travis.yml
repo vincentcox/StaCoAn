@@ -24,8 +24,8 @@ before_script:
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sleep 3  ; fi
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python3 ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "docker" ]]; then docker pull cdrx/pyinstaller-linux; fi
-  - if [[ "$TRAVIS_OS_NAME" == "docker" ]]; then docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-linux; fi
+  - if [[ "$TRAVIS_OS_NAME" == "docker" ]]; then docker pull cdrx/pyinstaller-windows; fi
+  - if [[ "$TRAVIS_OS_NAME" == "docker" ]]; then docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-windows; fi
 #  - if [[ "$TRAVIS_OS_NAME" == "docker" ]]; then cp "$(pwd)/src/" cdrx/pyinstaller-linux; fi
   - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; then python3 -V; fi
   - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; then pip3 -V; fi
