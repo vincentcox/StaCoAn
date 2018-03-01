@@ -1,5 +1,6 @@
 #!/bin/bash
 python /StaCoAn/src/stacoan.py --disable-browser --enable-server
+
 # https://stackoverflow.com/questions/90418/exit-shell-script-based-on-process-exit-code
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 
