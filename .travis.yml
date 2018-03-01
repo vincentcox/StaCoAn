@@ -24,9 +24,9 @@ before_script:
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sleep 3  ; fi
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python3 ; fi
-  - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker pull cdrx/pyinstaller-linux; fi
-  - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-linux; fi
-#  - if [[ "$TRAVIS_OS_NAME" = "docker" ]]; then cp "$(pwd)/src/" cdrx/pyinstaller-linux; fi
+  - if [[ "$TRAVIS_OS_NAME" == "docker" ]]; then docker pull cdrx/pyinstaller-linux; fi
+  - if [[ "$TRAVIS_OS_NAME" == "docker" ]]; then docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-linux; fi
+#  - if [[ "$TRAVIS_OS_NAME" == "docker" ]]; then cp "$(pwd)/src/" cdrx/pyinstaller-linux; fi
   - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; then python3 -V; fi
   - if [[ "$TRAVIS_OS_NAME" != "docker" ]]; then pip3 -V; fi
 # command to install dependencies
@@ -53,7 +53,10 @@ script:
   - cp config.ini ./deploy/config.ini
   
   # Create zip
-  - cp dist/* ./deploy/
+  - if [[ "$TRAVIS_OS_NAME" == "docker" ]];
+    then cp dist/linux/* ./deploy/;
+    else cp dist/* ./deploy/;
+    fi
   - name_zip=$TRAVIS_OS_NAME+".zip"
   - zip -r $(echo $name_zip) deploy
   
