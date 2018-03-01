@@ -4,6 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['/src/stacoan.py'],
+             scripts=['/src/helpers']
              binaries=[],
              datas=[],
              hiddenimports=[],
