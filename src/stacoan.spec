@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['stacoan.py'],
+a = Analysis(['/src/stacoan.py'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -23,6 +23,6 @@ exe = EXE(pyz,
           name='stacoan',
           debug=False,
           strip=False,
-          upx=True,
+          upx=False,
           runtime_tmpdir=None,
-          console=True , icon='icon.ico')
+          console=True , icon='/src/icon.ico')
