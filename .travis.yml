@@ -54,7 +54,7 @@ script:
   
   # Create zip
   - if [[ "$TRAVIS_OS_NAME" == "docker" ]];
-    then cp dist/linux/* ./deploy/;
+    then cp dist/windows/* ./deploy/;
     else cp dist/* ./deploy/;
     fi
   - name_zip=$TRAVIS_OS_NAME+".zip"
