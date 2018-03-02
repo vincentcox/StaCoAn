@@ -30,12 +30,12 @@ install:
 script:
      # WINDOWS BUILD
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then 
-    pwd
-    ls
+    pwd;
+    ls;
     sed -i '' 's/from helpers./from /g' helpers/* ;
-    sed -i '' 's/from helpers./from /g' stacoan.py
+    sed -i '' 's/from helpers./from /g' stacoan.py;
     sed -i '' 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py ; 
-    cp src/helpers/* ./ ;
+    cp helpers/* ./ ;
     docker pull cdrx/pyinstaller-windows;
     docker run -v "$(pwd):/src/" cdrx/pyinstaller-windows;
     fi
