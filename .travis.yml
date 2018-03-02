@@ -32,14 +32,20 @@ script:
   - sudo chmod +x jadx/bin/jadx
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then 
     pip3 install -r requirements.txt; 
-    python3 stacoan.py -p test-apk.apk;
+    python3 stacoan.py -p test-apk.apk --disable-browser;
     fi
 # BUILDING ---------------
     # Fix the helpers issue
-  - sed -i 's/from helpers./from /g' helpers/* ;
-  - sed -i 's/from helpers./from /g' stacoan.py;
-  - sed -i 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py ; 
-  - cp helpers/* ./ ;
+    # sed is different on os x...
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    sed -i '' 's/from helpers./from /g' helpers/* || :;
+    sed -i '' 's/from helpers./from /g' stacoan.py;
+    sed -i '' 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py ; 
+  - else sed -i 's/from helpers./from /g' helpers/* || :;
+    sed -i 's/from helpers./from /g' stacoan.py;
+    sed -i 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py ; 
+    fi
+  - cp helpers/* ./ || :;
   
     # WINDOWS BUILD
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then 
@@ -74,7 +80,7 @@ script:
  # Testing the build on Linux and mac
   - cd deploy;
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]];
-    then ./stacoan --help;
+    then ./stacoan -p test-apk.apk --disable-browser;
     fi
   
   
