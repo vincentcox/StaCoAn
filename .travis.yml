@@ -24,10 +24,10 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python3 ; fi
   # WINDOWS BUILD
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then 
-    sed -i '' 's/from helpers./from /g' helpers/* ;
-    sed -i '' 's/from helpers./from /g' stacoan.py
-    sed -i '' 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py ; 
-    cp helpers/* ./ ;
+    sed -i '' 's/from helpers./from /g' src/helpers/* ;
+    sed -i '' 's/from helpers./from /g' src/stacoan.py
+    sed -i '' 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' src/helpers/logger.py ; 
+    cp src/helpers/* src/ ;
     docker pull cdrx/pyinstaller-windows;
     docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-windows;
     fi
