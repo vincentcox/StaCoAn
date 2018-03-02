@@ -61,7 +61,8 @@ def program(args):
     server_enabled = config.getboolean("ProgramConfig", 'server_enabled')
 
     # This is the servermode, usefull for running on a server or docker.
-    if server_enabled or args.enable_server or not len(sys.argv) > 1:
+    if server_enabled or args.enable_server or (not len(sys.argv) > 1):
+
         # This is a "bridge" between the stacoan program and the server. It communicates via this pipe (queue)
         def serverlistener(in_q):
             while True:
@@ -75,7 +76,7 @@ def program(args):
                     exit(0)
 
                 # Process the data
-                args = argparse.Namespace(project=[data], enable_server=False, log_warnings=False, log_errors=False, disable_browser=False)
+                args = argparse.Namespace(project=[data], enable_server=False, log_warnings=False, log_errors=False, disable_browser=True)
                 p = Process(target=program, args=(args,))
                 p.start()
 
@@ -89,12 +90,23 @@ def program(args):
         t1 = Thread(target=serverlistener, args=(ServerWrapper.dragdropserver.q,))
         t1.daemon = True
         t1.start()
-        ServerWrapper.startserver()
+        dragdropserver = ServerWrapper.create_drag_drop_server()
+        drag_drop_server_thread = threading.Thread(target=dragdropserver.serve_forever)
+        drag_drop_server_thread.daemon = True
+        drag_drop_server_thread.start()
+
+        if not args.disable_browser:
+            Logger("Now automatically opening the HTML report.")
+            import json
+            DRAG_DROP_SERVER_PORT = json.loads(config.get("Server", 'drag_drop_server_port'))
+            # Open the webbrowser to the generated start page.
+            report_folder_start = "http:///127.0.0.1:" + str(DRAG_DROP_SERVER_PORT)
+            webbrowser.open(report_folder_start)
 
         # Keep waiting until q is gone.
         ServerWrapper.dragdropserver.q.join()
-
-        # return() # Not needed because it will be killed eventually.
+        drag_drop_server_thread.join()
+        return() # Not needed because it will be killed eventually.
 
 
     # Update log level
@@ -197,7 +209,7 @@ def program(args):
             print("\n--------------------\n")
         Logger("Static code analyzer completed succesfully in %fs." % (time() - start_time))
         Logger("HTML report is available at: %s" % report_folder_start)
-        if not args.disable_browser:
+        if (not args.disable_browser) and not (args.enable_server or server_enabled):
             Logger("Now automatically opening the HTML report.")
 
             # Open the webbrowser to the generated start page.

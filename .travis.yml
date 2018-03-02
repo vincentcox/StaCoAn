@@ -7,7 +7,6 @@ matrix:
       python: 3.6.2
     - os: osx
       sudo: required
-      python: 3.6.2
     - os: windows
       language: python
       env:
@@ -21,9 +20,7 @@ before_script:
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sh -e /etc/init.d/xvfb start ; fi
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sleep 3  ; fi
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python3 ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then docker pull cdrx/pyinstaller-windows; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-windows; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade python ; fi
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 -V; fi
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then pip3 -V; fi
 # command to install dependencies
@@ -31,31 +28,61 @@ install:
   - cd src
 # command to run tests
 script:
- # Run script
+ # Test script on non-windows instances
   - sudo chmod +x jadx/bin/jadx
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then pip3 install -r requirements.txt; fi
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 stacoan.py -p test-apk.apk; fi # or py.test for Python versions 3.5 and below
- # Building the executable for the deployment
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then 
+    pip3 install -r requirements.txt; 
+    python3 stacoan.py -p test-apk.apk --disable-browser;
+    fi
+# BUILDING ---------------
+    # Fix the helpers issue
+    # sed is different on os x...
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    sed -i '' 's/from helpers./from /g' helpers/* || :;
+    sed -i '' 's/from helpers./from /g' stacoan.py;
+    sed -i '' 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py ; 
+    else sed -i 's/from helpers./from /g' helpers/* || :;
+    sed -i 's/from helpers./from /g' stacoan.py;
+    sed -i 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py ; 
+    fi
+  - cp helpers/* ./ || :;
+  
+    # WINDOWS BUILD
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then 
+    docker pull cdrx/pyinstaller-windows;
+    docker run -v "$(pwd):/src/" cdrx/pyinstaller-windows;
+    fi
+
+    # LINUX AND MAC OS X
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then pip3 install pyinstaller; fi
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 -m PyInstaller stacoan.py --onefile --paths=helpers --icon icon.ico --name stacoan --clean --noupx; fi
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 -m PyInstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean --noupx; fi
+
   
-  # Making directories and add files
-  - mkdir deploy
-  - mkdir deploy/report
-  - cp report/start.html ./deploy/report
-  - cp -R report/html ./deploy/report
-  - cp -R jadx ./deploy/
-  - cp -R config ./deploy/
-  - cp ../README.md ./deploy/README.md
-  - cp config.ini ./deploy/config.ini
+    # Making directories for the build and add resources
+  - mkdir deploy;
+  - mkdir deploy/report;
+  - cp report/start.html ./deploy/report;
+  - cp -R report/html ./deploy/report;
+  - cp -R jadx ./deploy/;
+  - cp -R config ./deploy/;
+  - cp ../README.md ./deploy/README.md;
+  - cp config.ini ./deploy/config.ini;
   
-  # Create zip
+    # Create zip for the release
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]];
     then cp dist/windows/* ./deploy/;
     else cp dist/* ./deploy/;
     fi
   - name_zip=$TRAVIS_OS_NAME+".zip"
   - zip -r $(echo $name_zip) deploy
+ # [end of building] -----
+ 
+ # Testing the build on Linux and mac
+  - cd deploy;
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]];
+    then ./stacoan -p test-apk.apk --disable-browser;
+    fi
+  
   
   
 deploy:

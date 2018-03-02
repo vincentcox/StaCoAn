@@ -94,25 +94,51 @@ __Or__ if you rather use the drag and drop interface:
 python3 stacoan.py -p yourApp.apk --disable-browser --enable-server
 ```
 ### Building the executable
-
+Make sure that you are in the `src` folder.
+```
+cd src
+```
+Install [PyInstaller](http://www.pyinstaller.org/):
 ```
 pip3 install pyinstaller
 ```
 
-__Windows__
+#### Windows
 
+PyInstaller can't handle subfolders with code, therefore we need to put the code in one folder.
 ```
-pyinstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean
+sed -i 's/from helpers./from /g' helpers/*
+sed -i 's/from helpers./from /g' stacoan.py
+sed -i 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py
+```
+Build stacoan:
+```
+python3 -m PyInstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean
 ```
 
-__mac__
+#### mac
 
+PyInstaller can't handle subfolders with code, therefore we need to put the code in one folder.
 ```
-pyinstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean
+# Note the ''-> this is because sed syntax is different on mac.
+sed -i '' 's/from helpers./from /g' helpers/*
+sed -i '' 's/from helpers./from /g' stacoan.py
+sed -i '' 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py
+```
+Build stacoan:
+```
+python3 -m PyInstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean
 ```
 
-__Linux__
+#### Linux
 
+PyInstaller can't handle subfolders with code, therefore we need to put the code in one folder.
+```
+sed -i 's/from helpers./from /g' helpers/*
+sed -i 's/from helpers./from /g' stacoan.py
+sed -i 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py
+```
+Build stacoan:
 ```
 python3 -m PyInstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean
 ```
