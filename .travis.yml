@@ -7,7 +7,6 @@ matrix:
       python: 3.6.2
     - os: osx
       sudo: required
-      python: 3.6.2
     - os: windows
       language: python
       env:
@@ -22,15 +21,6 @@ before_script:
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sleep 3  ; fi
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python3 ; fi
-  # WINDOWS BUILD
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then 
-    sed -i '' 's/from helpers./from /g' src/helpers/* ;
-    sed -i '' 's/from helpers./from /g' src/stacoan.py
-    sed -i '' 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' src/helpers/logger.py ; 
-    cp src/helpers/* src/ ;
-    docker pull cdrx/pyinstaller-windows;
-    docker run -v "$(pwd)/src:/src/" cdrx/pyinstaller-windows;
-    fi
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 -V; fi
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then pip3 -V; fi
 # command to install dependencies
@@ -38,6 +28,15 @@ install:
   - cd src
 # command to run tests
 script:
+     # WINDOWS BUILD
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then 
+    sed -i '' 's/from helpers./from /g' helpers/* ;
+    sed -i '' 's/from helpers./from /g' stacoan.py
+    sed -i '' 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py ; 
+    cp src/helpers/* ./ ;
+    docker pull cdrx/pyinstaller-windows;
+    docker run -v "$(pwd):/src/" cdrx/pyinstaller-windows;
+    fi
  # Run script
   - sudo chmod +x jadx/bin/jadx
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then pip3 install -r requirements.txt; fi
