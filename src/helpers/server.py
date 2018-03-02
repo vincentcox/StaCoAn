@@ -24,10 +24,15 @@ class ServerWrapper:
     config.read("config.ini")
     apptypes = json.loads(config.get("ProgramConfig", 'apptypes'))
     REPORT_SERVER_PORT = json.loads(config.get("Server", 'report_server_port'))
+    DRAG_DROP_SERVER_PORT = json.loads(config.get("Server", 'drag_drop_server_port'))
 
     def create_reportserver():
         Logger("serving report server at port: " + str(ServerWrapper.REPORT_SERVER_PORT), Logger.INFO)
         return socketserver.TCPServer(("", ServerWrapper.REPORT_SERVER_PORT), RequestHandlerClass=ServerWrapper.reportserver)
+
+    def create_drag_drop_server():
+        Logger("serving dragdrop server at port: " + str(ServerWrapper.DRAG_DROP_SERVER_PORT), Logger.INFO)
+        return socketserver.TCPServer(("", ServerWrapper.DRAG_DROP_SERVER_PORT), RequestHandlerClass=ServerWrapper.dragdropserver)
 
     class reportserver(http.server.SimpleHTTPRequestHandler):
         def log_request(self, code='-', size='-'):
