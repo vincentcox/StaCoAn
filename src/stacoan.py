@@ -62,6 +62,7 @@ def program(args):
 
     # This is the servermode, usefull for running on a server or docker.
     if server_enabled or args.enable_server or (not len(sys.argv) > 1):
+
         # This is a "bridge" between the stacoan program and the server. It communicates via this pipe (queue)
         def serverlistener(in_q):
             while True:
