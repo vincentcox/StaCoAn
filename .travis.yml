@@ -78,10 +78,10 @@ script:
  # [end of building] -----
  
  # Testing the build on Linux and mac
-  - cd deploy;
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]];
-    then ./stacoan -p test-apk.apk --disable-browser;
-    fi
+ # - cd deploy;
+ # - if [[ "$TRAVIS_OS_NAME" != "windows" ]];
+ #   then ./stacoan -p test-apk.apk --disable-browser;
+ #   fi
   
   
   
