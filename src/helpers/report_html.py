@@ -437,7 +437,7 @@ class Report_html(Htmlpage):
                                                             'href',
                                                             hashlib.md5(file.file_path.encode('utf-8')).hexdigest()+'.html?' + "&line=" + str(
                                                                 match.line)),
-                                                                  ("target", "_blank")):
+                                                                  ("target", "_self")):
                                                         self.text(file.name)
 
                                 self.doc.stag('br')
