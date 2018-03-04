@@ -63,6 +63,8 @@ If you have downloaded the release zip file, extract this.
 
 On Windows you can just double click the executable. It will open in server mode and you can just drag and drop your mobile applications in the webinterface.
 
+![Windows 1 click](resources/windows-1-click.gif)
+
 On Mac and Linux you can just run it from the terminal without arguments.
 
 ```
