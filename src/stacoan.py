@@ -109,7 +109,6 @@ def server(args):
 
         if not args.disable_browser:
             Logger("Now automatically opening the HTML report.")
-
             DRAG_DROP_SERVER_PORT = json.loads(config.get("Server", 'drag_drop_server_port'))
             # Open the webbrowser to the generated start page.
             report_folder_start = "http:///127.0.0.1:" + str(DRAG_DROP_SERVER_PORT)
@@ -124,6 +123,7 @@ def program(args):
     # Script cannot be called outside script directory. It contains a lot of os.getcwd().
     if not os.path.dirname(os.path.abspath(__file__)) == os.getcwd():
         Logger("Script cannot be called outside directory", Logger.ERROR)
+
 
     # Keep track of execution time
     start_time = time()
