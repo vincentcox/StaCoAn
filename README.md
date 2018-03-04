@@ -59,7 +59,17 @@ This tool will have trouble with [obfuscated](https://en.wikibooks.org/wiki/Intr
 ## Getting Started
 If you want to get started as soon as possible, head over to the [releases page](https://github.com/vincentcox/StaCoAn/releases) and download the executable or archive which corresponds to your operating system.
 
-If you have downloaded the release zip file, extract this. Copy the .apk or .ipa file to the extracted folder.
+If you have downloaded the release zip file, extract this.
+
+On Windows you can just double click the executable. It will open in server mode and you can just drag and drop your mobile applications in the webinterface.
+
+![Windows 1 click](resources/windows-1-click.gif)
+
+On Mac and Linux you can just run it from the terminal without arguments.
+
+```
+./stacoan
+```
 
 Drag and drop this file onto the executable. The report will now be generated in the `report` folder.
 

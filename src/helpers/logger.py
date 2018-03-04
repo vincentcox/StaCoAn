@@ -4,6 +4,10 @@ import inspect
 from time import localtime, strftime, sleep
 
 import configparser
+from colorama import init
+from colorama import Fore, Back, Style
+
+
 
 from helpers.html_page import Htmlpage
 from helpers.constants import PrintColors
@@ -19,6 +23,15 @@ class Logger:
     INFO = 3
 
     class __Logger:
+        # Fix color output on windows
+        if 'PYCHARM_HOSTED' in os.environ:
+            convert = False  # in PyCharm, we should disable convert
+            strip = False
+        else:
+            convert = None
+            strip = None
+        init(convert=convert, strip=strip)
+
         config = configparser.ConfigParser()
 
         currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
