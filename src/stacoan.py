@@ -7,6 +7,8 @@ import webbrowser
 import configparser
 import argparse
 import threading
+import json
+import multiprocessing
 from threading import Thread
 from multiprocessing import Process
 from time import time
@@ -43,26 +45,29 @@ def parse_args():
     # return aur args, usage: args.argname
     return parser.parse_args()
 
-def program(args):
-    # Script cannot be called outside script directory. It contains a lot of os.getcwd().
-    if not os.path.dirname(os.path.abspath(__file__)) == os.getcwd():
-        Logger("Script cannot be called outside directory", Logger.ERROR)
-
-    # Keep track of execution time
-    start_time = time()
-
-    # Read information from config file
-    # Todo edit dockerfile with new path for report
-    # ToDo create a settings class that parses the ini file with set and get functions
+# Note that this server(args) function CANNOT be placed in the server.py file. It calls "program()", which cannot be
+# called from the server.py file
+def server(args):
     config = configparser.ConfigParser()
     config.read("config.ini")
-
-    development = config.getint("Development", 'development')
+    # Drag and drop server
     server_enabled = config.getboolean("ProgramConfig", 'server_enabled')
+    # Windows multithreading is different on Linux and windows (fork <-> new instance without parent context and args)
+    child=False
+    if os.name == 'nt':
+        if os.path.exists(".temp_thread_file"):
+            with open(".temp_thread_file") as f:
+                content = f.readlines()
+            # you may also want to remove whitespace characters like `\n` at the end of each line
+            content = [x.strip() for x in content]
+            args.project = [content[0]]
+            args.enable_server = content[1]
+            args.log_warnings = content[2]
+            args.disable_browser = content[3]
+            child = True
+            os.remove(".temp_thread_file")
 
-    # This is the servermode, usefull for running on a server or docker.
-    if server_enabled or args.enable_server or (not len(sys.argv) > 1):
-
+    if (server_enabled or args.enable_server or ((not len(sys.argv) > 1))) and (not child):
         # This is a "bridge" between the stacoan program and the server. It communicates via this pipe (queue)
         def serverlistener(in_q):
             while True:
@@ -77,6 +82,13 @@ def program(args):
 
                 # Process the data
                 args = argparse.Namespace(project=[data], enable_server=False, log_warnings=False, log_errors=False, disable_browser=True)
+                # On windows: write arguments to file, spawn process, read arguments from file, delete.
+                if os.name == 'nt':
+                    with open('.temp_thread_file', 'a') as the_file:
+                        the_file.write(data+"\n")
+                        the_file.write("False\n") # enable_server
+                        the_file.write("False\n")  # log_warnings
+                        the_file.write("True\n")
                 p = Process(target=program, args=(args,))
                 p.start()
 
@@ -97,7 +109,7 @@ def program(args):
 
         if not args.disable_browser:
             Logger("Now automatically opening the HTML report.")
-            import json
+
             DRAG_DROP_SERVER_PORT = json.loads(config.get("Server", 'drag_drop_server_port'))
             # Open the webbrowser to the generated start page.
             report_folder_start = "http:///127.0.0.1:" + str(DRAG_DROP_SERVER_PORT)
@@ -108,6 +120,20 @@ def program(args):
         drag_drop_server_thread.join()
         return() # Not needed because it will be killed eventually.
 
+def program(args):
+    # Script cannot be called outside script directory. It contains a lot of os.getcwd().
+    if not os.path.dirname(os.path.abspath(__file__)) == os.getcwd():
+        Logger("Script cannot be called outside directory", Logger.ERROR)
+
+    # Keep track of execution time
+    start_time = time()
+
+    # Read information from config file
+    # Todo edit dockerfile with new path for report
+    # ToDo create a settings class that parses the ini file with set and get functions
+
+    config = configparser.ConfigParser()
+    config.read("config.ini")
 
     # Update log level
     if not (args.log_warnings or args.log_errors):
@@ -120,6 +146,9 @@ def program(args):
 
     # Import the searchwords lists
     Searchwords.searchwords_import(Searchwords())
+
+    # Server(args) checks if the server should be run and handles the spawning of the server and control of it
+    server(args)
 
     # For each project (read .ipa or .apk file), run the scripts.
     all_project_paths = args.project
@@ -137,7 +166,7 @@ def program(args):
         Logger("Searching done.")
         Logger("start generating report")
 
-        # To Do: Generate the tree-view + Source code view for each SOURCE file
+        # ToDo: Generate the tree-view + Source code view for each SOURCE file
         all_files = dict()
         all_files.update(Project.projects[project_path].db_files)
         all_files.update(Project.projects[project_path].src_files)
@@ -220,6 +249,7 @@ def program(args):
     sys.exit()
 
 if __name__ == "__main__":
+    multiprocessing.freeze_support()
     if os.environ.get('DEBUG') is not None:
         program(parse_args())
         exit(0)

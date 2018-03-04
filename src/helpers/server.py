@@ -78,6 +78,12 @@ class ServerWrapper:
 
         def do_POST(self):
             """Serve a POST request."""
+            if re.findall(r'KILLSERVERCOMMAND', self.requestline):
+                ServerWrapper.dragdropserver.q.put("KILLSERVERCOMMAND")
+                Logger("Server upload killed", Logger.INFO)
+                self.send_response(200)
+                exit(0)
+                return True, "Exit"
             r, info = self.deal_post_data()
             Logger((str(r) + str(info) + "by: " + str(self.client_address)), Logger.INFO)
             f = BytesIO()
@@ -102,6 +108,10 @@ class ServerWrapper:
                 f.close()
 
         def deal_post_data(self):
+
+
+
+
             content_type = self.headers['content-type']
             if not content_type:
                 return (False, "Content-Type header doesn't contain boundary")
@@ -113,10 +123,6 @@ class ServerWrapper:
                 return (False, "Content NOT begin with boundary")
             for line in self.rfile:
                 remainbytes -= len(line)
-                if re.findall(r'KILLSERVERCOMMAND', line.decode()):
-                    ServerWrapper.SimpleHTTPRequestHandler.q.put("KILLSERVERCOMMAND")
-                    Logger("Server upload killed", Logger.INFO)
-                    exit(0)
                 fn = re.findall(r'Content-Disposition.*name="file"; filename="(.*\S.*)"', line.decode())
                 if fn:
                     break
@@ -225,9 +231,9 @@ class ServerWrapper:
             <head>
                 <meta charset="utf-8">
                 <title>Drag and Drop File Uploading</title>
-                <link rel="canonical" href="https://css-tricks.com/examples/DragAndDropFileUploading/">
                 <meta name="viewport" content="width=device-width,initial-scale=1" />
                 <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,400" />
+                <script type="text/javascript" src="report/html/jquery.min.js"></script>
                 <style>
                         body
                         {
@@ -449,6 +455,34 @@ class ServerWrapper:
                                     {
                                         background-color: #0f3c4b;
                                     }
+                                    
+                                    
+                                    .killserverbutton {
+                                        -moz-box-shadow:inset 0px 39px 0px -24px #e67a73;
+                                        -webkit-box-shadow:inset 0px 39px 0px -24px #e67a73;
+                                        box-shadow:inset 0px 39px 0px -24px #e67a73;
+                                        background-color:#e4685d;
+                                        -moz-border-radius:4px;
+                                        -webkit-border-radius:4px;
+                                        border-radius:4px;
+                                        border:1px solid #ffffff;
+                                        display:inline-block;
+                                        cursor:pointer;
+                                        color:#ffffff;
+                                        font-family:Arial;
+                                        font-size:15px;
+                                        padding:6px 15px;
+                                        text-decoration:none;
+                                        text-shadow:0px 1px 0px #b23e35;
+                                    }
+                                    .killserverbutton:hover {
+                                        background-color:#eb675e;
+                                    }
+                                    .killserverbutton:active {
+                                        position:relative;
+                                        top:1px;
+                                    }
+
             
                 </style>
             
@@ -458,6 +492,21 @@ class ServerWrapper:
             </head>
             
             <body>
+            
+            
+            <center>    
+            <form id="killserverform" action="/KILLSERVERCOMMAND" target="" method="POST">
+              <input type="text" name="KILLSERVERCOMMAND" value="Mickey" hidden>
+              <input type="submit" value="KILL SERVER" class="killserverbutton">
+            </form>
+            
+            <script>
+            $('#killserverform').submit(function() {
+                alert("Server will shut down! Bye!");
+                return true; // return false to cancel form action
+            });
+            </script>
+            </center>
             
             
             
