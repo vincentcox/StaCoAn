@@ -149,6 +149,7 @@ def program(args):
 
     # Server(args) checks if the server should be run and handles the spawning of the server and control of it
     server(args)
+    server_enabled = config.getboolean("ProgramConfig", 'server_enabled')
 
     # For each project (read .ipa or .apk file), run the scripts.
     all_project_paths = args.project
