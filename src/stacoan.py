@@ -30,7 +30,9 @@ def parse_args():
                 formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=argument_width_in_help))
 
     # Arguments: see https://docs.python.org/3/library/argparse.html
-    parser.add_argument('-p', metavar="PATH", dest='project', required=False, nargs='+',
+    parser.add_argument(metavar="PATH", dest='project_paths', nargs='*', default=[],
+                        help='Path of the apk')
+    parser.add_argument('-p', metavar="PATH", dest='project', required=False, nargs='+', default=[],
                         help='Relative path to the project')
     parser.add_argument('--disable-browser', action='store_true', required=False,
                         help='Do not automatically open the HTML report in a browser')
@@ -151,7 +153,7 @@ def program(args):
     server(args)
 
     # For each project (read .ipa or .apk file), run the scripts.
-    all_project_paths = args.project
+    all_project_paths = args.project + args.project_paths
     for project_path in all_project_paths:
         Project.projects[project_path] = Project(project_path)
 
