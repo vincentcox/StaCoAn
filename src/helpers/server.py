@@ -40,10 +40,11 @@ class ServerWrapper:
                 Logger(self.requestline + " " + str(code) + " " + str(size), Logger.INFO)
 
         def log_error(self, format, *args):
-            Logger(("%s - - [%s] %s\n" %
-                    (self.address_string(),
-                     self.log_date_time_string(),
-                     format % args)), Logger.WARNING)
+            if not "robots.txt" in self.requestline:
+                Logger(("%s - - [%s] %s\n" %
+                        (self.address_string(),
+                         self.log_date_time_string(),
+                         format % args)), Logger.WARNING)
 
         def log_message(self, format, *args):
             Logger(("%s - - [%s] %s\n" %
@@ -59,10 +60,11 @@ class ServerWrapper:
             Logger(self.requestline+ " " + str(code) + " " + str(size), Logger.INFO)
 
         def log_error(self, format, *args):
-            Logger(("%s - - [%s] %s\n" %
-                    (self.address_string(),
-                     self.log_date_time_string(),
-                     format % args)), Logger.WARNING)
+            if not "robots.txt" in self.requestline:
+                Logger(("%s - - [%s] %s - %s\n" %
+                        (self.address_string(),
+                         self.log_date_time_string(),
+                         format % args, str(self.requestline))), Logger.WARNING)
 
         def log_message(self, format, *args):
             Logger(("%s - - [%s] %s\n" %
@@ -530,7 +532,9 @@ class ServerWrapper:
                         <button type="submit" class="box__button">Upload</button>
                     </div>
                     <div class="box__uploading">Uploading&hellip;</div>
-                    <div class="box__success">Done! <a href="/" class="box__restart2" id="done_link" onclick="javascript:event.target.port=8080" role="button" target="_blank">Open report!</a></div>
+                    <div class="box__success">Done! <a href="/" class="box__restart2" id="done_link" onclick="javascript:event.target.port=""")
+            f.write(bytearray(ServerWrapper.REPORT_SERVER_PORT))
+            f.write(b"""" role="button" target="_blank">Open report!</a></div>
                     <div class="box__error">Error! <span></span>. <a href="/?" class="box__restart" role="button">Try again!</a></div>
                 </form>
             </div>

@@ -107,7 +107,7 @@ class Report_html(Htmlpage):
                                               Searchwords.all_searchwords[match.matchword])):
                                 self.text("report")
                             with self.tag('h5'):
-                                if re.match(Report_html.non_regex_indicator, match.matchword):
+                                if not match.regex:
                                     self.text(match.matchword)
                                     # print(match.matchword)
                                 else:
@@ -206,7 +206,7 @@ class Report_html(Htmlpage):
                                               Searchwords.all_searchwords[match.matchword])):
                                     self.text("report")
                                 with self.tag('h5'):
-                                    if re.match(Report_html.non_regex_indicator, match.matchword):
+                                    if not match.regex:
                                         self.text(match.matchword)
                                     else:
                                         self.text("regex: " + match.matchword)
@@ -346,7 +346,7 @@ class Report_html(Htmlpage):
                                               Searchwords.all_searchwords[match.matchword])):
                                             self.text("beenhere")
                                         with self.tag('h5'):
-                                            if re.match(Report_html.non_regex_indicator, match.matchword):
+                                            if not match.regex:
                                                 self.text(match.matchword)
                                                 # print(match.matchword)
                                             else:

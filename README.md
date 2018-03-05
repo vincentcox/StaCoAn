@@ -39,7 +39,13 @@ Wordlists are in the following format:
 API_KEY|||80||| This contains an API key reference
 (https|http):\/\/.*api.*|||60||| This regex matches any URL containing 'api'
 ```
-__Note that these wordlists also support [regex](https://www.regular-expressions.info/examples.html) entries.__
+__Note that these wordlists support [regex](https://www.regular-expressions.info/examples.html) entries.__
+
+In the `exclusion_list.txt` you can define exclusions (if you have for some reason to much findings):
+```
+(https|http):\/\/.*api.*|||"res","layout"||| Like previously, note that "res","layout" resembles the path
+(https|http):\/\/.*api.*|||||| To exclude everywhere
+```
 
 ### Filetypes
 Any source file will be processed. This contains '.java', '.js', '.html', '.xml',... files.
@@ -120,6 +126,7 @@ PyInstaller can't handle subfolders with code, therefore we need to put the code
 sed -i 's/from helpers./from /g' helpers/*
 sed -i 's/from helpers./from /g' stacoan.py
 sed -i 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py
+cp helpers/* ./ || :;
 ```
 Build stacoan:
 ```
@@ -134,6 +141,7 @@ PyInstaller can't handle subfolders with code, therefore we need to put the code
 sed -i '' 's/from helpers./from /g' helpers/*
 sed -i '' 's/from helpers./from /g' stacoan.py
 sed -i '' 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py
+cp helpers/* ./ || :;
 ```
 Build stacoan:
 ```
@@ -147,6 +155,7 @@ PyInstaller can't handle subfolders with code, therefore we need to put the code
 sed -i 's/from helpers./from /g' helpers/*
 sed -i 's/from helpers./from /g' stacoan.py
 sed -i 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py
+cp helpers/* ./ || :;
 ```
 Build stacoan:
 ```
