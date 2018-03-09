@@ -152,8 +152,14 @@ def program(args):
 
     # For each project (read .ipa or .apk file), run the scripts.
     all_project_paths = args.project
+    
+    if not all_project_paths:
+        sys.exit(0)
     for project_path in all_project_paths:
-        Project.projects[project_path] = Project(project_path)
+        try:
+            Project.projects[project_path] = Project(project_path)
+        except:
+            sys.exit(0)
 
         report_folder = os.path.join(Project.projects[project_path].name, config.get("ProgramConfig", 'report_folder'))
         report_folder_start = os.path.join(os.getcwd(), report_folder, "start.html")
