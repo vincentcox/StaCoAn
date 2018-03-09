@@ -47,11 +47,7 @@ def parse_args():
 
 # Note that this server(args) function CANNOT be placed in the server.py file. It calls "program()", which cannot be
 # called from the server.py file
-def server(args):
-    config = configparser.ConfigParser()
-    config.read("config.ini")
-    # Drag and drop server
-    server_enabled = config.getboolean("ProgramConfig", 'server_enabled')
+def server(args, server_enabled, DRAG_DROP_SERVER_PORT):
     # Windows multithreading is different on Linux and windows (fork <-> new instance without parent context and args)
     child=False
     if os.name == 'nt':
@@ -108,10 +104,12 @@ def server(args):
         drag_drop_server_thread.start()
 
         if not args.disable_browser:
-            Logger("Now automatically opening the HTML report.")
-            DRAG_DROP_SERVER_PORT = json.loads(config.get("Server", 'drag_drop_server_port'))
             # Open the webbrowser to the generated start page.
             report_folder_start = "http:///127.0.0.1:" + str(DRAG_DROP_SERVER_PORT)
+            if sys.platform == "darwin":  # check if on OSX
+                # strip off http:///
+                report_folder_start = str(report_folder_start).strip("http:///")
+                report_folder_start = "file:///" + report_folder_start
             webbrowser.open(report_folder_start)
 
         # Keep waiting until q is gone.
@@ -134,6 +132,8 @@ def program(args):
 
     config = configparser.ConfigParser()
     config.read("config.ini")
+    server_enabled = config.getboolean("ProgramConfig", 'server_enabled')
+    DRAG_DROP_SERVER_PORT = json.loads(config.get("Server", 'drag_drop_server_port'))
 
     # Update log level
     if not (args.log_warnings or args.log_errors):
@@ -148,12 +148,18 @@ def program(args):
     Searchwords.searchwords_import(Searchwords())
 
     # Server(args) checks if the server should be run and handles the spawning of the server and control of it
-    server(args)
+    server(args, server_enabled, DRAG_DROP_SERVER_PORT)
 
     # For each project (read .ipa or .apk file), run the scripts.
     all_project_paths = args.project
+    
+    if not all_project_paths:
+        sys.exit(0)
     for project_path in all_project_paths:
-        Project.projects[project_path] = Project(project_path)
+        try:
+            Project.projects[project_path] = Project(project_path)
+        except:
+            sys.exit(0)
 
         report_folder = os.path.join(Project.projects[project_path].name, config.get("ProgramConfig", 'report_folder'))
         report_folder_start = os.path.join(os.getcwd(), report_folder, "start.html")
@@ -240,9 +246,10 @@ def program(args):
         Logger("HTML report is available at: %s" % report_folder_start)
         if (not args.disable_browser) and not (args.enable_server or server_enabled):
             Logger("Now automatically opening the HTML report.")
-
             # Open the webbrowser to the generated start page.
             if sys.platform == "darwin":  # check if on OSX
+                # strip off http:///
+                report_folder_start = str(report_folder_start).strip("http:///")
                 report_folder_start = "file:///" + report_folder_start
             webbrowser.open(report_folder_start)
     # Exit program

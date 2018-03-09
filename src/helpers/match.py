@@ -3,6 +3,7 @@ class Match:
     def __init__(self, matchword, importance):
         self.matchword = matchword
         self.importance = importance
+        self.regex = False
 
 
 class MatchSource(Match):
