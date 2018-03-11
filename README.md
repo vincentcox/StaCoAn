@@ -18,7 +18,34 @@ For the impatient ones, grab the download on the [releases page](https://github.
 &ast;: note that currently only apk files are supported, but ipa files will follow very shortly.
 </p>
 
-An example report can be found here: [example report](resources/example-report.zip)
+An example report can be found here: [example report](https://github.com/vincentcox/StaCoAn/blob/master/resources/example-report.zip)
+
+## Table of Contents
+<!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [Table of Contents](#table-of-contents)
+- [Features](#features)
+	- [Looting concept](#looting-concept)
+	- [Wordlists](#wordlists)
+	- [Filetypes](#filetypes)
+	- [Responsive Design](#responsive-design)
+- [Limitations](#limitations)
+- [Getting Started](#getting-started)
+	- [From the releases](#from-the-releases)
+	- [Docker](#docker)
+	- [From source](#from-source)
+	- [Building the executable](#building-the-executable)
+		- [Windows](#windows)
+		- [mac](#mac)
+		- [Linux](#linux)
+- [Contributing](#contributing)
+	- [Roadmap](#roadmap)
+- [Authors & Contributors](#authors-contributors)
+	- [Top contributors](#top-contributors)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
+
+<!-- /TOC -->
 
 ## Features
 The concept is that you drag and drop your mobile application file (an .apk or .ipa file) on the StaCoAn application and it will generate a visual and portable report for you. You can tweak the settings and wordlists to get a customized experience.
@@ -48,7 +75,7 @@ In the `exclusion_list.txt` you can define exclusions (if you have for some reas
 ```
 
 ### Filetypes
-Any source file will be processed. This contains '.java', '.js', '.html', '.xml',... files.
+Any source file will be processed. This contains `'.java', '.js', '.html', '.xml',...` files.
 
 Database-files are also searched for keywords. The database also has a table viewer.
 
@@ -63,6 +90,7 @@ The reports are made to fit on all screens.
 This tool will have trouble with [obfuscated](https://en.wikibooks.org/wiki/Introduction_to_Software_Engineering/Tools/Obfuscation) code. If you are a developer try to compile without obfuscation turned on before running this tool. If you are on the offensive side, good luck bro.
 
 ## Getting Started
+### From the releases
 If you want to get started as soon as possible, head over to the [releases page](https://github.com/vincentcox/StaCoAn/releases) and download the executable or archive which corresponds to your operating system.
 
 If you have downloaded the release zip file, extract this.
@@ -71,13 +99,34 @@ On Windows you can just double click the executable. It will open in server mode
 
 ![Windows 1 click](resources/windows-1-click.gif)
 
-On Mac and Linux you can just run it from the terminal without arguments.
-
+On Mac and Linux you can just run it from the terminal without arguments for the server-mode.
 ```
 ./stacoan
 ```
+Drag and drop this file onto the executable.
 
-Drag and drop this file onto the executable. The report will now be generated in the `report` folder.
+Or you can specify an apk-file to run it without the server-mode:
+```
+./stacoan -p test-apk.apk
+```
+The report will be put inside a folder with a name corresponding to the apk.
+
+### Docker
+
+```
+cd docker
+```
+
+```
+docker build . -t stacoan
+```
+_Make sure that your application is at the location `/yourappsfolder`._
+
+```
+docker run -e JAVA_OPTS="-Xms2048m -Xmx2048m" -p 8000:8000 -p 8080:8080 -i -t stacoan
+```
+
+Drag and drop your application via: http://127.0.0.1:8000.
 
 ### From source
 ```
@@ -162,23 +211,6 @@ Build stacoan:
 python3 -m PyInstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean
 ```
 
-### Running the Docker container
-
-```
-cd docker
-```
-
-```
-docker build . -t stacoan
-```
-_Make sure that your application is at the location `/yourappsfolder`._
-
-```
-docker run -e JAVA_OPTS="-Xms2048m -Xmx2048m" -p 8000:8000 -p 8080:8080 -i -t stacoan
-```
-
-Drag and drop your application via: http://127.0.0.1:8000.
-
 ## Contributing
 This entire program's value is depending on the wordlists it is using. In the end, the final result is what matters. It is easy to build a wordlist (in comparison to writing actual code), but it has the biggest impact on the end result. You can help the community the most with making wordlists.
 
@@ -191,7 +223,9 @@ If the contribution is high enough, you will be mentioned in the `authors` secti
 ### Roadmap
 - [ ] Make IPA files also work with this program
 - [ ] Make DB matches loot-able
-- [x] Use server to upload files (apk's, ipa's) and process them (https://gist.github.com/touilleMan/eb02ea40b93e52604938)
+- [x] Better logging (cross platform)
+- [x] Docker optimalisation
+- [x] Use server to upload files (apk's, ipa's) and process them
 - [x] Exception list for ignoring findings in certain folders. For example ignoring `http` in `res/layout` and in general `http://schemas.android.com/apk/res/android`
 - [x] Make a cleaner file structure of this project
 
@@ -255,4 +289,4 @@ Also have a look at his course ["Advanced Android and iOS Hands-on Exploitation"
 * [c4b3rw0lf](https://twitter.com/c4b3rw0lf): The awesome dude behind the [VulnOS series](https://www.vulnhub.com/series/vulnos,36/).
 * [MacJu89](https://twitter.com/MacJu89): infra & XSS senpai
 
-Many more should be listed here, but this readme file would be TL;DR which is the worst what can happen to a readme file.
+Many more should be listed here, but I can't list them all.
