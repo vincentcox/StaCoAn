@@ -1,5 +1,5 @@
 passw(d|ord)?|||10|||triggers unwanted classes like password reset, hence the low score
-(private|secret|api)[_-]?key|||80
+(private|secret|api|aws)[_-]?key|||80
 https?:|||7
 (db|database)[_-]?(passw(d|ord)?|secret)|||80
 https?:\/\/.*(uat|test|api).*|||60||| This regex matches any URL containing 'api|uat|test'
