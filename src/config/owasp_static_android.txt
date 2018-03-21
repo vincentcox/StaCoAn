@@ -1,0 +1,61 @@
+import dexguard.util|RootDetector.isDeviceRooted||||||dexguard root detection code|||Root Activity
+com.noshufou.android.su|com.thirdparty.superuser|eu.chainfire.supersu|com.koushikdutta.superuser|eu.chainfire.||||||the app may request root/superuser privileges|||Root Activity
+test-keys|/system/app/Superuser.apk|isDeviceRooted|/system/bin/failsafe/su|/system/sd/xbin/su|"/system/xbin/which"|"su"|RootTools.isAccessGiven|/system/bin/su|/system/xbin/su||||||the app may have root detection capabilities|||Root Activity
+dalvik.system.DexClassLoader|java.security.ClassLoader|java.net.URLClassLoader|java.security.SecureClassLoader||||||the app can dynamically load classes|||Dynamic Loading
+dalvik.system.PathClassLoader|dalvik.system.DexFile|dalvik.system.DexPathList|dalvik.system.DexClassLoader|loadDex|loadClass|DexClassLoader|loadDexFile||||||the app can load and manipulate Dex files|||Dynamic Loading
+getRuntime().exec|getRuntime||||||the app executes system commands|||Dynamic Loading
+Log[.][vdiwe]|System.out.print||||||the app logs information|||Insecure Data Storage
+rawQuery|SQLiteDatabase|execSQL|android.database.sqlite||||||the app uses SQLite Database|||Insecure Data Storage
+content://||||||Checking for content providers|||Insecure Data Storage
+MODE_WORLD_READABLE|Context.MODE_WORLD_READABLE||||||the Object is World Readable by any App.|||Filesystem Access
+MODE_WORLD_WRITABLE|Context.MODE_WORLD_WRITABLE||||||the Object is World Writable by any app.|||Filesystem Access
+MODE_private_ip|Context.MODE_private_ip||||||app can write to app directory.|||Filesystem Access
+net.URL|openStream|||55|||Insecure Communication|||the app URL can connect to http/https/ftp/jar
+net.JarURL|JarURL|jar:|||55|||Insecure Communication|||the app URL can connect to JAR url
+HttpURL|org.apache.http|HttpRequest||||||the app initiate HTTP network_communications|||Insecure Communication
+javax.net.ssl.HttpsURL|HttpsURL||||||the app URL can initiate a HTTPS network_communication|||Insecure Communication
+http.client.HttpClient|net.http.AndroidHttpClient|http.impl.client.AbstractHttpClient||||||the app facilitates HTTP Requests, network_communications and Sessions |||Insecure Communication
+android.webkit||||||the app uses Webkit|||Webview Implementation and Javascript
+loadData||||||the app uses WebView and can load HTML/JavaScript |||Webview Implementation and Javascript
+setJavaScriptEnabled|.addJavascriptInterface||||||Insecure WebView Implementation.|||Webview Implementation and Javascript
+.setWebContentsDebuggingEnabled(true)||||||remote WebView debugging is enabled|||Webview Implementation and Javascript
+postUrl||||||the app can perform WebView POST Request|||Webview Implementation and Javascript
+javax.crypto|kalium.crypto|bouncycastle.crypto||||||the app uses crypto|||Insufficient Cryptography
+org.thoughtcrime.ssl.pinning|PinningHelper.getPinnedHttpsURLConnection|PinningHelper.getPinnedHttpClient|PinningSSLSocketFactory||||||Checking for SSL pinning libraries|||Insufficient Cryptography
+java.lang.reflect.Method|java.lang.reflect.Field|Class.forName||||||the app uses java reflection|||Code Tampering
+import dexguard.util|TamperDetector.checkApk||||||dexguard tamper detection code|||Code Tampering
+import dexguard.util|CertificateChecker.checkCertificate||||||dexguard signer certificate tamper detection code|||Code Tampering
+import dexguard.util|TamperDetector.checkApk||||||Checking for dexguard tamper detection code|||Reverse Engineering
+import dexguard.util|CertificateChecker.checkCertificate||||||Checking for dexguard signer certificate tamper detection code|||Reverse Engineering
+import dexguard.util|DebugDetector.isDebuggerConnected||||||Checking for Checking for dexguard debugger detection code|||Reverse Engineering
+import dexguard.util|EmulatorDetector.isRunningInEmulator||||||Checking for Checking for dexguard emulator  detection code|||Reverse Engineering
+import dexguard.util|EDebugDetector.isSignedWithDebugKey||||||Signed with Debugkey|||Reverse Engineering
+java.lang.System|java.lang.Runtime||||||the app contains native java code|||Lack of Code Protection
+utils.AESObfuscator|getObfuscator||||||the app uses obfuscation|||Lack of Code Protection
+password =|secret =|username =|key =|||83|||Hard coded sensitive information in Application Code (including Crypto)|||the app contain hardcoded sensitive informations like usernames, passwords, keys etc
+java.security.MessageDigest|.MessageDigestSpi|MessageDigest||||||the app uses message digest|||Application makes use of Weak Cryptography
+java.util.Random||||||the app uses an insecure Random Number Generator|||Application makes use of Weak Cryptography
+javax.net.ssl|TrustAllSSLSocket-Factory|AllTrustSSLSocketFactory|NonValidatingSSLSocketFactory|ALLOW_ALL_HOSTNAME_VERIFIER|.setDefaultHostnameVerifier|NullHostnameVerifier||||||insecure SSL implementation|||SSL implementation 
+onReceivedSslError|.proceed||||||insecure webview implementation due to certificate errors|||SSL implementation 
+(http|https|ftp|ftps)://[^/\n ]*||||||checking for weak protocols|||SSL implementation 
+content.ContentResolver||||||the app queries Database of SMS, Contacts etc.|||Insecure application permissions
+getSystemService||||||the app gets system services|||Insecure application permissions
+OpenFileOutput|getSharedPreferences|SharedPreferences.Editor|getCacheDir|getExternalStorageState|openOrCreateDatabase||||||the app performs local file I/O operations|||Insecure application permissions
+getSubscriberId|getDeviceId|getDeviceSoftwareVersion||||||the app gets Device Info|||Device Details
+getSimSerialNumber|getSimOperator|getSimOperatorName||||||the app gets SIM data|||Device Details
+telephony.TelephonyManager||||||the app accesses telphony|||Device Details
+sendMultipartTextMessage|sendTextMessage|vnd.android-dir/mms-sms|telephony.SmsManager||||||the app can send SMS|||Device Details
+app.NotificationManager||||||the app sends out Android Notifications|||Device Details
+getAllCellInfo||||||the app gets Cell information|||Location Services
+getCellLocation||||||the app gets Cell location|||Location Services
+android.location|getLastKnownLocation|requestLocationUpdates|getLatitude|getLongitude||||||the app gets GPS location|||Location Services
+(^127\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^192\.168\.)|||50|||Location Services|||Dump any private IP addresses
+dexguard.util|sDebugDetector.isDebuggable||||||Debug is set to TRUE|||Debugging
+IRemoteService|IRemoteService.Stub|IBinder||||||the app can communicate with other processes|||Service Hijacking
+sendBroadcast|sendOrderedBroadcast|sendStickyBroadcast||||||the app sends broadcasts|||Broadcast Thief
+startActivity\(|startActivityForResult||||||the app starts activties|||Malicious Activity/Service Launch
+startService|bindService||||||the app starts services|||Malicious Activity/Service Launch
+ServerSocket|net.ServerSocket|connect[(][)]|||60|||Insecure use of network sockets|||the app opens TCP Server Sockets
+DatagramSocket|net.DatagramSocket||||||the app can open UDP Datagram Sockets|||Insecure use of network sockets
+android.util.Base64|.encodeToString|.encode||||||the app uses Base64 encoding|||Application makes use of encoding 
+android.util.Base64|.decode||||||the app uses Base64 decoding|||Application makes use of encoding 

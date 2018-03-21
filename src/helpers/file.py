@@ -80,8 +80,11 @@ class File:
                         if exclude == False:
                             upper_range = min(line_index + CODE_OFFSET, len(lines_in_file)+1)
                             lower_range = max(line_index - CODE_OFFSET-1, 1)
+                            owasp_item = False
+                            if item in Searchwords.owasp_search_words:
+                                owasp_item = True
                             src_match = MatchSource(query, line_index, lines_in_file[lower_range:upper_range],
-                                                    Searchwords.src_search_words[query], len(lines_in_file))
+                                                    Searchwords.src_search_words[query], len(lines_in_file), owasp_item)
                             self.all_matches.append(src_match)
                             self.src_matches.append(src_match)
             line_index = line_index + 1
