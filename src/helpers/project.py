@@ -10,7 +10,7 @@ import configparser
 
 from helpers.file import File
 from helpers.logger import Logger
-from helpers.searchwords import Searchwords
+from helpers.searchwords import Searchwords, SearchLists
 
 PATH = os.getcwd()
 
@@ -72,7 +72,21 @@ class Project:
                 frequency_words[match.matchword] = str(int(frequency_words[match.matchword]) + 1)
 
         # Sort OrderedDict according to importance of the searchwords
-        frequency_words = OrderedDict(sorted(frequency_words.items(), key=lambda t: int(Searchwords.all_searchwords[t[0]]), reverse=True))
+
+        #frequency_words = OrderedDict(sorted(frequency_words.items(), key=lambda t: int(next((ListItem.importance for ListItem in(SearchLists.all_lists["DB_WORDS"].ListCollection, SearchLists.all_lists["SRC_WORDS"].ListCollection) if(for item in ListItem( if item == t[0]), None)), reverse=True))
+
+        for freqitem in frequency_words.items():
+            tosort = []
+            i = 0
+            for allworditems in (SearchLists.all_lists["DB_WORDS"].ListCollection, SearchLists.all_lists["SRC_WORDS"].ListCollection):
+                for worditem in allworditems:
+                    if freqitem[0] == worditem.searchword:
+                        tosort[i] = [worditem.importance, freqitem]
+                        i += 1
+
+        frequency_words = OrderedDict(
+            sorted(frequency_words.items(), key=lambda t: next((elem.importance for elem in (SearchLists.all_lists["DB_WORDS"].ListCollection, SearchLists.all_lists["SRC_WORDS"].ListCollection) if elem == t[0]), None), reverse=True))
+        #frequency_words = OrderedDict(sorted(frequency_words.items(), key=lambda t: int(Searchwords.all_searchwords[t[0]]), reverse=True))
         # Limit to top 10
         limited_frequency_words = OrderedDict()
         i = 0

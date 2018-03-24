@@ -12,7 +12,7 @@ import configparser
 from helpers.html_page import Htmlpage
 from helpers.logger import Logger
 from helpers.project import Project
-from helpers.searchwords import Searchwords
+from helpers.searchwords import Searchwords, SearchLists
 
 
 class Report_html(Htmlpage):
@@ -104,7 +104,10 @@ class Report_html(Htmlpage):
                             # rating color
                             with self.tag("i",
                                           klass="material-icons medium grade-" + str(
-                                              Searchwords.all_searchwords[match.matchword])):
+                                              next((ListItem.importance for ListItem in
+                                                    SearchLists.all_lists["DB_WORDS"].ListCollection if
+                                                    ListItem.searchword == match.matchword), None))):
+
                                 self.text("report")
                             with self.tag('h5'):
                                 if not match.regex:
@@ -203,10 +206,16 @@ class Report_html(Htmlpage):
                                 # rating color
                                 with self.tag("i",
                                               klass="material-icons medium grade-" + str(
-                                              Searchwords.all_searchwords[match.matchword])):
+                                                  next((ListItem.importance for ListItem in
+                                                        SearchLists.all_lists["SRC_WORDS"].ListCollection if
+                                                        ListItem.searchword == match.matchword), None))):
                                     self.text("report")
                                 with self.tag('h5'):
                                     if not match.regex:
+                                        # Place owasp icon
+                                        if match.owasp_item:
+                                            with self.tag("img", ('data-position', 'top'), ('data-tooltip', 'OWASP item'), src="html/owasp_logo.png", height="42", klass="tooltipped"):
+                                                pass
                                         self.text(match.matchword)
                                     else:
                                         self.text("regex: " + match.matchword)

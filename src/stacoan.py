@@ -17,7 +17,7 @@ from time import time
 from helpers.logger import Logger
 from helpers.project import Project
 from helpers.report_html import Report_html
-from helpers.searchwords import Searchwords
+from helpers.searchwords import Searchwords, SearchLists
 from helpers.server import ServerWrapper
 
 
@@ -145,7 +145,9 @@ def program(args):
         config.write(configfile)
 
     # Import the searchwords lists
-    Searchwords.searchwords_import(Searchwords())
+    # Searchwords.searchwords_import(Searchwords())
+    SearchLists()
+
 
     # Server(args) checks if the server should be run and handles the spawning of the server and control of it
     server(args, server_enabled, DRAG_DROP_SERVER_PORT)
