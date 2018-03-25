@@ -1,6 +1,7 @@
 import os
 import sys
 from collections import OrderedDict
+import copy
 from operator import itemgetter
 
 import configparser
@@ -41,6 +42,19 @@ class SearchLists:
         self.all_lists["OWASP_WORDS"] = SearchList(owasp_filename, "OWASP_WORDS")
         self.all_lists["DB_WORDS"] = SearchList(db_filename, "DB_WORDS")
         self.all_lists["EXCL_WORDS"] = SearchList(exclusion_filename, "EXCL_WORDS")
+
+        # Merge owasp and src
+        for item in SearchLists.all_lists["OWASP_WORDS"].ListCollection:
+            SearchLists.all_lists["SRC_WORDS"].ListCollection.append(item)
+
+        # All findings
+        self.all_lists["ALL_WORDS"] = copy.deepcopy(SearchLists.all_lists["SRC_WORDS"])
+        for item in SearchLists.all_lists["DB_WORDS"].ListCollection:
+            SearchLists.all_lists["ALL_WORDS"].ListCollection.append(item)
+
+        # Sort again on importance
+        self.all_lists["ALL_WORDS"].sortList()
+        self.all_lists["SRC_WORDS"].sortList()
 
 
 class SearchList:
@@ -121,66 +135,3 @@ class SearchList:
 
 
 
-class Searchwords:
-    all_searchwords = OrderedDict()
-    # 'src_search_words': Contains all searchwords for source, config files like .java, .xml, .html, .js,...
-    owasp_search_words = OrderedDict()
-    src_search_words = OrderedDict()
-    # 'db_search_words': Contains all searchwords for database files
-    db_search_words = OrderedDict()
-    # 'exclusion_list.txt': Contains all searchwords which should be excluded in a certain folder
-    exclusion_list = []
-
-    # TODO
-    def exclusion_list_reader(self, filename):
-        try:
-            with open(filename, "r") as file:
-                lines_in_file = file.read().splitlines()
-        except IOError:
-            Logger("could not open file '%s'." % filename, Logger.ERROR)
-            return list()
-        line_index = 1
-        try:
-            for line in lines_in_file:
-                dir_list_with_quotes = str(line.split('|||')[1]).split(',')
-                dir_list_without_quotes = []
-                for item in dir_list_with_quotes:
-                    dir_list_without_quotes.append(item.strip("\""))
-                self.exclusion_list.append([line.split('|||')[0],  os.path.join(*dir_list_without_quotes)])
-                line_index = line_index + 1
-        except IOError:
-            Logger("Format is not readable or file is missing: %s." % filename, Logger.ERROR)
-            sys.exit()
-        #self.exclusion_list.append(search_words)
-
-    def searchwords_import(self):
-        config = configparser.ConfigParser()
-        config.read("config.ini")
-        # How to extend with other filetypes:
-        # TYPE_filename = os.path.join(config.get("ProgramConfig", 'config_folder'),
-        #                            config.get("ProgramConfig", 'TYPE_search_words'))
-
-        src_filename = os.path.join(config.get("ProgramConfig", 'config_folder'),
-                                    config.get("ProgramConfig", 'src_search_words'))
-        owasp_filename = os.path.join(config.get("ProgramConfig", 'config_folder'),
-                                    config.get("ProgramConfig", 'owasp_search_words'))
-        db_filename = os.path.join(config.get("ProgramConfig", 'config_folder'),
-                                   config.get("ProgramConfig", 'db_search_words'))
-        exclusion_filename = os.path.join(config.get("ProgramConfig", 'config_folder'),
-                                   config.get("ProgramConfig", 'exclusion_filename'))
-        search_list = dict()
-        exclusion_list = dict()
-        search_list[src_filename] = Searchwords.src_search_words
-        search_list[owasp_filename] = Searchwords.owasp_search_words
-        search_list[db_filename] = Searchwords.db_search_words
-        exclusion_list[exclusion_filename] = Searchwords.exclusion_list
-        # How to extend (Cont.d)
-        # search_list[TYPE_filename] = Searchwords.TYPE_search_words
-        for filename, search_words in search_list.items():
-            self.searchwords_for_type(filename, search_words)
-            fap = SearchList(filename)
-        for filename, search_words in exclusion_list.items():
-            self.exclusion_list_reader(filename)
-
-        # add owasp list to source code list:
-        Searchwords.src_search_words.update(Searchwords.owasp_search_words)

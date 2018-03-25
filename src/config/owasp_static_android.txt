@@ -10,8 +10,8 @@ content://||||||Insecure Data Storage: Checking for content providers
 MODE_WORLD_READABLE|Context.MODE_WORLD_READABLE||||||Filesystem Access: the Object is World Readable by any App.
 MODE_WORLD_WRITABLE|Context.MODE_WORLD_WRITABLE||||||Filesystem Access: the Object is World Writable by any app.
 MODE_private_ip|Context.MODE_private_ip||||||Filesystem Access: app can write to app directory.
-net.URL|openStream|||55|||the app URL can connect to http/https/ftp/jar: Insecure Communication
-net.JarURL|JarURL|jar:|||55|||the app URL can connect to JAR url: Insecure Communication
+net.URL|openStream|||55|||Insecure Communication: the app URL can connect to http/https/ftp/jar
+net.JarURL|JarURL|jar:|||55|||Insecure Communication: The app URL can connect to JAR url
 HttpURL|org.apache.http|HttpRequest||||||Insecure Communication: the app initiate HTTP network_communications
 javax.net.ssl.HttpsURL|HttpsURL||||||Insecure Communication: the app URL can initiate a HTTPS network_communication
 http.client.HttpClient|net.http.AndroidHttpClient|http.impl.client.AbstractHttpClient||||||Insecure Communication: the app facilitates HTTP Requests, network_communications and Sessions 

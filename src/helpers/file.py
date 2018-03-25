@@ -6,7 +6,7 @@ import configparser
 
 from helpers.logger import Logger
 from helpers.match import MatchDatabase, MatchSource
-from helpers.searchwords import Searchwords, SearchLists
+from helpers.searchwords import SearchLists
 
 
 class File:
@@ -52,7 +52,7 @@ class File:
                                 exclude = True
                         if exclude == False:
                             importance = listItem.importance
-                            db_match = MatchDatabase(listItem.searchword, line, str(table_name), str(row), importance)
+                            db_match = MatchDatabase(listItem.searchword, line, str(table_name), str(row), importance, listItem.comment)
                             self.db_matches.append(db_match)
                             self.all_matches.append(db_match)
         self.orden_matches()
@@ -82,7 +82,7 @@ class File:
                             upper_range = min(line_index + CODE_OFFSET, len(lines_in_file)+1)
                             lower_range = max(line_index - CODE_OFFSET-1, 1)
                             src_match = MatchSource(listItem.searchword, line_index, lines_in_file[lower_range:upper_range],
-                                                    listItem.importance, len(lines_in_file), listItem.owasp)
+                                                    listItem.importance, len(lines_in_file), listItem.owasp, listItem.comment)
                             self.all_matches.append(src_match)
                             self.src_matches.append(src_match)
             line_index = line_index + 1

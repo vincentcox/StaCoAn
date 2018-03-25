@@ -17,7 +17,7 @@ from time import time
 from helpers.logger import Logger
 from helpers.project import Project
 from helpers.report_html import Report_html
-from helpers.searchwords import Searchwords, SearchLists
+from helpers.searchwords import SearchLists
 from helpers.server import ServerWrapper
 
 
