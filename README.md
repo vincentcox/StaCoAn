@@ -18,7 +18,7 @@ For the impatient ones, grab the download on the [releases page](https://github.
 &ast;: note that currently only apk files are supported, but ipa files will follow very shortly.
 </p>
 
-An example report can be found here: [example report](https://github.com/vincentcox/StaCoAn/blob/master/resources/example-report.zip)
+An example report can be found [here](https://github.com/vincentcox/StaCoAn/raw/master/resources/example-report.zip).
 
 ## Table of Contents
 <!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
