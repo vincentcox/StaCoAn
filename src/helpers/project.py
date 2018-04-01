@@ -10,7 +10,7 @@ import configparser
 
 from helpers.file import File
 from helpers.logger import Logger
-from helpers.searchwords import Searchwords
+from helpers.searchwords import SearchLists
 
 PATH = os.getcwd()
 
@@ -72,7 +72,18 @@ class Project:
                 frequency_words[match.matchword] = str(int(frequency_words[match.matchword]) + 1)
 
         # Sort OrderedDict according to importance of the searchwords
-        frequency_words = OrderedDict(sorted(frequency_words.items(), key=lambda t: int(Searchwords.all_searchwords[t[0]]), reverse=True))
+        tosort = list()
+        for freqitem in frequency_words.items():
+            for worlists in ["DB_WORDS", "SRC_WORDS"]:
+                for worditem in SearchLists.all_lists[worlists].ListCollection:
+                    if freqitem[0] == worditem.searchword:
+                        tosort.append([worditem.importance, freqitem])
+            # sorteer ok eerste element (importance) en bij gelijkheid sorteren op 2de element (freqitem)
+            sorted_tosort = sorted(tosort, key=lambda x: (x[0], x[1]), reverse=True)
+        frequency_words = OrderedDict()
+        for item in sorted_tosort:
+            frequency_words[item[1][0]] = item[1][1]
+
         # Limit to top 10
         limited_frequency_words = OrderedDict()
         i = 0

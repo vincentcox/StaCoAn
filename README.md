@@ -86,6 +86,10 @@ The reports are made to fit on all screens.
 
 ![](resources/responsive.gif)
 
+## How does the tool works?
+
+![Pipeline tool](resources/pipeline.png)
+
 ## Limitations
 This tool will have trouble with [obfuscated](https://en.wikibooks.org/wiki/Introduction_to_Software_Engineering/Tools/Obfuscation) code. If you are a developer try to compile without obfuscation turned on before running this tool. If you are on the offensive side, good luck bro.
 
@@ -263,6 +267,7 @@ If the contribution is high enough, you will be mentioned in the `authors` secti
 <a href="https://github.com/Kevin-De-Koninck"><img src="resources/authors/Kevin-De-Koninck.png" width="100px"></a>
 <a href="https://github.com/BBerastegui"><img src="resources/authors/BBerastegui.png" width="100px"></a>
 <a href="https://github.com/adi0x90"><img src="resources/authors/adi0x90.png" width="100px"></a>
+<a href="https://github.com/Ayowel"><img src="resources/authors/Ayowel.png" width="100px"></a>
 
 ## License
 The following projects were used in this project:

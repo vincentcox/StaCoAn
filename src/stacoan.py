@@ -17,7 +17,7 @@ from time import time
 from helpers.logger import Logger
 from helpers.project import Project
 from helpers.report_html import Report_html
-from helpers.searchwords import Searchwords
+from helpers.searchwords import SearchLists
 from helpers.server import ServerWrapper
 
 
@@ -103,7 +103,7 @@ def server(args, server_enabled, DRAG_DROP_SERVER_PORT):
         drag_drop_server_thread.daemon = True
         drag_drop_server_thread.start()
 
-        if not args.disable_browser:
+        if (not args.disable_browser) and not (args.enable_server or server_enabled):
             # Open the webbrowser to the generated start page.
             report_folder_start = "http:///127.0.0.1:" + str(DRAG_DROP_SERVER_PORT)
             if sys.platform == "darwin":  # check if on OSX
@@ -145,7 +145,9 @@ def program(args):
         config.write(configfile)
 
     # Import the searchwords lists
-    Searchwords.searchwords_import(Searchwords())
+    # Searchwords.searchwords_import(Searchwords())
+    SearchLists()
+
 
     # Server(args) checks if the server should be run and handles the spawning of the server and control of it
     server(args, server_enabled, DRAG_DROP_SERVER_PORT)

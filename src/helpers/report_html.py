@@ -12,7 +12,7 @@ import configparser
 from helpers.html_page import Htmlpage
 from helpers.logger import Logger
 from helpers.project import Project
-from helpers.searchwords import Searchwords
+from helpers.searchwords import SearchLists
 
 
 class Report_html(Htmlpage):
@@ -104,7 +104,10 @@ class Report_html(Htmlpage):
                             # rating color
                             with self.tag("i",
                                           klass="material-icons medium grade-" + str(
-                                              Searchwords.all_searchwords[match.matchword])):
+                                              next((ListItem.importance for ListItem in
+                                                    SearchLists.all_lists["DB_WORDS"].ListCollection if
+                                                    ListItem.searchword == match.matchword), None))):
+
                                 self.text("report")
                             with self.tag('h5'):
                                 if not match.regex:
@@ -112,6 +115,17 @@ class Report_html(Htmlpage):
                                     # print(match.matchword)
                                 else:
                                     self.text("regex: " + match.matchword)
+                        # If comment of match is not empty, place the issue description
+                        if not match.comment == "":
+                            with self.tag("ul", klass="collapsible"):
+                                with self.tag("li"):
+                                    with self.tag("div", klass="collapsible-header"):
+                                        with self.tag("i", klass="material-icons"):
+                                            self.text("info")
+                                        self.text("Issue Description")
+                                    with self.tag("div", klass="collapsible-body"):
+                                        with self.tag("span"):
+                                            self.text(match.comment)
                         with self.tag("div", klass="card-content"):
                             self.text("table: \""+str(match.table)+"\" : "+ str(match.value))
             with self.tag('div', klass="row"):
@@ -203,13 +217,42 @@ class Report_html(Htmlpage):
                                 # rating color
                                 with self.tag("i",
                                               klass="material-icons medium grade-" + str(
-                                              Searchwords.all_searchwords[match.matchword])):
+                                                  next((ListItem.importance for ListItem in
+                                                        SearchLists.all_lists["SRC_WORDS"].ListCollection if
+                                                        ListItem.searchword == match.matchword), None))):
                                     self.text("report")
                                 with self.tag('h5'):
                                     if not match.regex:
+
                                         self.text(match.matchword)
                                     else:
                                         self.text("regex: " + match.matchword)
+                            # If comment of match is not empty, place the issue description
+                            if not match.comment == "":
+                                with self.tag("ul", klass="collapsible"):
+                                    with self.tag("li"):
+                                        with self.tag("div", klass="collapsible-header"):
+                                            with self.tag("i", klass="material-icons"):
+                                                self.text("info")
+                                            self.text("Issue Description")
+                                        with self.tag("div", klass="collapsible-body"):
+                                            with self.tag("span"):
+                                                self.text(match.comment)
+                            # Place owasp icon
+                            if match.owasp_item:
+                                with self.tag("ul", klass="collapsible"):
+                                    with self.tag("li"):
+                                        with self.tag("div", klass="collapsible-header"):
+                                            with self.tag("img", ('data-position', 'top'),
+                                                          ('data-tooltip', 'OWASP item'),
+                                                          src="html/owasp_logo.png", height="20em", style="margin-right: 1rem;margin-left: 5px;", klass="tooltipped"):
+                                                pass
+                                            self.text(" OWASP Item")
+                                        with self.tag("div", klass="collapsible-body"):
+                                            with self.tag("span"):
+                                                self.text("For more information, have a look at: https://www.owasp.org/index.php/OWASP_Mobile_Security_Testing_Guide")
+
+
                             with self.tag("div", klass="card-tabs"):
                                 with self.tag("ul", klass="tabs tabs-fixed-width", style="background-color: #30363A !important;"):
                                     for group_matchword, matchobjects_list in file.grouped_matches.items():
@@ -422,7 +465,10 @@ class Report_html(Htmlpage):
                             for word, freq in frequency_words.items():
                                 with self.tag("div", klass="chip"):
                                     with self.tag("i",
-                                                  klass="material-icons grade-"+str(Searchwords.all_searchwords[word])):
+                                                  klass="material-icons grade-"+str(
+                                                  next((ListItem.importance for ListItem in
+                                                        SearchLists.all_lists["ALL_WORDS"].ListCollection if
+                                                        ListItem.searchword == word), None))):
                                         self.text("beenhere")
                                     self.text(word + " : " + freq)
                                 # get src_files with frequency
