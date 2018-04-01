@@ -103,7 +103,7 @@ def server(args, server_enabled, DRAG_DROP_SERVER_PORT):
         drag_drop_server_thread.daemon = True
         drag_drop_server_thread.start()
 
-        if not args.disable_browser:
+        if (not args.disable_browser) and not (args.enable_server or server_enabled):
             # Open the webbrowser to the generated start page.
             report_folder_start = "http:///127.0.0.1:" + str(DRAG_DROP_SERVER_PORT)
             if sys.platform == "darwin":  # check if on OSX

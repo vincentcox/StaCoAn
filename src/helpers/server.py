@@ -36,11 +36,12 @@ class ServerWrapper:
 
     class reportserver(http.server.SimpleHTTPRequestHandler):
         def log_request(self, code='-', size='-'):
-            if ".html" in str(self.requestline):
+            if not any(s in str(self.requestline) for s in
+                       ('lootbox.html', '.ico', 'robots.txt', '.js', '.css', 'start.html', '.woff2', '.png', '.jpg')):
                 Logger(self.requestline + " " + str(code) + " " + str(size), Logger.INFO)
 
         def log_error(self, format, *args):
-            if not "robots.txt" in self.requestline:
+            if not any("robots.txt", "lootbox.html") in self.requestline:
                 Logger(("%s - - [%s] %s\n" %
                         (self.address_string(),
                          self.log_date_time_string(),
@@ -57,10 +58,12 @@ class ServerWrapper:
         q = Queue()
 
         def log_request(self, code='-', size='-'):
-            Logger(self.requestline+ " " + str(code) + " " + str(size), Logger.INFO)
+            if not any(s in str(self.requestline) for s in
+                       ('lootbox.html', '.ico', 'robots.txt', '.js', '.css', 'start.html', '.woff2', '.png', '.jpg')):
+                Logger(self.requestline+ " " + str(code) + " " + str(size), Logger.INFO)
 
         def log_error(self, format, *args):
-            if not "robots.txt" in self.requestline:
+            if not 'robots.txt' in self.requestline:
                 Logger(("%s - - [%s] %s - %s\n" %
                         (self.address_string(),
                          self.log_date_time_string(),
