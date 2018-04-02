@@ -16,6 +16,7 @@ src/report/html/looty.js
 *.exe
 src/test-apk/
 src/test-apk_apk/
+.temp_thread_file
 
 
 # OS generated files #

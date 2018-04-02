@@ -127,10 +127,10 @@ docker build . -t stacoan
 _Make sure that your application is at the location `/yourappsfolder`._
 
 ```
-docker run -e JAVA_OPTS="-Xms2048m -Xmx2048m" -p 8000:8000 -p 8080:8080 -i -t stacoan
+docker run -e JAVA_OPTS="-Xms2048m -Xmx2048m" -p 8888:8888 -p 7777:7777 -i -t stacoan
 ```
 
-Drag and drop your application via: http://127.0.0.1:8000.
+Drag and drop your application via: http://127.0.0.1:7777.
 
 ### From source
 ```
@@ -153,14 +153,14 @@ Install the required python packages:
 pip3 install -r requirements.txt
 ```
 
-Run StaCoAn:
+Run StaCoAn via commandline:
 
 ```
 python3 stacoan.py -p yourApp.apk
 ```
 __Or__ if you rather use the drag and drop interface:
 ```
-python3 stacoan.py -p yourApp.apk --disable-browser --enable-server
+python3 stacoan.py
 ```
 ### Building the executable
 Make sure that you are in the `src` folder.
