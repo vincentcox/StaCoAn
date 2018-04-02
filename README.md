@@ -18,7 +18,8 @@ For the impatient ones, grab the download on the [releases page](https://github.
 &ast;: note that currently only apk files are supported, but ipa files will follow very shortly.
 </p>
 
-An example report can be found here: [example report](https://github.com/vincentcox/StaCoAn/blob/master/resources/example-report.zip)
+An example report can be found [here](https://github.com/vincentcox/StaCoAn/raw/master/resources/example-report.zip).
+
 
 ## Table of Contents
 <!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
@@ -86,6 +87,10 @@ The reports are made to fit on all screens.
 
 ![](resources/responsive.gif)
 
+## How does the tool works?
+
+![Pipeline tool](resources/pipeline.png)
+
 ## Limitations
 This tool will have trouble with [obfuscated](https://en.wikibooks.org/wiki/Introduction_to_Software_Engineering/Tools/Obfuscation) code. If you are a developer try to compile without obfuscation turned on before running this tool. If you are on the offensive side, good luck bro.
 
@@ -116,17 +121,17 @@ The report will be put inside a folder with a name corresponding to the apk.
 ```
 cd docker
 ```
-
 ```
 docker build . -t stacoan
 ```
 _Make sure that your application is at the location `/yourappsfolder`._
 
 ```
-docker run -e JAVA_OPTS="-Xms2048m -Xmx2048m" -p 8000:8000 -p 8080:8080 -i -t stacoan
+docker run -e JAVA_OPTS="-Xms2048m -Xmx2048m" -p 8888:8888 -p 7777:7777 -i -t stacoan
 ```
 
-Drag and drop your application via: http://127.0.0.1:8000.
+Drag and drop your application via: http://127.0.0.1:7777.
+
 
 ### From source
 ```
@@ -149,14 +154,14 @@ Install the required python packages:
 pip3 install -r requirements.txt
 ```
 
-Run StaCoAn:
+Run StaCoAn via commandline:
 
 ```
 python3 stacoan.py -p yourApp.apk
 ```
 __Or__ if you rather use the drag and drop interface:
 ```
-python3 stacoan.py -p yourApp.apk --disable-browser --enable-server
+python3 stacoan.py
 ```
 ### Building the executable
 Make sure that you are in the `src` folder.
@@ -263,6 +268,7 @@ If the contribution is high enough, you will be mentioned in the `authors` secti
 <a href="https://github.com/Kevin-De-Koninck"><img src="resources/authors/Kevin-De-Koninck.png" width="100px"></a>
 <a href="https://github.com/BBerastegui"><img src="resources/authors/BBerastegui.png" width="100px"></a>
 <a href="https://github.com/adi0x90"><img src="resources/authors/adi0x90.png" width="100px"></a>
+<a href="https://github.com/Ayowel"><img src="resources/authors/Ayowel.png" width="100px"></a>
 
 ## License
 The following projects were used in this project:

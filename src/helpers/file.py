@@ -6,7 +6,7 @@ import configparser
 
 from helpers.logger import Logger
 from helpers.match import MatchDatabase, MatchSource
-from helpers.searchwords import Searchwords
+from helpers.searchwords import SearchLists
 
 
 class File:
@@ -40,18 +40,19 @@ class File:
             line = 0
             for row in cursor.fetchall():
                 line += 1
-                for matchword in Searchwords.db_search_words:
+                for listItem in SearchLists.all_lists["DB_WORDS"].ListCollection:
                     exclude = False
-                    if re.match(File.non_regex_indicator, str(row)):
-                        Searchwords.db_search_words[matchword].regex = True
-                    if re.search(matchword, str(row), re.IGNORECASE):
-                        for item in Searchwords.exclusion_list:
-                            if item[0] == matchword and item[1] in self.file_path:
-                                Logger("Database xclusion found: %s in file %s" % (str(item[0]), self.file_path), Logger.INFO)
+                    # if re.match(File.non_regex_indicator, str(row)):
+                    #     Searchwords.db_search_words[matchword].regex = True
+                    if re.search(listItem.searchword, str(row), re.IGNORECASE):
+                        for ExclItem in SearchLists.all_lists["EXCL_WORDS"].ListCollection:
+                            if ExclItem.searchword == listItem.searchword and ExclItem.dir in self.file_path:
+                                Logger("Database exclusion found: %s in file %s" % (str(ExclItem.searchword), self.file_path),
+                                       Logger.INFO)
                                 exclude = True
                         if exclude == False:
-                            importance = Searchwords.db_search_words[matchword]
-                            db_match = MatchDatabase(matchword, line, str(table_name), str(row), importance)
+                            importance = listItem.importance
+                            db_match = MatchDatabase(listItem.searchword, line, str(table_name), str(row), importance, listItem.comment)
                             self.db_matches.append(db_match)
                             self.all_matches.append(db_match)
         self.orden_matches()
@@ -65,23 +66,23 @@ class File:
             return list()
         line_index = 1
         for line in lines_in_file:
-            for query in Searchwords.src_search_words.keys():
-                if int(Searchwords.src_search_words[query]) > QUERY_IMPORTANCE:
-                    if re.match(File.non_regex_indicator, query):
-                        Searchwords.src_search_words[query].regex = True
-                    if re.search(query, line.lower(), re.IGNORECASE):
+            for listItem in SearchLists.all_lists["SRC_WORDS"].ListCollection:
+                if int(listItem.importance) > QUERY_IMPORTANCE:
+                    # if re.match(File.non_regex_indicator, listItem.searchword):
+                    #     Searchwords.src_search_words[query].regex = True
+                    if re.search(listItem.searchword, line, re.IGNORECASE):
                         exclude = False
-                        for item in Searchwords.exclusion_list:
-                            if re.search(item[0], line, re.IGNORECASE):
-                                if (item[1] in self.file_path or (item[1] == "" or item[1] is None)):
-                                    Logger("Exclusion found: %s in file %s" % (str(item[0]), self.file_path),
+                        for ExclItem in SearchLists.all_lists["EXCL_WORDS"].ListCollection:
+                            if re.search(ExclItem.searchword, line, re.IGNORECASE):
+                                if (ExclItem.dir in self.file_path or (ExclItem.dir == "" or ExclItem.dir is None)):
+                                    Logger("SRC exclusion found: %s in file %s" % (str(ExclItem.searchword), self.file_path),
                                            Logger.INFO)
                                     exclude = True
                         if exclude == False:
                             upper_range = min(line_index + CODE_OFFSET, len(lines_in_file)+1)
                             lower_range = max(line_index - CODE_OFFSET-1, 1)
-                            src_match = MatchSource(query, line_index, lines_in_file[lower_range:upper_range],
-                                                    Searchwords.src_search_words[query], len(lines_in_file))
+                            src_match = MatchSource(listItem.searchword, line_index, lines_in_file[lower_range:upper_range],
+                                                    listItem.importance, len(lines_in_file), listItem.owasp, listItem.comment)
                             self.all_matches.append(src_match)
                             self.src_matches.append(src_match)
             line_index = line_index + 1

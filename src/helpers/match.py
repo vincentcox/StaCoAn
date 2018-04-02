@@ -1,23 +1,25 @@
 class Match:
     all_global_matches = list()
-    def __init__(self, matchword, importance):
+    def __init__(self, matchword, importance, comment):
         self.matchword = matchword
         self.importance = importance
+        self.comment = comment
         self.regex = False
 
 
 class MatchSource(Match):
-    def __init__(self, matchword, line, lines_in_file, importance, total_count_lines):
-        Match.__init__(self, matchword, importance)
+    def __init__(self, matchword, line, lines_in_file, importance, total_count_lines, owasp_item, comment):
+        Match.__init__(self, matchword, importance, comment)
         self.line = line
+        self.owasp_item = owasp_item
         self.lines_in_file = lines_in_file
         self.total_count_lines = total_count_lines
         Src_Match.all_global_matches.append(self)
 
 
 class MatchDatabase(Match):
-    def __init__(self, matchword, line, table, value, importance):
-        Match.__init__(self, matchword, importance)
+    def __init__(self, matchword, line, table, value, importance, comment):
+        Match.__init__(self, matchword, importance, comment)
         self.table = table
         self.line = line
         self.value = value

@@ -1,18 +1,10 @@
-password|||10|||triggers unwanted classes like password reset, hence the low score
-privatekey|||80
-private_key|||80
-apikey|||75
-http:|||10
-https:|||7
-database_secret|||80
-database_password|||80
-databasepassword|||80
-databasesecret|||80
-(https|http):\/\/.*api.*|||60||| This regex matches any URL containing 'api'
-(https|http):\/\/.*test.*|||60||| This regex matches any URL containing 'test'
-(https|http):\/\/.*uat.*|||60||| This regex matches any URL containing 'uat'
-^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|||40||| Matching IP adresses
-^[a-f0-9]{32}$|||70||| MD5 hash
-\b([a-f0-9]{40})\b|||70||| SHA1 hash
-^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})$|||70||| base64 string
-Authorization: Basic|||95||| Basic authentication
+passw(d|ord)?|||10|||Sensitive parameters which can contain hardcoded credentials. The score is quite low because this query is often a false-positive.
+(private|secret|api|aws)[_-]?key|||50|||Sensitive parameters which can contain hardcoded credentials. The score is quite low because this query is often a false-positive.
+https?:|||7|||An URL was found, this might be an API endpoint or just a link to documentation. Hopefully the first one.
+(db|database)[_-]?(passw(d|ord)?|secret)|||80|||This match probably contains hardcoded database credentials. 
+https?:\/\/.*(uat|test|api).*|||60||| This regex matches any URL containing 'api|uat|test'
+^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|||40|||An IP address was found, this might be a server (where the API is hosted). Or this might be a link to documentation, however chances are low.
+^[a-f0-9]{32}$|||70|||An MD5 hash was found! You are lucky because MD5 is easily crack-able. Just google for "MD5 decrypt online" and you will come a long end.
+\b([a-f0-9]{40})\b|||70|||A SHA1 hash was found! You are lucky because SHA1 is easily crack-able. Just google for "SHA1 decrypt online" and you will come a long end.
+^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})$|||70|||A base64 string was found. Go to https://www.base64decode.org/ and paste your value. This decrypted value is in most cases very interesting.
+Authorization: Basic|||95|||Basic authentication was found. Apart from the fact that API communication should be with OAUTH or something similar, it contains hardcoded credentials.

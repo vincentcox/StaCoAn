@@ -17,7 +17,7 @@ from time import time
 from helpers.logger import Logger
 from helpers.project import Project
 from helpers.report_html import Report_html
-from helpers.searchwords import Searchwords
+from helpers.searchwords import SearchLists
 from helpers.server import ServerWrapper
 
 
@@ -34,7 +34,7 @@ def parse_args():
                         help='Relative path to the project')
     parser.add_argument('--disable-browser', action='store_true', required=False,
                         help='Do not automatically open the HTML report in a browser')
-    parser.add_argument('--enable-server', action='store_true', required=False,
+    parser.add_argument('--disable-server', action='store_true', required=False,
                         help='Do not run the server to drag and drop files to be analysed')
 
     log_group = parser.add_mutually_exclusive_group(required=False)
@@ -42,12 +42,21 @@ def parse_args():
     log_group.add_argument('--log-errors', action='store_true', help='Log only errors')
     log_group.add_argument('--log-warnings', action='store_true', help='Log only errors and warning messages')
 
+
+    # Check if the right parameters are set
+    args = parser.parse_args()
+    if args.disable_server and args.project is None:
+        parser.error("--disable-server requires the input file (application file) specified with -p")
+    if args.project:
+        args.disable_server == True
+
+
     # return aur args, usage: args.argname
-    return parser.parse_args()
+    return args
 
 # Note that this server(args) function CANNOT be placed in the server.py file. It calls "program()", which cannot be
 # called from the server.py file
-def server(args, server_enabled, DRAG_DROP_SERVER_PORT):
+def server(args, server_disabled, DRAG_DROP_SERVER_PORT):
     # Windows multithreading is different on Linux and windows (fork <-> new instance without parent context and args)
     child=False
     if os.name == 'nt':
@@ -57,13 +66,17 @@ def server(args, server_enabled, DRAG_DROP_SERVER_PORT):
             # you may also want to remove whitespace characters like `\n` at the end of each line
             content = [x.strip() for x in content]
             args.project = [content[0]]
-            args.enable_server = content[1]
+            args.disable_server = content[1]
             args.log_warnings = content[2]
             args.disable_browser = content[3]
             child = True
             os.remove(".temp_thread_file")
+    else:
+        if os.path.exists(".temp_thread_file"):
+            child = True
+            os.remove(".temp_thread_file")
 
-    if (server_enabled or args.enable_server or ((not len(sys.argv) > 1))) and (not child):
+    if (not(server_disabled or args.disable_server) or ((not len(sys.argv) > 1))) and (not child):
         # This is a "bridge" between the stacoan program and the server. It communicates via this pipe (queue)
         def serverlistener(in_q):
             while True:
@@ -77,14 +90,18 @@ def server(args, server_enabled, DRAG_DROP_SERVER_PORT):
                     exit(0)
 
                 # Process the data
-                args = argparse.Namespace(project=[data], enable_server=False, log_warnings=False, log_errors=False, disable_browser=True)
+                args = argparse.Namespace(project=[data], disable_server=False, log_warnings=False, log_errors=False, disable_browser=True)
                 # On windows: write arguments to file, spawn process, read arguments from file, delete.
                 if os.name == 'nt':
                     with open('.temp_thread_file', 'a') as the_file:
                         the_file.write(data+"\n")
-                        the_file.write("False\n") # enable_server
+                        the_file.write("False\n") # disable_server
                         the_file.write("False\n")  # log_warnings
                         the_file.write("True\n")
+                else:
+                    with open('.temp_thread_file', 'a') as the_file:
+                        the_file.write("filling")
+
                 p = Process(target=program, args=(args,))
                 p.start()
 
@@ -103,13 +120,9 @@ def server(args, server_enabled, DRAG_DROP_SERVER_PORT):
         drag_drop_server_thread.daemon = True
         drag_drop_server_thread.start()
 
-        if not args.disable_browser:
+        if (not args.disable_browser) and not (args.disable_server or server_disabled):
             # Open the webbrowser to the generated start page.
             report_folder_start = "http:///127.0.0.1:" + str(DRAG_DROP_SERVER_PORT)
-            if sys.platform == "darwin":  # check if on OSX
-                # strip off http:///
-                report_folder_start = str(report_folder_start).strip("http:///")
-                report_folder_start = "file:///" + report_folder_start
             webbrowser.open(report_folder_start)
 
         # Keep waiting until q is gone.
@@ -132,7 +145,7 @@ def program(args):
 
     config = configparser.ConfigParser()
     config.read("config.ini")
-    server_enabled = config.getboolean("ProgramConfig", 'server_enabled')
+    server_disabled = config.getboolean("ProgramConfig", 'server_disabled')
     DRAG_DROP_SERVER_PORT = json.loads(config.get("Server", 'drag_drop_server_port'))
 
     # Update log level
@@ -145,14 +158,17 @@ def program(args):
         config.write(configfile)
 
     # Import the searchwords lists
-    Searchwords.searchwords_import(Searchwords())
+    # Searchwords.searchwords_import(Searchwords())
+    SearchLists()
+
 
     # Server(args) checks if the server should be run and handles the spawning of the server and control of it
-    server(args, server_enabled, DRAG_DROP_SERVER_PORT)
+    if not args.project:
+        server(args, server_disabled, DRAG_DROP_SERVER_PORT)
 
     # For each project (read .ipa or .apk file), run the scripts.
     all_project_paths = args.project
-    
+
     if not all_project_paths:
         sys.exit(0)
     for project_path in all_project_paths:
@@ -244,7 +260,7 @@ def program(args):
             print("\n--------------------\n")
         Logger("Static code analyzer completed succesfully in %fs." % (time() - start_time))
         Logger("HTML report is available at: %s" % report_folder_start)
-        if (not args.disable_browser) and not (args.enable_server or server_enabled):
+        if (not args.disable_browser) or (args.disable_server or server_disabled):
             Logger("Now automatically opening the HTML report.")
             # Open the webbrowser to the generated start page.
             if sys.platform == "darwin":  # check if on OSX
@@ -256,6 +272,8 @@ def program(args):
     sys.exit()
 
 if __name__ == "__main__":
+    if os.path.exists(".temp_thread_file"):
+        os.remove(".temp_thread_file")
     multiprocessing.freeze_support()
     if os.environ.get('DEBUG') is not None:
         program(parse_args())
