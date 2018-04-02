@@ -41,7 +41,8 @@ class ServerWrapper:
                 Logger(self.requestline + " " + str(code) + " " + str(size), Logger.INFO)
 
         def log_error(self, format, *args):
-            if not any("robots.txt", "lootbox.html") in self.requestline:
+            if not any(s in str(self.requestline) for s in
+                       ('lootbox.html', 'robots.txt')):
                 Logger(("%s - - [%s] %s\n" %
                         (self.address_string(),
                          self.log_date_time_string(),
@@ -63,7 +64,8 @@ class ServerWrapper:
                 Logger(self.requestline+ " " + str(code) + " " + str(size), Logger.INFO)
 
         def log_error(self, format, *args):
-            if not 'robots.txt' in self.requestline:
+            if not any(s in str(self.requestline) for s in
+                       ('lootbox.html', 'robots.txt')):
                 Logger(("%s - - [%s] %s - %s\n" %
                         (self.address_string(),
                          self.log_date_time_string(),
