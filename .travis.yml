@@ -38,10 +38,10 @@ script:
     # Fix the helpers issue
     # sed is different on os x...
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-    sed -i '' 's/from helpers./from /g' helpers/* || :;
+    sed -i '' 's/from helpers./from /g' helpers/*.py || :;
     sed -i '' 's/from helpers./from /g' stacoan.py;
     sed -i '' 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py ; 
-    else sed -i 's/from helpers./from /g' helpers/* || :;
+    else sed -i 's/from helpers./from /g' helpers/*.py || :;
     sed -i 's/from helpers./from /g' stacoan.py;
     sed -i 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py ; 
     fi
