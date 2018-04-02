@@ -530,15 +530,16 @@ class ServerWrapper:
 
             f.write(b"""<input type="file" name="file" id="file" class="box__file" data-multiple-caption="{count} files selected" multiple accept=\"""")
             for apptype in ServerWrapper.apptypes:
-                f.write(bytes(str(apptype)+", ", 'utf-8'))
+               f.write(bytes(str(apptype)+", ", 'utf-8'))
 
-            f.write(b"""\" />
-                        <label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
+            f.write(b"""\" />""")
+            f.write(b"""
+                        <label for="file" id="nameup"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
                         <button type="submit" class="box__button">Upload</button>
                     </div>
                     <div class="box__uploading">Uploading&hellip;</div>
                     <div class="box__success">Done! <a href="/" class="box__restart2" id="done_link" onclick="javascript:event.target.port=""")
-            f.write(bytearray(ServerWrapper.REPORT_SERVER_PORT))
+            f.write(bytearray(str(ServerWrapper.REPORT_SERVER_PORT), 'utf8'))
             f.write(b"""" role="button" target="_blank">Open report!</a></div>
                     <div class="box__error">Error! <span></span>. <a href="/?" class="box__restart" role="button">Try again!</a></div>
                 </form>
@@ -644,6 +645,7 @@ class ServerWrapper:
                                         document.getElementById("done_link").setAttribute("href", file.name.replace(/\./g, "_")+"/report/start.html");
                                     });
                                 }
+                                
             
                                 // ajax request
                                 var ajax = new XMLHttpRequest();
@@ -662,6 +664,7 @@ class ServerWrapper:
                                         console.log(data)
                                         form.classList.add( data.includes("Success:") == true ? 'is-success' : 'is-error' );
                                         if( !data.includes("Success:") ) errorMsg.textContent = data.error;
+                                        if (data.includes("Success:") ) document.getElementById("done_link").setAttribute("href", nameup.innerHTML.replace(/\./g, "_")+"/report/start.html");
                                     }
                                     else alert( 'Error. Please, contact the webmaster!' );
                                 };
@@ -675,6 +678,7 @@ class ServerWrapper:
                             }
                             else // fallback Ajax solution upload for older browsers
                             {
+                                alert(1);
                                 var iframeName	= 'uploadiframe' + new Date().getTime(),
                                     iframe		= document.createElement( 'iframe' );
             
@@ -685,7 +689,6 @@ class ServerWrapper:
             
                                 document.body.appendChild( iframe );
                                 form.setAttribute( 'target', iframeName );
-            
                                 iframe.addEventListener( 'load', function()
                                 {
                                     var data = JSON.parse( iframe.contentDocument.body.innerHTML );
