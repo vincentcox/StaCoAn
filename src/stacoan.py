@@ -69,6 +69,10 @@ def server(args, server_disabled, DRAG_DROP_SERVER_PORT):
             args.disable_browser = content[3]
             child = True
             os.remove(".temp_thread_file")
+    else:
+        if os.path.exists(".temp_thread_file"):
+            child = True
+            os.remove(".temp_thread_file")
 
     if (not(server_disabled or args.disable_server) or ((not len(sys.argv) > 1))) and (not child):
         # This is a "bridge" between the stacoan program and the server. It communicates via this pipe (queue)
@@ -92,6 +96,10 @@ def server(args, server_disabled, DRAG_DROP_SERVER_PORT):
                         the_file.write("False\n") # disable_server
                         the_file.write("False\n")  # log_warnings
                         the_file.write("True\n")
+                else:
+                    with open('.temp_thread_file', 'a') as the_file:
+                        the_file.write("filling")
+
                 p = Process(target=program, args=(args,))
                 p.start()
 
@@ -113,10 +121,6 @@ def server(args, server_disabled, DRAG_DROP_SERVER_PORT):
         if (not args.disable_browser) and not (args.disable_server or server_disabled):
             # Open the webbrowser to the generated start page.
             report_folder_start = "http:///127.0.0.1:" + str(DRAG_DROP_SERVER_PORT)
-            if sys.platform == "darwin":  # check if on OSX
-                # strip off http:///
-                report_folder_start = str(report_folder_start).strip("http:///")
-                report_folder_start = "file:///" + report_folder_start
             webbrowser.open(report_folder_start)
 
         # Keep waiting until q is gone.
@@ -161,7 +165,7 @@ def program(args):
 
     # For each project (read .ipa or .apk file), run the scripts.
     all_project_paths = args.project
-    
+
     if not all_project_paths:
         sys.exit(0)
     for project_path in all_project_paths:
