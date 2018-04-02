@@ -47,10 +47,12 @@ def parse_args():
     args = parser.parse_args()
     if args.disable_server and args.project is None:
         parser.error("--disable-server requires the input file (application file) specified with -p")
+    if args.project:
+        args.disable_server == True
 
 
     # return aur args, usage: args.argname
-    return parser.parse_args()
+    return args
 
 # Note that this server(args) function CANNOT be placed in the server.py file. It calls "program()", which cannot be
 # called from the server.py file
@@ -161,7 +163,8 @@ def program(args):
 
 
     # Server(args) checks if the server should be run and handles the spawning of the server and control of it
-    server(args, server_disabled, DRAG_DROP_SERVER_PORT)
+    if not args.project:
+        server(args, server_disabled, DRAG_DROP_SERVER_PORT)
 
     # For each project (read .ipa or .apk file), run the scripts.
     all_project_paths = args.project
@@ -257,7 +260,7 @@ def program(args):
             print("\n--------------------\n")
         Logger("Static code analyzer completed succesfully in %fs." % (time() - start_time))
         Logger("HTML report is available at: %s" % report_folder_start)
-        if (not args.disable_browser) and (args.disable_server or server_disabled):
+        if (not args.disable_browser) or (args.disable_server or server_disabled):
             Logger("Now automatically opening the HTML report.")
             # Open the webbrowser to the generated start page.
             if sys.platform == "darwin":  # check if on OSX
@@ -269,6 +272,8 @@ def program(args):
     sys.exit()
 
 if __name__ == "__main__":
+    if os.path.exists(".temp_thread_file"):
+        os.remove(".temp_thread_file")
     multiprocessing.freeze_support()
     if os.environ.get('DEBUG') is not None:
         program(parse_args())
