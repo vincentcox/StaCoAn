@@ -20,6 +20,7 @@ For the impatient ones, grab the download on the [releases page](https://github.
 
 An example report can be found [here](https://github.com/vincentcox/StaCoAn/raw/master/resources/example-report.zip).
 
+
 ## Table of Contents
 <!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
@@ -120,7 +121,6 @@ The report will be put inside a folder with a name corresponding to the apk.
 ```
 cd docker
 ```
-
 ```
 docker build . -t stacoan
 ```
@@ -131,6 +131,7 @@ docker run -e JAVA_OPTS="-Xms2048m -Xmx2048m" -p 8888:8888 -p 7777:7777 -i -t st
 ```
 
 Drag and drop your application via: http://127.0.0.1:7777.
+
 
 ### From source
 ```
