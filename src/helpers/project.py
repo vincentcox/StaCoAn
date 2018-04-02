@@ -133,6 +133,8 @@ class Project:
                 if not ((self.application_file.startswith("'") and self.application_file.endswith("'") ) or (self.application_file.startswith("\"") and self.application_file.endswith("\"") )):
                     self.application_file = "\"" + self.application_file + "\""
                 cmd = "\""+os.path.join(os.getcwd(), "jadx", "bin", "jadx") + '\" -d \"' +jadx_folder + "\" " + self.application_file
+                if os.name == 'Darwin':
+                    cmd = "bash "+cmd
                 Logger(cmd)
                 jadx_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
                 output_jadx = "--------- JADX OUTPUT BELOW --------- \n "
