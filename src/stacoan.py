@@ -227,7 +227,7 @@ def program(args):
         words_overview_html.navigation()
         words_overview_html.html_wordlist(Project.projects[project_path])
         words_overview_html.footer()
-        with open(words_overview_html_report_file, 'w') as f:
+        with open(words_overview_html_report_file, 'w', encoding="utf-8") as f:
             print(words_overview_html.gethtml(), file=f)
 
         # Generate lootbox
