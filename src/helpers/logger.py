@@ -44,7 +44,7 @@ class Logger:
 
         def dump(self):
             Logger.log_html_document.footer()
-            with open(self.logpath, 'w') as f:
+            with open(self.logpath, 'w', encoding="utf-8") as f:
                 print(Logger.log_html_document.gethtml(), file=f)
 
         def __init__(self, message, level, rewriteLine):
