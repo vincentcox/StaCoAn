@@ -5,5 +5,6 @@ python3 /StaCoAn/src/stacoan.py --disable-browser
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 
 # Redirect to start.html
+
 echo "<script>window.location = 'http://'+window.location.hostname+':8080'+'/start.html';</script>" > /StaCoAn/src/report/index.html
 cd /StaCoAn/src/report/ && python -m http.server 8080
