@@ -9,7 +9,7 @@ FROM anapsix/alpine-java
 # Install Python3
 # -----------------------------------------------------------------------------------------
 
-RUN apk add --no-cache python3
+RUN apk add --no-cache python3 dos2unix
 RUN python3 -m ensurepip
 RUN rm -r /usr/lib/python*/ensurepip
 RUN pip3 install --upgrade pip setuptools
@@ -28,7 +28,7 @@ WORKDIR /StaCoAn/src
 RUN pip3 install -r requirements.txt && chmod u+rwx /StaCoAn/src/jadx/bin/jadx
 
 COPY stacoan.sh /stacoan.sh
-
+run dos2unix /stacoan.sh
 
 # -----------------------------------------------------------------------------------------
 # Expose us
