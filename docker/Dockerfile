@@ -28,7 +28,7 @@ WORKDIR /StaCoAn/src
 RUN pip3 install -r requirements.txt && chmod u+rwx /StaCoAn/src/jadx/bin/jadx
 
 COPY stacoan.sh /stacoan.sh
-run dos2unix /stacoan.sh
+RUN dos2unix /stacoan.sh
 
 # -----------------------------------------------------------------------------------------
 # Expose us
