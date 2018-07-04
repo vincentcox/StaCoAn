@@ -1,14 +1,15 @@
 # Start from Alpine OS with Oracle JDK8
 FROM anapsix/alpine-java:latest
 
-# Install Python3
-RUN apk add --update --no-cache python3 && \
+# Install Python3 and dos2unix
+RUN apk add --update --no-cache python3 dos2unix && \
     python3 -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
     pip3 install --upgrade pip setuptools && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
     if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
     rm -r /root/.cache && \
+    
 # Install StaCoAn
   apk add --update --no-cache git && \
   cd /tmp && \
@@ -43,7 +44,8 @@ WORKDIR /StaCoAn
 
 # Copy the script
 COPY stacoan.sh /stacoan.sh
-
+RUN dos2unix /stacoan.sh
+# -----------------------------------------------------------------------------------------
 # Expose us
 EXPOSE 8000
 EXPOSE 8080
