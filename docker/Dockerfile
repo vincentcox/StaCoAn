@@ -26,7 +26,7 @@ RUN apk add --update --no-cache python3 dos2unix && \
   rm -rf /usr/lib/python*/lib2to3 && \
   rm -rf /usr/lib/python*/turtledemo && \
   rm -f /usr/lib/python*/turtle.py && \
-  rm -f /usr/lib/python*/webbrowser.py && \
+  #rm -f /usr/lib/python*/webbrowser.py && \
   rm -f /usr/lib/python*/doctest.py && \
   rm -f /usr/lib/python*/pydoc.py && \
   rm -rf /root/.cache && \
