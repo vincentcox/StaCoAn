@@ -9,6 +9,7 @@ matrix:
       sudo: required
     - os: windows
       language: python
+      python: 3.6.2
       env:
         - DOCKER=true
       services:
