@@ -1,13 +1,16 @@
 matrix:
   include:
     - os: linux
+      operatingsystem: linux
       dist: trusty
       sudo: required
       language: python
       python: 3.6.2
     - os: osx
+      operatingsystem: osx
       sudo: required
-    - os: windows
+    - os: linux
+      operatingsystem: windows
       language: python
       python: 3.6.2
       env:
@@ -17,13 +20,13 @@ matrix:
 addons:
   chrome: stable
 before_script:
-  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then export DISPLAY=:99.0 ; fi
-  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sh -e /etc/init.d/xvfb start ; fi
-  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sleep 3  ; fi
+  - if [[ "$operatingsystem" != "osx" ]]; then export DISPLAY=:99.0 ; fi
+  - if [[ "$operatingsystem" != "osx" ]]; then sh -e /etc/init.d/xvfb start ; fi
+  - if [[ "$operatingsystem" != "osx" ]]; then sleep 3  ; fi
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade python ; fi
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 -V; fi
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then pip3 -V; fi
+  - if [[ "$operatingsystem" == "osx" ]]; then brew upgrade python ; fi
+  - if [[ "$operatingsystem" != "windows" ]]; then python3 -V; fi
+  - if [[ "$operatingsystem" != "windows" ]]; then pip3 -V; fi
 # command to install dependencies
 install:
   - cd src
@@ -31,14 +34,14 @@ install:
 script:
  # Test script on non-windows instances
   - sudo chmod +x jadx/bin/jadx
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then 
+  - if [[ "$operatingsystem" != "windows" ]]; then 
     pip3 install -r requirements.txt; 
     python3 stacoan.py -p test-apk.apk --disable-browser;
     fi
 # BUILDING ---------------
     # Fix the helpers issue
     # sed is different on os x...
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+  - if [[ "$operatingsystem" == "osx" ]]; then
     sed -i '' 's/from helpers./from /g' helpers/*.py || :;
     sed -i '' 's/from helpers./from /g' stacoan.py;
     sed -i '' 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py ; 
@@ -49,14 +52,14 @@ script:
   - cp helpers/* ./ || :;
   
     # WINDOWS BUILD
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then 
+  - if [[ "$operatingsystem" == "windows" ]]; then 
     docker pull cdrx/pyinstaller-windows;
     docker run -v "$(pwd):/src/" cdrx/pyinstaller-windows;
     fi
 
     # LINUX AND MAC OS X
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then pip3 install pyinstaller; fi
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then python3 -m PyInstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean --noupx; fi
+  - if [[ "$operatingsystem" != "windows" ]]; then pip3 install pyinstaller; fi
+  - if [[ "$operatingsystem" != "windows" ]]; then python3 -m PyInstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean --noupx; fi
 
   
     # Making directories for the build and add resources
@@ -70,11 +73,11 @@ script:
   - cp config.ini ./deploy/config.ini;
   
     # Create zip for the release
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]];
+  - if [[ "$operatingsystem" == "windows" ]];
     then cp dist/windows/* ./deploy/;
     else cp dist/* ./deploy/;
     fi
-  - name_zip=$TRAVIS_OS_NAME+".zip"
+  - name_zip=$operatingsystem".zip"
   - zip -r $(echo $name_zip) deploy
  # [end of building] -----
  
