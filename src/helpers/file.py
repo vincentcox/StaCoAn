@@ -59,34 +59,41 @@ class File:
 
     def find_matches_in_src_file(self, CODE_OFFSET, QUERY_IMPORTANCE):
         try:
-            with open(self.file_path, "r", encoding="utf8", errors='ignore') as file:
-                lines_in_file = file.read().splitlines()
+            if len(self.file_path.encode('unicode_escape').decode()) > 255:
+                Logger("Filepath is too big. Try moving the StaCoAn folder to the root of your drive, make the APK name shorter and try again. The following file will be ignored to let StaCoAn continue: '%s'" % self.file_path, Logger.WARNING)
+            else:
+                with open(self.file_path, "r", encoding="utf8", errors='ignore') as file:
+                    lines_in_file = file.read().splitlines()
+                line_index = 1
+                for line in lines_in_file:
+                    for listItem in SearchLists.all_lists["SRC_WORDS"].ListCollection:
+                        if int(listItem.importance) > QUERY_IMPORTANCE:
+                            # if re.match(File.non_regex_indicator, listItem.searchword):
+                            #     Searchwords.src_search_words[query].regex = True
+                            if re.search(listItem.searchword, line, re.IGNORECASE):
+                                exclude = False
+                                for ExclItem in SearchLists.all_lists["EXCL_WORDS"].ListCollection:
+                                    if re.search(ExclItem.searchword, line, re.IGNORECASE):
+                                        if (ExclItem.dir in self.file_path or (
+                                                ExclItem.dir == "" or ExclItem.dir is None)):
+                                            # Logger("SRC exclusion found: %s in file %s" % (str(ExclItem.searchword), self.file_path),
+                                            #       Logger.INFO)
+                                            exclude = True
+                                if exclude == False:
+                                    upper_range = min(line_index + CODE_OFFSET, len(lines_in_file) + 1)
+                                    lower_range = max(line_index - CODE_OFFSET - 1, 1)
+                                    src_match = MatchSource(listItem.searchword, line_index,
+                                                            lines_in_file[lower_range:upper_range],
+                                                            listItem.importance, len(lines_in_file), listItem.owasp,
+                                                            listItem.comment)
+                                    self.all_matches.append(src_match)
+                                    self.src_matches.append(src_match)
+                    line_index = line_index + 1
+                self.orden_matches()
         except IOError as e:
             Logger("could not open file '%s'. Error:" %(self.file_path, e.strerror), Logger.WARNING)
             return list()
-        line_index = 1
-        for line in lines_in_file:
-            for listItem in SearchLists.all_lists["SRC_WORDS"].ListCollection:
-                if int(listItem.importance) > QUERY_IMPORTANCE:
-                    # if re.match(File.non_regex_indicator, listItem.searchword):
-                    #     Searchwords.src_search_words[query].regex = True
-                    if re.search(listItem.searchword, line, re.IGNORECASE):
-                        exclude = False
-                        for ExclItem in SearchLists.all_lists["EXCL_WORDS"].ListCollection:
-                            if re.search(ExclItem.searchword, line, re.IGNORECASE):
-                                if (ExclItem.dir in self.file_path or (ExclItem.dir == "" or ExclItem.dir is None)):
-                                    Logger("SRC exclusion found: %s in file %s" % (str(ExclItem.searchword), self.file_path),
-                                           Logger.INFO)
-                                    exclude = True
-                        if exclude == False:
-                            upper_range = min(line_index + CODE_OFFSET, len(lines_in_file)+1)
-                            lower_range = max(line_index - CODE_OFFSET-1, 1)
-                            src_match = MatchSource(listItem.searchword, line_index, lines_in_file[lower_range:upper_range],
-                                                    listItem.importance, len(lines_in_file), listItem.owasp, listItem.comment)
-                            self.all_matches.append(src_match)
-                            self.src_matches.append(src_match)
-            line_index = line_index + 1
-        self.orden_matches()
+
 
     def orden_matches(self):
         grouped_matches = list()

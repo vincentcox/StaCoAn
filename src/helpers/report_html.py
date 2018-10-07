@@ -527,9 +527,12 @@ class Report_html(Htmlpage):
             try:
                 def dirpaths(path):
                     dirpaths = list()
-                    for path_from_dir_list in os.listdir(path):
-                        if path_from_dir_list.endswith(tuple(Project.allowed_file_extensions)) or os.path.isdir(os.path.join(path,path_from_dir_list)):
-                            dirpaths.append(path_from_dir_list)
+
+                    # for path_from_dir_list in os.listdir(path):
+                    if not len(path.encode('unicode_escape').decode()) > 255: # filepath too long
+                        for path_from_dir_list in os.listdir(path):
+                            if path_from_dir_list.endswith(tuple(Project.allowed_file_extensions)) or os.path.isdir(os.path.join(path,path_from_dir_list)):
+                                dirpaths.append(path_from_dir_list)
                     return dirpaths
                 hierarchy['children'] = [
                     self.path_hierarchy(os.path.join(path, contents))
