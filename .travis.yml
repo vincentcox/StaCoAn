@@ -1,16 +1,16 @@
 matrix:
   include:
     - os: linux
-      operatingsystem: linux
+      OPERATINGSYSTEM="linux"
       dist: trusty
       sudo: required
       language: python
       python: 3.6.2
     - os: osx
-      operatingsystem: osx
+      OPERATINGSYSTEM="osx"
       sudo: required
     - os: linux
-      operatingsystem: windows
+      OPERATINGSYSTEM="windows"
       language: python
       python: 3.6.2
       env:
@@ -20,13 +20,13 @@ matrix:
 addons:
   chrome: stable
 before_script:
-  - if [[ "$operatingsystem" != "osx" ]]; then export DISPLAY=:99.0 ; fi
-  - if [[ "$operatingsystem" != "osx" ]]; then sh -e /etc/init.d/xvfb start ; fi
-  - if [[ "$operatingsystem" != "osx" ]]; then sleep 3  ; fi
+  - if [[ "$OPERATINGSYSTEM" != "osx" ]]; then export DISPLAY=:99.0 ; fi
+  - if [[ "$OPERATINGSYSTEM" != "osx" ]]; then sh -e /etc/init.d/xvfb start ; fi
+  - if [[ "$OPERATINGSYSTEM" != "osx" ]]; then sleep 3  ; fi
 before_install:
-  - if [[ "$operatingsystem" == "osx" ]]; then brew upgrade python ; fi
-  - if [[ "$operatingsystem" != "windows" ]]; then python3 -V; fi
-  - if [[ "$operatingsystem" != "windows" ]]; then pip3 -V; fi
+  - if [[ "$OPERATINGSYSTEM" == "osx" ]]; then brew upgrade python ; fi
+  - if [[ "$OPERATINGSYSTEM" != "windows" ]]; then python3 -V; fi
+  - if [[ "$OPERATINGSYSTEM" != "windows" ]]; then pip3 -V; fi
 # command to install dependencies
 install:
   - cd src
@@ -34,14 +34,14 @@ install:
 script:
  # Test script on non-windows instances
   - sudo chmod +x jadx/bin/jadx
-  - if [[ "$operatingsystem" != "windows" ]]; then 
+  - if [[ "$OPERATINGSYSTEM" != "windows" ]]; then 
     pip3 install -r requirements.txt; 
     python3 stacoan.py -p test-apk.apk --disable-browser;
     fi
 # BUILDING ---------------
     # Fix the helpers issue
     # sed is different on os x...
-  - if [[ "$operatingsystem" == "osx" ]]; then
+  - if [[ "$OPERATINGSYSTEM" == "osx" ]]; then
     sed -i '' 's/from helpers./from /g' helpers/*.py || :;
     sed -i '' 's/from helpers./from /g' stacoan.py;
     sed -i '' 's/os.path.join(parentdir, "config.ini")/"config.ini"/g' helpers/logger.py ; 
@@ -52,14 +52,14 @@ script:
   - cp helpers/* ./ || :;
   
     # WINDOWS BUILD
-  - if [[ "$operatingsystem" == "windows" ]]; then 
+  - if [[ "$OPERATINGSYSTEM" == "windows" ]]; then 
     docker pull cdrx/pyinstaller-windows;
     docker run -v "$(pwd):/src/" cdrx/pyinstaller-windows;
     fi
 
     # LINUX AND MAC OS X
-  - if [[ "$operatingsystem" != "windows" ]]; then pip3 install pyinstaller; fi
-  - if [[ "$operatingsystem" != "windows" ]]; then python3 -m PyInstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean --noupx; fi
+  - if [[ "$OPERATINGSYSTEM" != "windows" ]]; then pip3 install pyinstaller; fi
+  - if [[ "$OPERATINGSYSTEM" != "windows" ]]; then python3 -m PyInstaller stacoan.py --onefile --icon icon.ico --name stacoan --clean --noupx; fi
 
   
     # Making directories for the build and add resources
@@ -73,11 +73,11 @@ script:
   - cp config.ini ./deploy/config.ini;
   
     # Create zip for the release
-  - if [[ "$operatingsystem" == "windows" ]];
+  - if [[ "$OPERATINGSYSTEM" == "windows" ]];
     then cp dist/windows/* ./deploy/;
     else cp dist/* ./deploy/;
     fi
-  - name_zip=$operatingsystem".zip"
+  - name_zip=$OPERATINGSYSTEM".zip"
   - zip -r $(echo $name_zip) deploy
  # [end of building] -----
  
