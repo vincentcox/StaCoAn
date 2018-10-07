@@ -1,16 +1,16 @@
 matrix:
   include:
     - os: linux
-      OPERATINGSYSTEM="linux"
+      OPERATINGSYSTEM: linux
       dist: trusty
       sudo: required
       language: python
       python: 3.6.2
     - os: osx
-      OPERATINGSYSTEM="osx"
+      OPERATINGSYSTEM: osx
       sudo: required
     - os: linux
-      OPERATINGSYSTEM="windows"
+      OPERATINGSYSTEM: windows
       language: python
       python: 3.6.2
       env:
