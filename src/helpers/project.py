@@ -136,7 +136,11 @@ class Project:
                 if os.name == 'Darwin':
                     cmd = "bash "+cmd
                 Logger(cmd)
-                jadx_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+
+                import subprocess, os
+                my_env = os.environ.copy()
+                my_env["JAVA_OPTS"] = "-Xmx2G"
+                jadx_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, env=my_env)
                 output_jadx = "--------- JADX OUTPUT BELOW --------- \n "
                 for line in jadx_process.stdout:
                     output_jadx += str(line)
