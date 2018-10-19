@@ -135,16 +135,16 @@ class Project:
                 cmd = "\""+os.path.join(os.getcwd(), "jadx", "bin", "jadx") + '\" -d \"' +jadx_folder + "\" " + self.application_file
                 if os.name == 'Darwin':
                     cmd = "bash "+cmd
-                Logger(cmd)
 
                 # Check if system is running 32 bit system. If so, set memory to max 2GIG for Java.
                 if (sys.maxsize > 2 ** 32):
+                    Logger(cmd)
                     jadx_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
                 else:
                     Logger("32 bit detected, setting max memory for java to 2G instead of 4G. This might cause problems for JADX.")
-                    my_env = os.environ.copy()
-                    my_env["JAVA_OPTS"] = "-Xmx2G"
-                    jadx_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, env=my_env)
+                    cmd = 'JAVA_OPTS="-Xmx2G" ' + cmd
+                    Logger(cmd)
+                    jadx_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
                 output_jadx = "--------- JADX OUTPUT BELOW --------- \n "
                 for line in jadx_process.stdout:
                     output_jadx += str(line)
