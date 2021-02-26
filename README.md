@@ -1,6 +1,9 @@
 ![StaCoAn header](resources/header_stacoan-01.png)
 # StaCoAn ![Issues badge](https://img.shields.io/github/issues/vincentcox/StaCoAn.svg) ![License badge](https://img.shields.io/github/license/vincentcox/StaCoAn.svg) ![status](https://img.shields.io/badge/status-alpha-red.svg) ![Travis](https://api.travis-ci.org/vincentcox/StaCoAn.svg?branch=master)
 
+<h1><b>Not maintained anymore!</b></h2>
+Will be archived soon.
+
 StaCoAn is a __crossplatform__ tool which aids developers, bugbounty hunters and ethical hackers performing [static code analysis](https://en.wikipedia.org/wiki/Static_program_analysis) on mobile applications\*.
 
 This tool will look for interesting lines in the code which can contain:
