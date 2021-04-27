@@ -78,8 +78,8 @@ class Project:
                 for worditem in SearchLists.all_lists[worlists].ListCollection:
                     if freqitem[0] == worditem.searchword:
                         tosort.append([worditem.importance, freqitem])
-            # sorteer ok eerste element (importance) en bij gelijkheid sorteren op 2de element (freqitem)
-            sorted_tosort = sorted(tosort, key=lambda x: (x[0], x[1]), reverse=True)
+        # sorteer ok eerste element (importance) en bij gelijkheid sorteren op 2de element (freqitem)
+        sorted_tosort = sorted(tosort, key=lambda x: (x[0], x[1]), reverse=True)
         frequency_words = OrderedDict()
         for item in sorted_tosort:
             frequency_words[item[1][0]] = item[1][1]
